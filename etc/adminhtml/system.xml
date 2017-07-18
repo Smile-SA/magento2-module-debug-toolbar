@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="smile" translate="label" sortOrder="101">
+            <label>Smile</label>
+        </tab>
+        <section id="smile_debugtoolbar" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+            <class>separator-top</class>
+            <label>Smile DebugToolbar</label>
+            <tab>smile</tab>
+            <resource>Smile_DebugToolbar::config</resource>
+
+            <group id="configuration" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Configuration</label>
+
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="keep_last_execution" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Number of last executions to display</label>
+                    <comment>Must be a integer between 1 and 1024</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

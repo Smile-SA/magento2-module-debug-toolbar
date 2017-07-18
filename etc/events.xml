@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+
+    <!-- Add the toolbar to the response -->
+    <event name="controller_front_send_response_before">
+        <observer
+            name="smile_debugtoolbar_add_toolbar_to_response"
+            instance="Smile\DebugToolbar\Observer\AddToolbar"
+        />
+    </event>
+
+    <!-- Add the zones to the toolbar -->
+    <event name="smile_debug_toolbar_set_zones">
+        <observer
+            name="smile_debugtoolbar_add_default zones"
+            instance="Smile\DebugToolbar\Observer\AddZones"
+        />
+    </event>
+</config>

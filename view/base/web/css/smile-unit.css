@@ -1,0 +1,31 @@
+td.st-value-unit-h,
+td.st-value-unit-m,
+td.st-value-unit-s,
+td.st-value-unit-ms {
+    text-align: right !important;
+    white-space: nowrap;
+}
+
+td.st-value-unit-o,
+td.st-value-unit-ko,
+td.st-value-unit-mo,
+td.st-value-unit-go {
+    text-align: right !important;
+    white-space: nowrap;
+}
+
+td.st-value-number {
+    text-align: right !important;
+    white-space: nowrap;
+}
+
+td.st-value-date,
+td.st-value-time,
+td.st-value-datetime {
+    text-align: center !important;
+    white-space: nowrap;
+}
+
+td.st-value-center {
+    text-align: center !important;
+}

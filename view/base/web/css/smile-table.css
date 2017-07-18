@@ -1,0 +1,67 @@
+.smile-table {
+    text-align: left;
+}
+
+.smile-table thead th {
+    border-left: dotted 1px grey;
+    border-bottom: solid 2px black;
+    background-color: lightgrey;
+    white-space: nowrap;
+    margin: 0;
+    padding: 2px 4px;
+}
+
+.smile-table thead th span {
+    cursor: pointer;
+    font-weight: normal;
+    color: #000000;
+    background-color: transparent;
+}
+
+.smile-table thead th span.selected {
+    cursor: default;
+    color: #DD5533;
+}
+
+.smile-table tbody td {
+    border-left: dotted 1px grey;
+    border-bottom: solid 1px black;
+    margin: 0;
+    padding: 2px 4px;
+}
+
+.smile-sub-table {
+    margin: 0;
+    padding: 0;
+    display: none;
+}
+
+.smile-sub-table table {
+}
+
+.smile-sub-table th {
+    margin: 0;
+    padding: 2px 4px;
+    font-weight: bold;
+    text-align: left;
+    border: solid 1px darkgrey !important;
+    background-color: lightgrey;
+}
+
+.smile-sub-table td {
+    margin: 0;
+    padding: 2px 4px;
+    font-weight: normal;
+    text-align: left;
+    border: solid 1px darkgrey !important;
+    background-color: white;
+}
+
+.smile-sub-table pre {
+    margin: 0;
+    padding: 0;
+}
+
+.smile-has-sub-table {
+    cursor: pointer;
+}

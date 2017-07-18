@@ -1,0 +1,135 @@
+<?php
+/**
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this module
+ * to newer versions in the future.
+ */
+namespace Smile\DebugToolbar\Model\ResourceModel;
+
+use Magento\Framework\App\ResourceConnection;
+
+/**
+ * Main Debug Toolbar Resource Model
+ *
+ * @author    Laurent MINGUET <lamin@smile.fr>
+ * @copyright 2017 Smile
+ */
+class Info
+{
+    /**
+     * @var ResourceConnection
+     */
+    protected $resourceConnection;
+
+    /**
+     * @var string[]
+     */
+    protected $version;
+
+
+    /**
+     * Info constructor.
+     *
+     * @param ResourceConnection $resourceConnection
+     */
+    public function __construct(
+        ResourceConnection $resourceConnection
+    ) {
+        $this->resourceConnection = $resourceConnection;
+    }
+
+    /**
+     * Get the connection
+     *
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
+     */
+    public function getConnection()
+    {
+        return $this->resourceConnection->getConnection('read');
+    }
+
+    /**
+     * Get Mysql Versions
+     *
+     * @return string[]
+     */
+    public function getMysqlVersions()
+    {
+        if ($this->version === null) {
+            $this->version = [];
+
+            //@SmileAnalyserSkip magento2/mysql
+            $values = $this->getConnection()->query('SHOW VARIABLES LIKE "%version%"')->fetchAll();
+            foreach ($values as $value) {
+                $this->version[$value['Variable_name']] = $value['Value'];
+            }
+        }
+
+        return $this->version;
+    }
+
+    /**
+     * Get Mysql Version
+     *
+     * @param string $key
+     *
+     * @return string
+     */
+    public function getMysqlVersion($key = 'version')
+    {
+        $values = $this->getMysqlVersions();
+
+        if (!array_key_exists($key, $values)) {
+            return '';
+        }
+
+        return $values[$key];
+    }
+
+    /**
+     * Get the executed queries
+     *
+     * @return array
+     */
+    public function getExecutedQueries()
+    {
+        return $this->getProfiler()->getQueryProfilesAsArray();
+    }
+
+    /**
+     * Get the count per types
+     *
+     * @return array
+     */
+    public function getCountPerTypes()
+    {
+        return $this->getProfiler()->getCountPerTypes();
+    }
+
+    /**
+     * Get the time per types
+     *
+     * @return array
+     */
+    public function getTimePerTypes()
+    {
+        return $this->getProfiler()->getTimePerTypes();
+    }
+
+    /**
+     * Get the profiler
+     *
+     * @return \Smile\DebugToolbar\DB\Profiler
+     */
+    protected function getProfiler()
+    {
+         /** @var \Magento\Framework\DB\Adapter\Pdo\Mysql $connection */
+        $connection = $this->resourceConnection->getConnection();
+
+        /** @var \Smile\DebugToolbar\DB\Profiler $profiler */
+        $profiler = $connection->getProfiler();
+
+        return $profiler;
+    }
+}

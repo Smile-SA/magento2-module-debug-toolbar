@@ -145,8 +145,15 @@ class Toolbar extends MagentoAbstractBlock
         $toolbarId = $this->getToolbarId();
 
         $parts = explode('-', $toolbarId);
-        $date = $parts[1];
-        $action = $parts[4];
+        $date   = $parts[1];
+        $area   = $parts[4];
+        $action = $parts[5];
+
+        $date = preg_replace(
+            '/^([0-9]{4})([0-9]{2})([0-9]{2})_([0-9]{2})([0-9]{2})([0-9]{2})$/',
+            '$1-$2-$3 $4:$5:$6',
+            $date
+        );
 
         $html = '';
 
@@ -163,7 +170,7 @@ class Toolbar extends MagentoAbstractBlock
     </div>
     <div class="st-main">
         <div class="st-selector">
-            '.$date.' | '.$action.' | <span id="'.$toolbarId.'-name">...</span>
+            '.$action.' | '.$area.' | '.$date.' | <span id="'.$toolbarId.'-name">...</span>
             <a onclick="smileToolbarPrevious();">&lt;</a>
             <a onclick="smileToolbarNext();">&gt;</a>
         </div>
@@ -181,7 +188,7 @@ class Toolbar extends MagentoAbstractBlock
     </div>
 </div>
 <script type="text/javascript">
-    smileToolbarAdd(\''.$toolbarId.'\');
+    smileToolbarAdd(\''.$toolbarId.'\', '.($this->isWarning() ? 'true' : 'false').');
 </script>';
 
         return $html;

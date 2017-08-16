@@ -9,11 +9,16 @@ var smileToolbarZone    = 'summary';
  * Add a toolbar to the list of the available toolbars
  *
  * @param toolbarIdentifier
+ * @param hasWarning
  */
-function smileToolbarAdd(toolbarIdentifier)
+function smileToolbarAdd(toolbarIdentifier, hasWarning)
 {
     smileToolbarCount++;
-    smileToolbarList[smileToolbarCount] = toolbarIdentifier;
+
+    smileToolbarList[smileToolbarCount] = {
+        id:      toolbarIdentifier,
+        warning: hasWarning
+    };
 }
 
 /**
@@ -52,13 +57,13 @@ function smileToolbarNext()
 function smileToolbarSelect(toolbarId)
 {
     if (smileToolbarCurrent) {
-        document.getElementById(smileToolbarList[smileToolbarCurrent]+'-toolbar').style.display = 'none';
+        document.getElementById(smileToolbarList[smileToolbarCurrent].id+'-toolbar').style.display = 'none';
         smileToolbarZoneReset();
     }
 
     smileToolbarCurrent = toolbarId;
-    document.getElementById(smileToolbarList[smileToolbarCurrent]+'-toolbar').style.display = 'block';
-    document.getElementById(smileToolbarList[smileToolbarCurrent]+'-name').innerHTML = smileToolbarCurrent + '/' + smileToolbarCount;
+    document.getElementById(smileToolbarList[smileToolbarCurrent].id+'-toolbar').style.display = 'block';
+    document.getElementById(smileToolbarList[smileToolbarCurrent].id+'-name').innerHTML = smileToolbarCurrent + '/' + smileToolbarCount;
 
     smileToolbarMainInit();
     smileToolbarZoneDisplay();
@@ -114,8 +119,8 @@ function smileToolbarTableHide()
  */
 function smileToolbarMainInit()
 {
-    document.getElementById(smileToolbarList[smileToolbarCurrent]+'-titles').style.display = (smileToolbarOpen ? 'block' : 'none');
-    document.getElementById(smileToolbarList[smileToolbarCurrent]+'-zones').style.display  = (smileToolbarOpen ? 'block' : 'none');
+    document.getElementById(smileToolbarList[smileToolbarCurrent].id+'-titles').style.display = (smileToolbarOpen ? 'block' : 'none');
+    document.getElementById(smileToolbarList[smileToolbarCurrent].id+'-zones').style.display  = (smileToolbarOpen ? 'block' : 'none');
 }
 
 /**
@@ -124,8 +129,8 @@ function smileToolbarMainInit()
 function smileToolbarZoneReset()
 {
     if (smileToolbarZone) {
-        document.getElementById(smileToolbarList[smileToolbarCurrent]+'-zone-'+smileToolbarZone).style.display = 'none';
-        document.getElementById(smileToolbarList[smileToolbarCurrent]+'-title-'+smileToolbarZone).className = document.getElementById(smileToolbarList[smileToolbarCurrent]+'-title-'+smileToolbarZone).className.replace('st-selected', '');
+        document.getElementById(smileToolbarList[smileToolbarCurrent].id+'-zone-'+smileToolbarZone).style.display = 'none';
+        document.getElementById(smileToolbarList[smileToolbarCurrent].id+'-title-'+smileToolbarZone).className = document.getElementById(smileToolbarList[smileToolbarCurrent].id+'-title-'+smileToolbarZone).className.replace('st-selected', '');
     }
 }
 
@@ -135,9 +140,9 @@ function smileToolbarZoneReset()
 function smileToolbarZoneDisplay()
 {
     if (smileToolbarZone) {
-        document.getElementById(smileToolbarList[smileToolbarCurrent]+'-zone-'+smileToolbarZone).style.display = 'block';
-        document.getElementById(smileToolbarList[smileToolbarCurrent]+'-zone-'+smileToolbarZone).style.display = 'block';
-        document.getElementById(smileToolbarList[smileToolbarCurrent]+'-title-'+smileToolbarZone).className+= ' st-selected';
+        document.getElementById(smileToolbarList[smileToolbarCurrent].id+'-zone-'+smileToolbarZone).style.display = 'block';
+        document.getElementById(smileToolbarList[smileToolbarCurrent].id+'-zone-'+smileToolbarZone).style.display = 'block';
+        document.getElementById(smileToolbarList[smileToolbarCurrent].id+'-title-'+smileToolbarZone).className+= ' st-selected';
     }
 }
 
@@ -148,17 +153,29 @@ function smileToolbarNavigatorDisplay()
 {
     var html = '';
 
-    html+= '<ul>';
+    html+= '<h1>Last '+smileToolbarCount+' executions</h1>';
+
+    html+= "<table>\n";
+    html+= "<tr><th>Date</th><th>Area</th><th>Action</th></tr>\n";
 
     for (var k=smileToolbarCount; k>0; k--) {
-        var value = smileToolbarList[k].split('-');
-        html+= '<li class="'+(k == smileToolbarCurrent ? 'st-selected' : '')+'">';
-        html+= '<a onclick="smileToolbarSelect('+k+')">'
-        html+= value[1]+' | '+value[4];
-        html+= '</a>';
-        html+= '</li>';
-    }
-    html+= '</ul>';
+        var value = smileToolbarList[k].id.split('-');
+        var htmlClass = (k === smileToolbarCurrent ? 'st-selected' : '');
+        var date = value[1];
 
-    document.getElementById(smileToolbarList[smileToolbarCurrent]+'-navigator').innerHTML = html;
+        date = date.replace(/^([0-9]{4})([0-9]{2})([0-9]{2})_([0-9]{2})([0-9]{2})([0-9]{2})$/, '$1-$2-$3 $4:$5:$6');
+
+        if (smileToolbarList[k].warning) {
+            htmlClass+= ' value-warning';
+        }
+
+        html+= '<tr onclick="smileToolbarSelect('+k+');">';
+        html+= '<td class="'+htmlClass+'">'+date+'</td>';
+        html+= '<td class="'+htmlClass+'">'+value[4]+'</td>';
+        html+= '<td class="'+htmlClass+'">'+value[5]+'</td>';
+        html+= "</tr>\n";
+    }
+    html+= '</table>';
+
+    document.getElementById(smileToolbarList[smileToolbarCurrent].id+'-navigator').innerHTML = html;
 }

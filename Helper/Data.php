@@ -10,7 +10,9 @@ namespace Smile\DebugToolbar\Helper;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
+use Magento\Framework\App\State as AppState;
 use Magento\PageCache\Model\Config;
+use Smile\DebugToolbar\Block\Toolbar;
 
 /**
  * Helper: Data
@@ -21,6 +23,16 @@ use Magento\PageCache\Model\Config;
 class Data extends AbstractHelper
 {
     /**
+     * @var DirectoryList
+     */
+    protected $directoryList;
+
+    /**
+     * @var AppState
+     */
+    protected $appState;
+
+    /**
      * @var float[]
      */
     protected $timers = [];
@@ -29,11 +41,6 @@ class Data extends AbstractHelper
      * @var string
      */
     protected $toolbarId;
-
-    /**
-     * @var DirectoryList
-     */
-    protected $directoryList;
 
     /**
      * @var array
@@ -51,14 +58,17 @@ class Data extends AbstractHelper
      *
      * @param Context       $context
      * @param DirectoryList $directoryList
+     * @param AppState      $appState
      */
     public function __construct(
-        Context $context,
-        DirectoryList $directoryList
+        Context       $context,
+        DirectoryList $directoryList,
+        AppState      $appState
     ) {
         parent::__construct($context);
 
         $this->directoryList = $directoryList;
+        $this->appState      = $appState;
     }
 
     /**
@@ -221,7 +231,17 @@ class Data extends AbstractHelper
         }
 
         $date = \DateTime::createFromFormat('U.u', microtime(true));
-        $this->toolbarId = 'st-'.$date->format('Ymd_His-u').'-'.uniqid().'-'.$actionName;
+
+        $values = [
+            'st',
+            $date->format('Ymd_His'),
+            $date->format('u'),
+            uniqid(),
+            $this->appState->getAreaCode(),
+            $actionName,
+        ];
+
+        $this->toolbarId = implode('-', $values);
 
         return $this->toolbarId;
     }
@@ -270,17 +290,17 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Save the current toolbar content
+     * Save the current toolbar
      *
-     * @param string $htmlContent
+     * @param Toolbar $toolbarBlock
      *
      * @return void
      */
-    public function saveCurrentToolbar($htmlContent)
+    public function saveToolbar(Toolbar $toolbarBlock)
     {
-        $filename = $this->getToolbarFolder().$this->getToolbarId().'.html';
+        $filename = $this->getToolbarFolder().$toolbarBlock->getToolbarId().'.html';
 
-        file_put_contents($filename, $htmlContent);
+        file_put_contents($filename, $toolbarBlock->toHtml());
     }
 
     /**

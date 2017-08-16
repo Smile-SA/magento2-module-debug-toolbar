@@ -90,8 +90,8 @@ class AddToolbar implements ObserverInterface
         $this->helperData->initToolbarId($request->getFullActionName());
 
         // create the content of the current toolbar
-        $toolbarContent = $this->getCurrentExecutionToolbarBlock($request, $response)->toHtml();
-        $this->helperData->saveCurrentToolbar($toolbarContent);
+        $block = $this->getCurrentExecutionToolbarBlock($request, $response);
+        $this->helperData->saveToolbar($block);
         $this->helperData->cleanOldToolbars($this->helperConfig->getNbExecutionToKeep());
 
         // add all the last toolbars to the content

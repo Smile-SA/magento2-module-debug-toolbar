@@ -203,36 +203,54 @@ abstract class AbstractZone extends MagentoAbstractBlock
 
         foreach ($sections as $sectionName => $sectionValues) {
             $html.= "<h2>{$sectionName}</h2>\n";
+
             $html.= "<table>\n";
+            if (count($sectionValues) == 0) {
+                $html.= "<tr><td>No Values</td></tr>\n";
+            }
 
             foreach ($sectionValues as $name => $value) {
-                $warning = false;
-                $class = [];
-                if (is_array($value) && array_key_exists('value', $value) && array_key_exists('warning', $value)) {
-                    if ($value['warning']) {
-                        $this->hasWarning();
-                        $warning = $value['warning'];
-                    }
-                    $value   = $value['value'];
-                }
-                $value = $this->escapeField($value);
-                if ($warning) {
-                    $class[] = 'value-warning';
-                }
-
-                $classValue = $this->getClassFromType($value);
-                if (!is_null($classValue)) {
-                    $class[] = $classValue;
-                }
-
-                $class = implode(' ', $class);
-                $html.= "    <tr><th class=\"{$class}\">{$name}</th><td class=\"{$class}\">{$value}</td></tr>\n";
+                $html.= $this->displaySectionValue($name, $value);
             }
 
             $html.= "</table>\n";
         }
 
         return $html;
+    }
+
+    /**
+     * Display a row section
+     *
+     * @param string $name
+     * @param mixed  $value
+     *
+     * @return string
+     */
+    protected function displaySectionValue($name, $value)
+    {
+        $warning = false;
+        $class = [];
+        if (is_array($value) && array_key_exists('value', $value) && array_key_exists('warning', $value)) {
+            if ($value['warning']) {
+                $this->hasWarning();
+                $warning = true;
+            }
+            $value = $value['value'];
+        }
+        $value = $this->escapeField($value);
+        if ($warning) {
+            $class[] = 'value-warning';
+        }
+
+        $classValue = $this->getClassFromType($value);
+        if (!is_null($classValue)) {
+            $class[] = $classValue;
+        }
+
+        $class = implode(' ', $class);
+
+        return "    <tr><th class=\"{$class}\">{$name}</th><td class=\"{$class}\">{$value}</td></tr>\n";
     }
 
     /**

@@ -4,7 +4,7 @@
         <smile_debugtoolbar>
             <configuration>
                 <enabled>0</enabled>
-                <keep_last_execution>10</keep_last_execution>
+                <keep_last_execution>15</keep_last_execution>
             </configuration>
         </smile_debugtoolbar>
     </default>

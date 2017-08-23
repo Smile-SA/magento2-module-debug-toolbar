@@ -9,8 +9,8 @@ namespace Smile\DebugToolbar\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Event\Observer;
-use Magento\Framework\App\Request\Http as RequestHttp;
-use Magento\Framework\App\Response\Http as ResponseHttp;
+use Magento\Framework\App\Request\Http             as MagentoRequest;
+use Magento\Framework\HTTP\PhpEnvironment\Response as MagentoResponse;
 use Smile\DebugToolbar\Block\ToolbarFactory;
 use Smile\DebugToolbar\Block\Toolbar;
 use Smile\DebugToolbar\Block\ToolbarsFactory;
@@ -80,18 +80,43 @@ class AddToolbar implements ObserverInterface
             return;
         }
 
-        /** @var RequestHttp $request */
+        /** @var MagentoRequest $request */
         $request = $observer->getEvent()->getData('request');
 
-        /** @var ResponseHttp $response */
+        /** @var MagentoResponse $response */
         $response = $observer->getEvent()->getData('response');
 
+        // build the toolbar
+        try {
+            $this->buildToolbar($request, $response);
+        } catch (\Exception $e) {
+            echo json_encode($e->getMessage());
+            exit;
+        }
+    }
+
+    /**
+     * Build the toolbar and add it to the response
+     *
+     * @param MagentoRequest  $request
+     * @param MagentoResponse $response
+     *
+     * @return void
+     */
+    protected function buildToolbar(
+        MagentoRequest  $request,
+        MagentoResponse $response
+    ) {
         // init the toolbar id
         $this->helperData->initToolbarId($request->getFullActionName());
 
-        // create the content of the current toolbar
+        // build the toolbar
         $block = $this->getCurrentExecutionToolbarBlock($request, $response);
+
+        // save it
         $this->helperData->saveToolbar($block);
+
+        // keep only the last X executions
         $this->helperData->cleanOldToolbars($this->helperConfig->getNbExecutionToKeep());
 
         // add all the last toolbars to the content
@@ -107,14 +132,14 @@ class AddToolbar implements ObserverInterface
     /**
      * Generate the Toolbar Block for the current execution
      *
-     * @param RequestHttp  $request
-     * @param ResponseHttp $response
+     * @param MagentoRequest  $request
+     * @param MagentoResponse $response
      *
      * @return Toolbar
      */
     protected function getCurrentExecutionToolbarBlock(
-        RequestHttp  $request,
-        ResponseHttp $response
+        MagentoRequest  $request,
+        MagentoResponse $response
     ) {
         /** @var Toolbar $block */
         $block = $this->blockToolbarFactory->create();

@@ -7,10 +7,7 @@
  */
 namespace Smile\DebugToolbar\Block\Zone;
 
-use Magento\Framework\App\Request\Http as RequestHttp;
-use Magento\Framework\App\RouterListInterface;
-use Magento\Framework\View\Element\Context;
-use Smile\DebugToolbar\Helper\Data as HelperData;
+use Magento\Framework\App\Request\Http as MagentoRequest;
 
 /**
  * Zone for Debug Toolbar Block
@@ -21,33 +18,9 @@ use Smile\DebugToolbar\Helper\Data as HelperData;
 class Request extends AbstractZone
 {
     /**
-     * @var RequestHttp
+     * @var MagentoRequest
      */
     protected $request;
-
-    /**
-     * @var RouterListInterface
-     */
-    protected $routerList;
-
-    /**
-     * Request constructor.
-     *
-     * @param Context             $context
-     * @param HelperData          $helper
-     * @param RouterListInterface $routerList
-     * @param array               $data
-     */
-    public function __construct(
-        Context             $context,
-        HelperData          $helper,
-        RouterListInterface $routerList,
-        array               $data = []
-    ) {
-        parent::__construct($context, $helper, $data);
-
-        $this->routerList = $routerList;
-    }
 
     /**
      * Get the Code
@@ -98,7 +71,6 @@ class Request extends AbstractZone
                 'Route Name' => $info->getRouteName(),
                 'Front Name' => $info->getFrontName(),
                 'Controller' => $this->getControllerClassName(),
-                'Routers'    => [],
             ],
             'User Params' => (array) $info->getUserParams(),
             'Get'         => (array) $info->getQuery(),
@@ -108,10 +80,6 @@ class Request extends AbstractZone
             'Headers'     => [],
             'Cookies'     => $_COOKIE,
         ];
-
-        foreach ($this->getRouterLists() as $router) {
-            $sections['Route']['Routers'][] = get_class($router);
-        }
 
         foreach ($info->getHeaders() as $header) {
             $sections['Headers'][$header->getFieldName()] = $header->getFieldValue();
@@ -130,11 +98,11 @@ class Request extends AbstractZone
     /**
      * Set the request
      *
-     * @param RequestHttp $request
+     * @param MagentoRequest $request
      *
      * @return $this
      */
-    public function setRequest(RequestHttp $request)
+    public function setRequest(MagentoRequest $request)
     {
         $this->request = $request;
 
@@ -144,21 +112,11 @@ class Request extends AbstractZone
     /**
      * Get the request
      *
-     * @return RequestHttp
+     * @return MagentoRequest
      */
     public function getRequest()
     {
         return $this->request;
-    }
-
-    /**
-     * List of the routers
-     *
-     * @return RouterListInterface
-     */
-    public function getRouterLists()
-    {
-        return $this->routerList;
     }
 
     /**

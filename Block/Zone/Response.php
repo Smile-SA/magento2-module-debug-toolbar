@@ -7,7 +7,7 @@
  */
 namespace Smile\DebugToolbar\Block\Zone;
 
-use Magento\Framework\App\Response\Http as ResponseHttp;
+use Magento\Framework\HTTP\PhpEnvironment\Response as MagentoResponse;
 
 /**
  * Zone for Debug Toolbar Block
@@ -18,7 +18,7 @@ use Magento\Framework\App\Response\Http as ResponseHttp;
 class Response extends AbstractZone
 {
     /**
-     * @var ResponseHttp
+     * @var MagentoResponse
      */
     protected $response;
 
@@ -119,11 +119,11 @@ class Response extends AbstractZone
     /**
      * Set the response
      *
-     * @param ResponseHttp $response
+     * @param MagentoResponse $response
      *
      * @return $this
      */
-    public function setResponse(ResponseHttp $response)
+    public function setResponse(MagentoResponse $response)
     {
         $this->response = $response;
 
@@ -133,7 +133,7 @@ class Response extends AbstractZone
     /**
      * Get the Response
      *
-     * @return ResponseHttp
+     * @return MagentoResponse
      */
     public function getResponse()
     {

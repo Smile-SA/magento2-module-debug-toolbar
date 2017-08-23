@@ -81,7 +81,9 @@ class Cache extends AbstractZone
     {
         $html = '';
 
+        $statSections = $this->getStatsPerAction();
         $list = $this->getCacheUsage();
+
         foreach ($list as $key => $row) {
             $row['size_total'] = $this->displayHumanSizeKo($row['size_total']);
             $row['size_mean']  = $this->displayHumanSizeKo($row['size_mean']);
@@ -135,7 +137,7 @@ class Cache extends AbstractZone
             ],
         ];
 
-        $sections = array_merge($this->getStatsPerAction(), $sections);
+        $sections = array_merge($statSections, $sections);
 
         $sections['Size'] = [
             'total'  => $this->displayHumanSize($sections['Size']['total']),

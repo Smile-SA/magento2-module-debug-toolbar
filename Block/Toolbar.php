@@ -8,8 +8,8 @@
 namespace Smile\DebugToolbar\Block;
 
 use Magento\Framework\DataObject;
-use Magento\Framework\App\Request\Http as RequestHttp;
-use Magento\Framework\App\Response\Http as ResponseHttp;
+use Magento\Framework\App\Request\Http             as MagentoRequest;
+use Magento\Framework\HTTP\PhpEnvironment\Response as MagentoResponse;
 use Magento\Framework\View\Element\AbstractBlock as MagentoAbstractBlock;
 use Magento\Framework\View\Element\Context;
 use Smile\DebugToolbar\Block\Zone\AbstractZone;
@@ -65,14 +65,14 @@ class Toolbar extends MagentoAbstractBlock
     /**
      * load the zones
      *
-     * @param RequestHttp  $request
-     * @param ResponseHttp $response
+     * @param MagentoRequest  $request
+     * @param MagentoResponse $response
      *
      * @return void
      */
     public function loadZones(
-        RequestHttp  $request,
-        ResponseHttp $response
+        MagentoRequest  $request,
+        MagentoResponse $response
     ) {
         /** @var Summary $summaryBlock */
         $summaryBlock = $this->blockSummaryFactory->create();

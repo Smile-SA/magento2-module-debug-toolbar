@@ -28,6 +28,16 @@
     border-bottom: solid 1px black;
     margin: 0;
     padding: 2px 4px;
+    vertical-align: middle;
+}
+
+.smile-table tbody td.hjs-code {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.smile-table tbody td.hjs-code pre {
+    margin-bottom: 0 !important;
 }
 
 .smile-sub-table {

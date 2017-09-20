@@ -1,0 +1,48 @@
+<?php
+/** @var \Magento\Framework\View\TemplateEngine\Php $this */
+/** @var \Smile\DebugToolbar\Block\Zone\Request $block */
+
+$info = $block->getRequest();
+
+$sections = [
+    'HTTP' => [
+        'Version' => $info->getVersion(),
+        'Scheme'  => $info->getScheme(),
+        'Method'  => $info->getMethod(),
+        'IP'      => $info->getClientIp(),
+        'URL'     => $info->getUriString(),
+    ],
+    'Action' => [
+        'Path Info'   => $info->getPathInfo(),
+        'Full Action' => $info->getFullActionName(),
+        'Module'      => $info->getModuleName(),
+        'Group'       => $info->getControllerName(),
+        'Action'      => $info->getActionName(),
+    ],
+    'Route' => [
+        'Module'     => $info->getControllerModule(),
+        'Route Name' => $info->getRouteName(),
+        'Front Name' => $info->getFrontName(),
+        'Controller' => $block->getControllerClassName(),
+    ],
+    'User Params' => (array) $info->getUserParams(),
+    'Get'         => (array) $info->getQuery(),
+    'Post'        => (array) $info->getPost(),
+    'Files'       => (array) $info->getFiles(),
+    'Env'         => array_merge((array) $info->getEnv(), (array) $info->getServer()),
+    'Headers'     => [],
+    'Cookies'     => $_COOKIE,
+];
+
+foreach ($info->getHeaders() as $header) {
+    $sections['Headers'][$header->getFieldName()] = $header->getFieldValue();
+}
+
+$sections['Headers']['Cookie'] = 'See in Cookies section';
+
+$block->addToSummary('Request', 'Url', $sections['HTTP']['URL']);
+$block->addToSummary('Request', 'Method', $sections['HTTP']['Method']);
+$block->addToSummary('Request', 'Path Info', $sections['Action']['Path Info']);
+$block->addToSummary('Request', 'Full Action', $sections['Action']['Full Action']);
+
+echo $block->displaySections($sections);

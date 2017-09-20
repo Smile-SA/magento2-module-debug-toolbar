@@ -51,10 +51,10 @@ function smileTableSort(column, order)
 
    var isDecimal = false;
 
-   if (smileTableColumns[column]['class'].substring(0, 13) == 'st-value-unit') {
+   if (smileTableColumns[column]['class'].substring(0, 13) === 'st-value-unit') {
        isDecimal = true;
    }
-   if (smileTableColumns[column]['class'] == 'st-value-number') {
+   if (smileTableColumns[column]['class'] === 'st-value-number') {
        isDecimal = true;
    }
 
@@ -96,6 +96,7 @@ function smileTableDisplay()
     var values;
     var nbColumns = 0;
     var hasAdds = false;
+    var needHjs = false;
 
     for (key in smileTableAdditional) {
         hasAdds = true;
@@ -135,9 +136,24 @@ function smileTableDisplay()
         values = smileTableValues[valuesKey];
         for (columnKey in smileTableColumns) {
             column = smileTableColumns[columnKey];
-            html+= '<td class="'+column['class']+'"';
+
+            var hjsType = null;
+            var cssClass = column['class'];
+            if (cssClass.substring(0, 9) === 'hjs-code-') {
+                hjsType = column['class'].substring(9);
+                cssClass = 'hjs-code';
+                needHjs = true;
+            }
+
+            html+= '<td class="'+cssClass+'"';
             html+= '>';
+            if (hjsType) {
+                html+= '<pre><code class="'+hjsType+'">';
+            }
             html+= smileTableProtectValue(values[columnKey]);
+            if (hjsType) {
+                html+= '</code></pre>';
+            }
             html+= '</td>';
         }
         html+= '</tr>';
@@ -146,7 +162,7 @@ function smileTableDisplay()
             html+= '<tr class="smile-sub-table" id="smile-table-row-'+valuesKey+'">';
             html+= '<td colspan="'+nbColumns+'" >';
             html+= '<table>';
-            for (addKey in smileTableAdditional) {
+            for (var addKey in smileTableAdditional) {
                 html+= '<tr>';
                 html+= '<th>' + smileTableAdditional[addKey] + '</th>';
                 html+= '<td><pre>';
@@ -164,6 +180,19 @@ function smileTableDisplay()
     html+= '</table>';
 
     smileTableContainer.innerHTML = html;
+
+    if (needHjs) {
+        setTimeout('smileTableHighlight();', 100);
+    }
+}
+
+/**
+ * HighLight the codes
+ */
+function smileTableHighlight()
+{
+    var blocks = document.querySelectorAll('pre code');
+    [].forEach.call(blocks, hljs.highlightBlock);
 }
 
 /**

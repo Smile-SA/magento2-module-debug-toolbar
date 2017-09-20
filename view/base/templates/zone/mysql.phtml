@@ -1,0 +1,71 @@
+<?php
+/** @var \Magento\Framework\View\TemplateEngine\Php $this */
+/** @var \Smile\DebugToolbar\Block\Zone\Mysql $block */
+
+try {
+    $list = $block->getQueries();
+}   catch (\Exception $e) {
+    echo '<h2>PROFILER ERROR</h2>';
+    echo $e->getMessage();
+    return;
+}
+
+
+foreach ($list as $key => $row) {
+    $row['time'] = $block->displayHumanTimeMs($row['time']);
+    $list[$key] = $row;
+}
+
+echo $block->displayTable(
+    'Show All Queries',
+    $list,
+    [
+        'id'    => [
+            'title' => 'Id',
+            'class' => 'st-value-number',
+        ],
+        'type'  => [
+            'title' => 'Type',
+            'class' => 'st-value-center',
+        ],
+        'time'  => [
+            'title' => 'Time',
+            'class' => 'st-value-unit-ms',
+        ],
+        'query' => [
+            'title' => 'Query',
+            'class' => 'hjs-code-sql',
+        ],
+    ],
+    [
+        'params' => 'Params',
+        'trace'  => 'Trace',
+    ]
+);
+
+$sections = [
+    'Number' => $block->getCountPerTypes(),
+    'Time'   => $block->getTimePerTypes(),
+    'Server' => [
+        'Version' => $block->getMysqlVersion(),
+    ],
+];
+
+foreach ($sections['Time'] as $key => $value) {
+    $sections['Time'][$key] = $block->displayHumanTime($value);
+}
+
+$sections['Number']['total'] = [
+    'value'   => $sections['Number']['total'],
+    'warning' => $sections['Number']['total'] > 200,
+];
+
+$sections['Number']['connect'] = [
+    'value'   => $sections['Number']['connect'],
+    'warning' => $sections['Number']['connect'] > 1,
+];
+
+$block->addToSummary('Mysql', 'Number', $sections['Number']['total']);
+$block->addToSummary('Mysql', 'Time', $sections['Time']['total']);
+
+echo $block->displaySections($sections);

@@ -8,7 +8,7 @@
 namespace Smile\DebugToolbar\Block\Zone;
 
 use Magento\Framework\App\State as AppState;
-use Magento\Framework\View\Element\Context;
+use Magento\Framework\View\Element\Template\Context;
 use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\App\DeploymentConfig;
 use Smile\DebugToolbar\Helper\Data as HelperData;
@@ -79,55 +79,6 @@ class Generic extends AbstractZone
     public function getTitle()
     {
         return 'Generic';
-    }
-
-    /**
-     * Get the html of the zone
-     *
-     * @return string
-     */
-    public function getZoneHtml()
-    {
-        $sections = [
-            'Product' => [
-                'Product' => $this->getProductName(),
-                'Edition' => $this->getProductEdition(),
-                'Version' => $this->getProductVersion(),
-                'Area'    => $this->getMagentoArea(),
-                'Mode'    => $this->getMagentoMode(),
-            ],
-            'Server' => [
-                'PHP Version'            => $this->getPhpVersion(),
-                'PHP Memory Limit'       => [
-                    'value'   => $this->displayHumanSize($this->getPhpMemoryLimit()),
-                    'warning' => $this->getPhpMemoryLimit() < 256*1024*1024,
-                ],
-                'PHP Memory Used' => [
-                    'value'   => $this->displayHumanSize($this->getPhpMemoryUsed()),
-                    'warning' => $this->getPhpMemoryUsed() > 128*1024*1024,
-                ],
-                'PHP Max Execution Time' => [
-                    'value'   => $this->displayHumanTime($this->getPhpMaxExecutionTime()),
-                    'warning' => $this->getPhpMaxExecutionTime() < 60,
-                ],
-                'PHP Execution Time' => [
-                    'value'   => $this->displayHumanTime($this->getPhpExecutionTime()),
-                    'warning' => $this->getPhpExecutionTime() > 5,
-                ],
-            ],
-            'Session' => [
-                'Mode'   => [
-                    'value'   => $this->getSessionMode(),
-                    'warning' => ($this->getSessionMode() !== 'redis'),
-                ],
-                'Config' => $this->getSessionInfo(),
-            ],
-        ];
-
-        $this->addToSummary('Server', 'PHP Memory Used', $sections['Server']['PHP Memory Used']);
-        $this->addToSummary('Server', 'PHP Execution Time', $sections['Server']['PHP Execution Time']);
-
-        return $this->displaySections($sections);
     }
 
     /**

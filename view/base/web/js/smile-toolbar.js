@@ -179,3 +179,34 @@ function smileToolbarNavigatorDisplay()
 
     document.getElementById(smileToolbarList[smileToolbarCurrent].id+'-navigator').innerHTML = html;
 }
+
+function smileToolbarTreeGrid(node, forceClose)
+{
+    var status = (node.innerHTML === '-');
+    var expand = !status;
+
+    if (forceClose) {
+        expand = false;
+    }
+
+    if (!expand && !status) {
+        return false;
+    }
+
+    node.innerHTML = (expand ? '-' : '+');
+
+    Array.filter(
+        document.getElementsByClassName(node.id.replace('-span', '')),
+        function(elem){
+            elem.style.display = (expand ? '': 'none');
+            if (!expand) {
+                var span=document.getElementById(elem.id+'-span');
+                if (span) {
+                    smileToolbarTreeGrid(span, true);
+                }
+            }
+        }
+    );
+
+    return true;
+}

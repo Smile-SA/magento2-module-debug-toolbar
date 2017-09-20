@@ -7,8 +7,8 @@
  */
 namespace Smile\DebugToolbar\Block\Zone;
 
-use Magento\Framework\View\Element\AbstractBlock as MagentoAbstractBlock;
-use Magento\Framework\View\Element\Context;
+use Magento\Framework\View\Element\Template as MagentoTemplateBlock;
+use Magento\Framework\View\Element\Template\Context;
 use Smile\DebugToolbar\Helper\Data as HelperData;
 
 /**
@@ -19,7 +19,7 @@ use Smile\DebugToolbar\Helper\Data as HelperData;
  * @copyright 2017 Smile
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-abstract class AbstractZone extends MagentoAbstractBlock
+abstract class AbstractZone extends MagentoTemplateBlock
 {
     /**
      * max string length for values
@@ -57,6 +57,7 @@ abstract class AbstractZone extends MagentoAbstractBlock
 
         $this->helperData = $helperData;
         $this->setData('cache_lifetime', 0);
+        $this->setTemplate('zone/'.$this->getCode().'.phtml');
     }
 
     /**
@@ -74,20 +75,13 @@ abstract class AbstractZone extends MagentoAbstractBlock
     abstract public function getTitle();
 
     /**
-     * Get the html of the zone
-     *
-     * @return string
-     */
-    abstract public function getZoneHtml();
-
-    /**
      * Redefine the toHtml method to remove all the cache policy
      *
      * @return string
      */
     public function toHtml()
     {
-        return $this->getZoneHtml();
+         return $this->_toHtml();
     }
 
     /**

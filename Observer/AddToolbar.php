@@ -15,8 +15,9 @@ use Smile\DebugToolbar\Block\ToolbarFactory;
 use Smile\DebugToolbar\Block\Toolbar;
 use Smile\DebugToolbar\Block\ToolbarsFactory;
 use Smile\DebugToolbar\Block\Toolbars;
-use Smile\DebugToolbar\Helper\Data   as HelperData;
-use Smile\DebugToolbar\Helper\Config as HelperConfig;
+use Smile\DebugToolbar\Helper\Data     as HelperData;
+use Smile\DebugToolbar\Helper\Config   as HelperConfig;
+use Smile\DebugToolbar\Helper\Profiler as HelperProfiler;
 
 /**
  * Observer Add the Toolbar
@@ -48,23 +49,31 @@ class AddToolbar implements ObserverInterface
     protected $helperConfig;
 
     /**
+     * @var HelperProfiler
+     */
+    protected $helperProfiler;
+
+    /**
      * AddToolbar constructor.
      *
      * @param ToolbarFactory  $blockToolbarFactory
      * @param ToolbarsFactory $blockToolbarsFactory
      * @param HelperData      $helperData
      * @param HelperConfig    $helperConfig
+     * @param HelperProfiler  $helperProfiler
      */
     public function __construct(
         ToolbarFactory  $blockToolbarFactory,
         ToolbarsFactory $blockToolbarsFactory,
         HelperData      $helperData,
-        HelperConfig    $helperConfig
+        HelperConfig    $helperConfig,
+        HelperProfiler  $helperProfiler
     ) {
         $this->blockToolbarFactory  = $blockToolbarFactory;
         $this->blockToolbarsFactory = $blockToolbarsFactory;
         $this->helperData           = $helperData;
         $this->helperConfig         = $helperConfig;
+        $this->helperProfiler       = $helperProfiler;
     }
 
     /**
@@ -73,12 +82,17 @@ class AddToolbar implements ObserverInterface
      * @param Observer $observer Magento Observer Object
      *
      * @return void
+     * @SuppressWarnings(PMD.ExitExpression)
      */
     public function execute(Observer $observer)
     {
         if (!$this->helperConfig->isEnabled()) {
             return;
         }
+
+        // we do not want that the toolbar has a impact on profile
+        //  => compute the stat in first
+        $this->helperProfiler->computeStats();
 
         /** @var MagentoRequest $request */
         $request = $observer->getEvent()->getData('request');

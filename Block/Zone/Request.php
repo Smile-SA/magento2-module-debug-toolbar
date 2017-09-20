@@ -43,59 +43,6 @@ class Request extends AbstractZone
     }
 
     /**
-     * Get the html of the zone
-     *
-     * @return string
-     */
-    public function getZoneHtml()
-    {
-        $info = $this->getRequest();
-
-        $sections = [
-            'HTTP' => [
-                'Version' => $info->getVersion(),
-                'Scheme'  => $info->getScheme(),
-                'Method'  => $info->getMethod(),
-                'IP'      => $info->getClientIp(),
-                'URL'     => $info->getUriString(),
-            ],
-            'Action' => [
-                'Path Info'   => $info->getPathInfo(),
-                'Full Action' => $info->getFullActionName(),
-                'Module'      => $info->getModuleName(),
-                'Group'       => $info->getControllerName(),
-                'Action'      => $info->getActionName(),
-            ],
-            'Route' => [
-                'Module'     => $info->getControllerModule(),
-                'Route Name' => $info->getRouteName(),
-                'Front Name' => $info->getFrontName(),
-                'Controller' => $this->getControllerClassName(),
-            ],
-            'User Params' => (array) $info->getUserParams(),
-            'Get'         => (array) $info->getQuery(),
-            'Post'        => (array) $info->getPost(),
-            'Files'       => (array) $info->getFiles(),
-            'Env'         => array_merge((array) $info->getEnv(), (array) $info->getServer()),
-            'Headers'     => [],
-            'Cookies'     => $_COOKIE,
-        ];
-
-        foreach ($info->getHeaders() as $header) {
-            $sections['Headers'][$header->getFieldName()] = $header->getFieldValue();
-        }
-
-        $sections['Headers']['Cookie'] = 'See in Cookies section';
-
-        $this->addToSummary('Request', 'Url', $sections['HTTP']['URL']);
-        $this->addToSummary('Request', 'Method', $sections['HTTP']['Method']);
-        $this->addToSummary('Request', 'Path Info', $sections['Action']['Path Info']);
-        $this->addToSummary('Request', 'Full Action', $sections['Action']['Full Action']);
-
-        return $this->displaySections($sections);
-    }
-
-    /**
      * Set the request
      *
      * @param MagentoRequest $request

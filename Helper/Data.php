@@ -11,7 +11,7 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\App\State as AppState;
-use Magento\PageCache\Model\Config;
+use Magento\PageCache\Model\Config as PageCacheConfig;
 use Smile\DebugToolbar\Block\Toolbar;
 
 /**
@@ -375,6 +375,6 @@ class Data extends AbstractHelper
     {
         $key = 'system/full_page_cache/caching_application';
 
-        return $this->scopeConfig->getValue($key) == Config::VARNISH ? 'varnish' : 'build-in';
+        return $this->scopeConfig->getValue($key) == PageCacheConfig::VARNISH ? 'varnish' : 'build-in';
     }
 }

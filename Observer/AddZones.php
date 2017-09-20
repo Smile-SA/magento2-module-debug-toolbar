@@ -10,11 +10,12 @@ namespace Smile\DebugToolbar\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Event\Observer;
 use Smile\DebugToolbar\Block\Zone\AbstractZone;
+use Smile\DebugToolbar\Block\Zone\CacheFactory;
 use Smile\DebugToolbar\Block\Zone\GenericFactory;
+use Smile\DebugToolbar\Block\Zone\MysqlFactory;
 use Smile\DebugToolbar\Block\Zone\RequestFactory;
 use Smile\DebugToolbar\Block\Zone\ResponseFactory;
-use Smile\DebugToolbar\Block\Zone\MysqlFactory;
-use Smile\DebugToolbar\Block\Zone\CacheFactory;
+use Smile\DebugToolbar\Block\Zone\ProfilerFactory;
 use Smile\DebugToolbar\Block\Zone\Request;
 use Smile\DebugToolbar\Block\Zone\Response;
 use Smile\DebugToolbar\Block\Zone\Summary;
@@ -34,24 +35,27 @@ class AddZones implements ObserverInterface
 
     /**
      * AddZones constructor.
+     * @param CacheFactory    $cacheBlockFactory
      * @param GenericFactory  $genericBlockFactory
+     * @param MysqlFactory    $mysqlBlockFactory
+     * @param ProfilerFactory $profilerBlockFactory
      * @param RequestFactory  $requestBlockFactory
      * @param ResponseFactory $responseBlockFactory
-     * @param MysqlFactory    $mysqlBlockFactory
-     * @param CacheFactory    $cacheBlockFactory
      */
     public function __construct(
+        CacheFactory    $cacheBlockFactory,
         GenericFactory  $genericBlockFactory,
-        RequestFactory  $requestBlockFactory,
-        ResponseFactory $responseBlockFactory,
         MysqlFactory    $mysqlBlockFactory,
-        CacheFactory    $cacheBlockFactory
+        ProfilerFactory $profilerBlockFactory,
+        RequestFactory  $requestBlockFactory,
+        ResponseFactory $responseBlockFactory
     ) {
         $this->blockFactories[] = $genericBlockFactory;
         $this->blockFactories[] = $requestBlockFactory;
         $this->blockFactories[] = $responseBlockFactory;
         $this->blockFactories[] = $mysqlBlockFactory;
         $this->blockFactories[] = $cacheBlockFactory;
+        $this->blockFactories[] = $profilerBlockFactory;
     }
 
     /**

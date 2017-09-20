@@ -204,3 +204,30 @@
 .smile-toolbar .st-main .st-logo:hover {
     background-color: #FC8 !important;
 }
+
+.smile-toolbar table.st-profiler {
+    width: 610px;
+}
+
+.smile-toolbar table.st-profiler span.st-expand {
+    float: left;
+    margin: 0 2px 0 0;
+    padding: 0;
+    border: solid 1px grey;
+    background: #FFBD69;
+    color: #000;
+    font-weight: bold;
+    text-align: center;
+    width: 15px;
+}
+
+.smile-toolbar table.st-profiler span.st-with-childs {
+    cursor: pointer;
+}
+
+.smile-toolbar table.st-profiler div.st-percent {
+    height: 2px;
+    margin: 0;
+    padding: 0;
+    background: #F00;
+}

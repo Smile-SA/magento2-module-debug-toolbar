@@ -1,0 +1,44 @@
+<?php
+/** @var \Magento\Framework\View\TemplateEngine\Php $this */
+/** @var \Smile\DebugToolbar\Block\Zone\Generic $block */
+
+$sections = [
+    'Product' => [
+        'Product' => $block->getProductName(),
+        'Edition' => $block->getProductEdition(),
+        // 'Version' => $block->getProductVersion(), // disabled because it takes 300ms ?!
+        'Area'    => $block->getMagentoArea(),
+        'Mode'    => $block->getMagentoMode(),
+    ],
+    'Server' => [
+        'PHP Version'            => $block->getPhpVersion(),
+        'PHP Memory Limit'       => [
+            'value'   => $block->displayHumanSize($block->getPhpMemoryLimit()),
+            'warning' => $block->getPhpMemoryLimit() < 256*1024*1024,
+        ],
+        'PHP Memory Used' => [
+            'value'   => $block->displayHumanSize($block->getPhpMemoryUsed()),
+            'warning' => $block->getPhpMemoryUsed() > 128*1024*1024,
+        ],
+        'PHP Max Execution Time' => [
+            'value'   => $block->displayHumanTime($block->getPhpMaxExecutionTime()),
+            'warning' => $block->getPhpMaxExecutionTime() < 60,
+        ],
+        'PHP Execution Time' => [
+            'value'   => $block->displayHumanTime($block->getPhpExecutionTime()),
+            'warning' => $block->getPhpExecutionTime() > 5,
+        ],
+    ],
+    'Session' => [
+        'Mode'   => [
+            'value'   => $block->getSessionMode(),
+            'warning' => ($block->getSessionMode() !== 'redis'),
+        ],
+        'Config' => $block->getSessionInfo(),
+    ],
+];
+
+$block->addToSummary('Server', 'PHP Memory Used', $sections['Server']['PHP Memory Used']);
+$block->addToSummary('Server', 'PHP Execution Time', $sections['Server']['PHP Execution Time']);
+
+echo $block->displaySections($sections);

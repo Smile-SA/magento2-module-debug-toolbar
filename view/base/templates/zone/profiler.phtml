@@ -1,0 +1,52 @@
+<?php
+/** @var \Magento\Framework\View\TemplateEngine\Php $this */
+/** @var \Smile\DebugToolbar\Block\Zone\Profiler $block */
+
+$timers = $block->getTimers();
+?>
+<table class="st-profiler">
+    <colgroup>
+        <col style="width: 68%" />
+        <col style="width: 13%" />
+        <col style="width: 13%" />
+        <col style="width:  6%" />
+    </colgroup>
+    <thead>
+        <tr>
+            <th>Timer</th>
+            <th>Total</th>
+            <th>AVG</th>
+            <th>NB</th>
+        </tr>
+    </thead>
+    <tbody>
+<?php foreach ($timers as $timer): ?>
+        <tr
+            id="<?php echo $block->getToolbarId(); ?>-pf-<?php echo $timer['uid']; ?>"
+            class="<?php echo ($timer['parent'] ? $block->getToolbarId().'-pf-'.$timer['parent'] : ''); ?>"
+            style="<?php echo ($timer['parent'] ? 'display: none' : ''); ?>"
+        >
+            <td style="padding-left: <?php echo (10*$timer['level']); ?>px">
+<?php if ($timer['childs']>0): ?>
+                <span
+                    class="st-expand st-with-childs"
+                    id="<?php echo $block->getToolbarId(); ?>-pf-<?php echo $timer['uid']; ?>-span"
+                    onclick="smileToolbarTreeGrid(this)"
+                >+</span>
+<?php else: ?>
+                <span
+                    class="st-expand"
+                >&nbsp;</span>
+<?php endif; ?>
+                <?php echo $timer['label']; ?>
+            </td>
+            <td class="st-value-unit-s">
+                <div class="st-percent" style="width: <?php echo $timer['percent']; ?>%"></div>
+                <?php echo $block->displayHumanTime($timer['sum']); ?>
+            </td>
+            <td class="st-value-unit-s"><?php echo $block->displayHumanTime($timer['avg']); ?></td>
+            <td class="st-value-number"><?php echo $timer['count']; ?></td>
+        </tr>
+<?php endforeach; ?>
+    </tbody>
+</table>

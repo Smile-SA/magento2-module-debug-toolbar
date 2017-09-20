@@ -41,16 +41,6 @@ class Summary extends AbstractZone
     }
 
     /**
-     * Get the html of the zone
-     *
-     * @return string
-     */
-    public function getZoneHtml()
-    {
-        return $this->displaySections($this->getSummarySections());
-    }
-
-    /**
      * get the summary sections
      *
      * @return array

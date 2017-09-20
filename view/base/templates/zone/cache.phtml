@@ -1,0 +1,81 @@
+<?php
+/** @var \Magento\Framework\View\TemplateEngine\Php $this */
+/** @var \Smile\DebugToolbar\Block\Zone\Cache $block */
+
+$statSections = $block->getStatsPerAction();
+$list = $block->getCacheUsage();
+
+foreach ($list as $key => $row) {
+    $row['size_total'] = $block->displayHumanSizeKo($row['size_total']);
+    $row['size_mean']  = $block->displayHumanSizeKo($row['size_mean']);
+    $row['time_total'] = $block->displayHumanTimeMs($row['time_total']);
+    $row['time_mean']  = $block->displayHumanTimeMs($row['time_mean']);
+    $list[$key] = $row;
+}
+
+echo $block->displayTable(
+    'Show All Usage',
+    $list,
+    [
+        'identifier' => [
+            'title' => 'identifier',
+            'class' => '',
+        ],
+        'nb_call'    => [
+            'title' => 'Nb Call',
+            'class' => 'st-value-number',
+        ],
+        'size_total' => [
+            'title' => 'Size Total',
+            'class' => 'st-value-unit-ko',
+        ],
+        'size_mean'  => [
+            'title' => 'Size Mean',
+            'class' => 'st-value-unit-ko',
+        ],
+        'time_total' => [
+            'title' => 'Time Total',
+            'class' => 'st-value-unit-ms',
+        ],
+        'time_mean'  => [
+            'title' => 'Time Mean',
+            'class' => 'st-value-unit-ms',
+        ],
+    ],
+    [
+        'calls' => 'Calls',
+    ]
+);
+
+$sections = [
+    'Types'  => $block->getCacheTypes(),
+    'Config' => [
+        'Mode'   => [
+            'value'   => $block->getCacheMode(),
+            'warning' => ($block->getCacheMode() !== 'Cm_Cache_Backend_Redis')
+        ],
+        'Config' => $block->getCacheInfo(),
+    ],
+];
+
+$sections = array_merge($statSections, $sections);
+
+$sections['Size'] = [
+    'total'  => $block->displayHumanSize($sections['Size']['total']),
+    'load'   => $block->displayHumanSize($sections['Size']['load']),
+    'save'   => $block->displayHumanSize($sections['Size']['save']),
+    'remove' => $block->displayHumanSize($sections['Size']['remove']),
+];
+
+$sections['Time'] = [
+    'total'  => $block->displayHumanTime($sections['Time']['total']),
+    'load'   => $block->displayHumanTime($sections['Time']['load']),
+    'save'   => $block->displayHumanTime($sections['Time']['save']),
+    'remove' => $block->displayHumanTime($sections['Time']['remove']),
+];
+
+$block->addToSummary('Cache', 'Number', $sections['Number']['total']);
+$block->addToSummary('Cache', 'Time', $sections['Time']['total']);
+$block->addToSummary('Cache', 'Size', $sections['Size']['total']);
+
+echo $block->displaySections($sections);

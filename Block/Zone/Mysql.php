@@ -7,7 +7,7 @@
  */
 namespace Smile\DebugToolbar\Block\Zone;
 
-use Magento\Framework\View\Element\Context;
+use Magento\Framework\View\Element\Template\Context;
 use Smile\DebugToolbar\Helper\Data as HelperData;
 use Smile\DebugToolbar\Model\ResourceModel\Info as ResourceModel;
 
@@ -62,79 +62,6 @@ class Mysql extends AbstractZone
     public function getTitle()
     {
         return 'Mysql';
-    }
-
-    /**
-     * Get the html of the zone
-     *
-     * @return string
-     */
-    public function getZoneHtml()
-    {
-        $html = '';
-
-        $list = $this->getQueries();
-
-        foreach ($list as $key => $row) {
-            $row['time'] = $this->displayHumanTimeMs($row['time']);
-            $list[$key] = $row;
-        }
-
-        $html.= $this->displayTable(
-            'Show All Queries',
-            $list,
-            [
-                'id'    => [
-                    'title' => 'Id',
-                    'class' => 'st-value-number',
-                ],
-                'type'  => [
-                    'title' => 'Type',
-                    'class' => 'st-value-center',
-                ],
-                'time'  => [
-                    'title' => 'Time',
-                    'class' => 'st-value-unit-ms',
-                ],
-                'query' => [
-                    'title' => 'Query',
-                    'class' => '',
-                ],
-            ],
-            [
-                'params' => 'Params',
-                'trace'  => 'Trace',
-            ]
-        );
-
-        $sections = [
-            'Number' => $this->getCountPerTypes(),
-            'Time'   => $this->getTimePerTypes(),
-            'Server' => [
-                'Version' => $this->getMysqlVersion(),
-            ],
-        ];
-
-        foreach ($sections['Time'] as $key => $value) {
-            $sections['Time'][$key] = $this->displayHumanTime($value);
-        }
-
-        $sections['Number']['total'] = [
-            'value'   => $sections['Number']['total'],
-            'warning' => $sections['Number']['total'] > 200,
-        ];
-
-        $sections['Number']['connect'] = [
-            'value'   => $sections['Number']['connect'],
-            'warning' => $sections['Number']['connect'] > 1,
-        ];
-
-        $this->addToSummary('Mysql', 'Number', $sections['Number']['total']);
-        $this->addToSummary('Mysql', 'Time', $sections['Time']['total']);
-
-        $html.= $this->displaySections($sections);
-
-        return $html;
     }
 
     /**

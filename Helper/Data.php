@@ -319,7 +319,9 @@ class Data extends AbstractHelper
 
             $folder = $this->getToolbarFolder();
             foreach ($toDelete as $file) {
-                unlink($folder . $file);
+                if (is_file($folder . $file)) {
+                    unlink($folder . $file);
+                }
             }
         }
     }

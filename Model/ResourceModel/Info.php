@@ -131,7 +131,7 @@ class Info
         /** @var \Smile\DebugToolbar\DB\Profiler $profiler */
         $profiler = $connection->getProfiler();
 
-        if (!($profiler instanceof \Smile\DebugToolbar\DB\Profisler)) {
+        if (!($profiler instanceof \Smile\DebugToolbar\DB\Profiler)) {
             throw new \Exception(
                 'DB Profiler is not set to \Smile\DebugToolbar\DB\Profiler. Please disable and enable the ToolBar'
             );

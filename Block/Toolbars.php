@@ -87,6 +87,7 @@ class Toolbars extends MagentoAbstractBlock
         return '
 <div class="smile-toolbar" id="st-table-display">
     <div class="st-main" id="st-table-main">
+        <div id="st-table-title">...</div>
         <div id="st-table-close" onclick="smileToolbarTableHide()">X</div>
         <div id="st-table-content">...</div>
     </div>

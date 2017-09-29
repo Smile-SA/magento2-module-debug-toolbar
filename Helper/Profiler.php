@@ -101,7 +101,7 @@ class Profiler extends AbstractHelper
 
             $label  = array_pop($explodedTimerId);
             $parent = implode('->', $explodedTimerId);
-            $sum    = $stat->fetch($timerId, 'sum');
+            $sum    = $stat->fetch($timerId, Stat::TIME);
 
             $percent = 0;
             if ($timerId === 'magento') {
@@ -112,21 +112,26 @@ class Profiler extends AbstractHelper
             }
 
             $timer = [
-                'uid'     => $uid,
-                'id'      => $timerId,
-                'parent'  => null,
-                'childs'  => 0,
-                'level'   => $level,
-                'label'   => $label,
-                'sum'     => $sum,
-                'percent' => round($percent, 2),
-                'avg'     => $stat->fetch($timerId, 'avg'),
-                'count'   => $stat->fetch($timerId, 'count'),
+                'uid'      => $uid,
+                'id'       => $timerId,
+                'parent'   => null,
+                'children' => 0,
+                'level'    => $level,
+                'label'    => $label,
+                'sum'      => $sum,
+                'percent'  => round($percent, 2),
+                'avg'      => $stat->fetch($timerId, Stat::AVG),
+                'count'    => $stat->fetch($timerId, Stat::COUNT),
+                'mem'      => $stat->fetch($timerId, Stat::EMALLOC),
             ];
+
+            if ($timer['mem'] < 0) {
+                $timer['mem'] = 0;
+            }
 
             if ($parent !== '') {
                 $timer['parent'] = $this->timers[$parent]['uid'];
-                $this->timers[$parent]['childs']++;
+                $this->timers[$parent]['children']++;
             }
 
             $this->timers[$timer['id']] = $timer;

@@ -13,11 +13,12 @@ try {
 
 foreach ($list as $key => $row) {
     $row['time'] = $block->displayHumanTimeMs($row['time']);
+    $row['html_info']  = $block->buildHtmlInfo($row['params'], $row['trace']);
     $list[$key] = $row;
 }
 
 echo $block->displayTable(
-    'Show All Queries',
+    'MySQL Queries',
     $list,
     [
         'id'    => [
@@ -37,10 +38,7 @@ echo $block->displayTable(
             'class' => 'hjs-code-sql',
         ],
     ],
-    [
-        'params' => 'Params',
-        'trace'  => 'Trace',
-    ]
+    'html_info'
 );
 
 $sections = [

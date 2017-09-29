@@ -97,11 +97,11 @@ function smileToolbarZoneSelect(zoneId)
  * @param values
  * @param columns
  */
-function smileToolbarTableDisplay(values, columns, additional)
+function smileToolbarTableDisplay(title, values, columns, additional)
 {
     document.getElementById('st-table-display').style.display = 'block';
 
-    smileTableOpen(values, columns, additional, 'st-table-content');
+    smileTableOpen(title, values, columns, additional, 'st-table-title', 'st-table-content');
 }
 
 /**
@@ -195,18 +195,17 @@ function smileToolbarTreeGrid(node, forceClose)
 
     node.innerHTML = (expand ? '-' : '+');
 
-    Array.filter(
-        document.getElementsByClassName(node.id.replace('-span', '')),
-        function(elem){
-            elem.style.display = (expand ? '': 'none');
-            if (!expand) {
-                var span=document.getElementById(elem.id+'-span');
-                if (span) {
-                    smileToolbarTreeGrid(span, true);
-                }
+    var spans = document.getElementsByClassName(node.id.replace('-span', ''));
+
+    for (var k=0; k<spans.length; k++) {
+        spans[k].style.display = (expand ? '': 'none');
+        if (!expand) {
+            var span=document.getElementById(spans[k].id+'-span');
+            if (span) {
+                smileToolbarTreeGrid(span, true);
             }
         }
-    );
+    }
 
     return true;
 }

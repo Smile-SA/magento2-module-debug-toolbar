@@ -103,4 +103,38 @@ class Mysql extends AbstractZone
     {
         return $this->resourceModel->getMysqlVersion();
     }
+
+    /**
+     * Prepare params and trace for display in the table
+     *
+     * @param array $params
+     * @param array $trace
+     *
+     * @return string
+     */
+    public function buildHtmlInfo(array $params = [], array $trace = [])
+    {
+        $html = '';
+
+        if (count($params)>0) {
+            $html.= "<table>";
+            $html.= "<tr><th colspan=\"2\">Query Parameters</th></tr>";
+            foreach ($params as $key => $value) {
+                $html.= "<tr>";
+                $html.= "<th style=\"width: 30%\">".$this->escapeHtml($key)."</th>";
+                $html.= "<td>".$this->escapeHtml($value)."</td>";
+                $html.= "</tr>";
+            }
+            $html.= "</table>";
+            $html.= "<br />";
+        }
+
+        $html.= "<table>";
+        $html.= "<tr><th>PHP Trace</th></tr>";
+        foreach ($trace as $row) {
+            $html.= "<tr><td>".$this->escapeHtml($row)."</td></tr>";
+        }
+        $html.= "</table>";
+        return $html;
+    }
 }

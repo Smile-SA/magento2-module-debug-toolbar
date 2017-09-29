@@ -10,11 +10,12 @@ foreach ($list as $key => $row) {
     $row['size_mean']  = $block->displayHumanSizeKo($row['size_mean']);
     $row['time_total'] = $block->displayHumanTimeMs($row['time_total']);
     $row['time_mean']  = $block->displayHumanTimeMs($row['time_mean']);
+    $row['html_info']  = $block->buildHtmlInfo($row['calls']);
     $list[$key] = $row;
 }
 
 echo $block->displayTable(
-    'Show All Usage',
+    'Cache Usage',
     $list,
     [
         'identifier' => [
@@ -42,9 +43,7 @@ echo $block->displayTable(
             'class' => 'st-value-unit-ms',
         ],
     ],
-    [
-        'calls' => 'Calls',
-    ]
+    'html_info'
 );
 
 $sections = [

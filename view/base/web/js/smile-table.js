@@ -1,6 +1,6 @@
 var smileTableValues        = [];
 var smileTableColumns       = [];
-var smileTableAdditional    = [];
+var smileTableAdditional    = null;
 var smileTableContainer     = null;
 var smileTableCurrentColumn = null;
 var smileTableCurrentOrder  = null;
@@ -8,17 +8,21 @@ var smileTableCurrentOrder  = null;
 /**
  * Open a table
  *
+ * @param title
  * @param values
  * @param columns
  * @param additional
+ * @param titleId
  * @param containerId
  */
-function smileTableOpen(values, columns, additional, containerId)
+function smileTableOpen(title, values, columns, additional, titleId, containerId)
 {
     smileTableValues     = values;
     smileTableColumns    = columns;
     smileTableAdditional = additional;
     smileTableContainer  = document.getElementById(containerId);
+
+    document.getElementById(titleId).innerHTML = smileTableProtectValue(title);
 
     smileTableSort(Object.keys(smileTableColumns)[0], 'asc');
 }
@@ -32,7 +36,7 @@ function smileTableClose()
 
     smileTableValues        = [];
     smileTableColumns       = [];
-    smileTableAdditional    = [];
+    smileTableAdditional    = null;
     smileTableContainer     = null;
     smileTableCurrentColumn = null;
     smileTableCurrentOrder  = null;
@@ -95,12 +99,7 @@ function smileTableDisplay()
     var valuesKey;
     var values;
     var nbColumns = 0;
-    var hasAdds = false;
     var needHjs = false;
-
-    for (key in smileTableAdditional) {
-        hasAdds = true;
-    }
 
     html+= '<table class="smile-table">';
 
@@ -129,7 +128,7 @@ function smileTableDisplay()
     html+= '<tbody>';
     for (valuesKey = 0; valuesKey < smileTableValues.length; valuesKey++) {
         html+= '<tr';
-        if (hasAdds) {
+        if (smileTableAdditional) {
             html+= ' onclick="smileTableToggleRow(\'smile-table-row-'+valuesKey+'\');" class="smile-has-sub-table"'
         }
         html+= '>';
@@ -158,20 +157,9 @@ function smileTableDisplay()
         }
         html+= '</tr>';
 
-        if (hasAdds) {
+        if (smileTableAdditional) {
             html+= '<tr class="smile-sub-table" id="smile-table-row-'+valuesKey+'">';
-            html+= '<td colspan="'+nbColumns+'" >';
-            html+= '<table>';
-            for (var addKey in smileTableAdditional) {
-                html+= '<tr>';
-                html+= '<th>' + smileTableAdditional[addKey] + '</th>';
-                html+= '<td><pre>';
-                html+= smileTableProtectValue(JSON.stringify(values[addKey], null, 2));
-                html+= '</pre></td>';
-                html+= '</tr>';
-            }
-            html+= '</table>';
-            html+= '</td>';
+            html+= '<td colspan="'+nbColumns+'" >'+values[smileTableAdditional]+'</td>';
             html+= '</tr>';
         }
     }

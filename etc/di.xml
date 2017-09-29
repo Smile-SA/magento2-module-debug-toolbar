@@ -5,7 +5,7 @@
         <plugin
             name="smile-debugtoolbar-app-http-plugin"
             type="Smile\DebugToolbar\Plugin\App\Http"
-            sortOrder="10"
+            sortOrder="1"
             disabled="false"
         />
     </type>
@@ -15,7 +15,7 @@
         <plugin
             name="smile-debugtoolbar-app-action-plugin"
             type="Smile\DebugToolbar\Plugin\App\Action\AbstractAction"
-            sortOrder="10"
+            sortOrder="1"
             disabled="false"
         />
     </type>
@@ -25,7 +25,27 @@
         <plugin
             name="smile-debugtoolbar-app-cache-plugin"
             type="Smile\DebugToolbar\Plugin\App\Cache"
-            sortOrder="10"
+            sortOrder="1"
+            disabled="false"
+        />
+    </type>
+
+    <!-- PLUGIN - Stats on event amanger -->
+    <type name="Magento\Framework\Event\ManagerInterface">
+        <plugin
+            name="smile-debugtoolbar-event-manager-plugin"
+            type="Smile\DebugToolbar\Plugin\Event\Manager"
+            sortOrder="1"
+            disabled="false"
+        />
+    </type>
+
+    <!-- PLUGIN - Stats on event invoker -->
+    <type name="Magento\Framework\Event\InvokerInterface">
+        <plugin
+            name="smile-debugtoolbar-event-invoker-plugin"
+            type="Smile\DebugToolbar\Plugin\Event\Invoker"
+            sortOrder="1"
             disabled="false"
         />
     </type>

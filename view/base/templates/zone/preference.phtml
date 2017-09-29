@@ -1,0 +1,89 @@
+<?php
+/** @var \Magento\Framework\View\TemplateEngine\Php $this */
+/** @var \Smile\DebugToolbar\Block\Zone\Preference $block */
+
+$pluginSections = [
+    'Declared Plugins' => [
+        'Classes with plugins' => 0,
+        'Nb Plugins' => 0,
+    ],
+];
+
+$preferenceSections = [
+    'Preferences' => [
+        'Nb Preferences' => 0,
+    ],
+];
+
+$count = [];
+$plugins = $block->getPluginStats();
+foreach ($plugins as $key => $row) {
+    $row['html_info'] = $block->buildPluginHtmlInfo($row['plugin_methods']);
+    $plugins[$key] = $row;
+    $count[$row['main_classname']] = true;
+
+    $pluginSections['Declared Plugins']['Nb Plugins']++;
+}
+$pluginSections['Declared Plugins']['Classes with plugins'] = count($count);
+
+$list = $block->getPreferenceStats();
+$preferences = [];
+foreach ($list as $original => $final) {
+    $preferences[] = [
+        'original' => $original,
+        'final'    => $final,
+    ];
+}
+$preferenceSections['Preferences']['Nb Preferences'] = count($preferences);
+
+$block->addToSummary('Preferences', 'Nb Preferences', $preferenceSections['Preferences']['Nb Preferences']);
+$block->addToSummary('Preferences', 'Classes with plugins', $pluginSections['Declared Plugins']['Classes with plugins']);
+$block->addToSummary('Preferences', 'Nb Plugins', $pluginSections['Declared Plugins']['Nb Plugins']);
+
+echo $block->displaySections($preferenceSections);
+
+echo $block->displayTable(
+    'Preferences',
+    $preferences,
+    [
+        'original' => [
+            'title' => 'For',
+            'class' => '',
+        ],
+        'final'  => [
+            'title' => 'Class',
+            'class' => '',
+        ]
+    ],
+    'html_info'
+);
+
+echo $block->displaySections($pluginSections);
+
+echo $block->displayTable(
+    'Plugins',
+    $plugins,
+    [
+        'main_classname' => [
+            'title' => 'ClassName',
+            'class' => '',
+        ],
+        'nb_plugins'  => [
+            'title' => 'Nb Plugins',
+            'class' => 'st-value-center',
+        ],
+        'plugin_name'  => [
+            'title' => 'Plugin Name',
+            'class' => '',
+        ],
+        'plugin_classname' => [
+            'title' => 'Plugin ClassName',
+            'class' => '',
+        ],
+        'plugin_nb_methods' => [
+            'title' => 'Plugin Methods',
+            'class' => 'st-value-center',
+        ],
+    ],
+    'html_info'
+);

@@ -1,0 +1,25 @@
+<?php
+/** @var \Magento\Framework\View\TemplateEngine\Php $this */
+/** @var \Smile\DebugToolbar\Block\Zone\Layout $block */
+
+$sections = [
+    'Handles' => $block->getHandles()
+];
+
+echo $block->displaySections($sections);
+?>
+<table class="st-profiler">
+    <colgroup>
+        <col style="width: 40%" />
+        <col style="width: 60%" />
+    </colgroup>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Info</th>
+        </tr>
+    </thead>
+    <tbody>
+<?php echo $block->displayLayoutTable(); ?>
+    </tbody>
+</table>

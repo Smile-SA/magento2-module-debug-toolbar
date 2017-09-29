@@ -81,12 +81,12 @@ class Cache extends AbstractHelper
      *
      * @param string $action
      * @param string $identifier
-     * @param int    $time
+     * @param float  $deltaTime
      * @param int    $size
      *
      * @return void
      */
-    public function addStat($action, $identifier, $time = 0, $size = 0)
+    public function addStat($action, $identifier, $deltaTime = 0., $size = 0)
     {
         if (!array_key_exists($identifier, $this->cacheUsage)) {
             $this->cacheUsage[$identifier] = [
@@ -104,7 +104,7 @@ class Cache extends AbstractHelper
 
         $usage['nb_call']++;
         $usage['size_total']+=$size;
-        $usage['time_total']+=$time;
+        $usage['time_total']+=$deltaTime;
 
         $usage['size_mean'] = $usage['size_total'] / $usage['nb_call'];
         $usage['time_mean'] = $usage['time_total'] / $usage['nb_call'];
@@ -112,17 +112,17 @@ class Cache extends AbstractHelper
         $usage['calls'][] = [
             'action' => $action,
             'size'   => $size,
-            'time'   => $time,
+            'time'   => $deltaTime,
         ];
 
         $this->cacheUsage[$identifier] = $usage;
 
         $this->cacheStats['Number']['total']++;
-        $this->cacheStats['Time']['total']+= $time;
+        $this->cacheStats['Time']['total']+= $deltaTime;
         $this->cacheStats['Size']['total']+= $size;
 
         $this->cacheStats['Number'][$action]++;
-        $this->cacheStats['Time'][$action]+= $time;
+        $this->cacheStats['Time'][$action]+= $deltaTime;
         $this->cacheStats['Size'][$action]+= $size;
     }
 

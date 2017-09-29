@@ -177,9 +177,15 @@
 
 .smile-toolbar #st-table-main {
     width: 100%;
-    height: 99vh;
     border: solid 2px darkorange;
     border-radius: 0;
+}
+
+.smile-toolbar #st-table-title {
+    border-bottom: solid 2px darkorange;
+    text-align: center;
+    padding: 1px 4px;
+    font-weight: bold;
 }
 
 .smile-toolbar #st-table-close {
@@ -187,16 +193,14 @@
     right: 0;
     top: 0;
     cursor: pointer;
-    border: solid 2px darkorange;
-    border-top: none;
-    border-right: none;
+    border-left: solid 2px darkorange;
     padding: 1px 4px;
 }
 
 .smile-toolbar #st-table-content {
     overflow: auto;
     width: 100%;
-    height: 100%;
+    height: 90vh;
 }
 
 .smile-toolbar .st-selected,
@@ -221,7 +225,7 @@
     width: 15px;
 }
 
-.smile-toolbar table.st-profiler span.st-with-childs {
+.smile-toolbar table.st-profiler span.st-with-children {
     cursor: pointer;
 }
 
@@ -230,4 +234,12 @@
     margin: 0;
     padding: 0;
     background: #F00;
+}
+
+.smile-toolbar tr:hover > th {
+    background-color: #CCC !important;
+}
+
+.smile-toolbar tr:hover > td {
+    background-color: #EEE !important;
 }

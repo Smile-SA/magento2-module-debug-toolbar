@@ -26,7 +26,7 @@ class Cache extends AbstractZone
     protected $deployConfig;
 
     /**
-     * @var array|HelperCache
+     * @var HelperCache
      */
     protected $helperCache;
 
@@ -130,5 +130,43 @@ class Cache extends AbstractZone
     public function getStatsPerAction()
     {
         return $this->helperCache->getStatsPerAction();
+    }
+
+    /**
+     * Prepare calls for display in the table
+     *
+     * @param array $calls
+     *
+     * @return string
+     */
+    public function buildHtmlInfo(array $calls = [])
+    {
+        $html = "
+<table>
+    <thead>
+        <tr>
+            <th>Call Id</th>
+            <th>Action</th>
+            <th>Size</th>
+            <th>Time</th>
+        </tr>    
+    </thead>
+    <tbody>";
+        foreach ($calls as $callId => $call) {
+            $html.= "
+        <tr>
+            <td class=\"st-value-number\">".$this->escapeHtml($callId)."</td>
+            <td class=\"st-value-center\">".$this->escapeHtml($call['action'])."</td>
+            <td class=\"st-value-unit-ko\">".$this->displayHumanSizeKo($call['size'])."</td>
+            <td class=\"st-value-unit-ms\">".$this->displayHumanTimeMs($call['time'])."</td>
+        </tr>
+            ";
+        }
+
+        $html.= "
+    </tbody>
+</table>";
+
+        return $html;
     }
 }

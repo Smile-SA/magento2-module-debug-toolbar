@@ -12,10 +12,13 @@ use Magento\Framework\Event\Observer;
 use Smile\DebugToolbar\Block\Zone\AbstractZone;
 use Smile\DebugToolbar\Block\Zone\CacheFactory;
 use Smile\DebugToolbar\Block\Zone\GenericFactory;
+use Smile\DebugToolbar\Block\Zone\LayoutFactory;
 use Smile\DebugToolbar\Block\Zone\MysqlFactory;
+use Smile\DebugToolbar\Block\Zone\ObserverFactory;
+use Smile\DebugToolbar\Block\Zone\PreferenceFactory;
+use Smile\DebugToolbar\Block\Zone\ProfilerFactory;
 use Smile\DebugToolbar\Block\Zone\RequestFactory;
 use Smile\DebugToolbar\Block\Zone\ResponseFactory;
-use Smile\DebugToolbar\Block\Zone\ProfilerFactory;
 use Smile\DebugToolbar\Block\Zone\Request;
 use Smile\DebugToolbar\Block\Zone\Response;
 use Smile\DebugToolbar\Block\Zone\Summary;
@@ -35,27 +38,36 @@ class AddZones implements ObserverInterface
 
     /**
      * AddZones constructor.
-     * @param CacheFactory    $cacheBlockFactory
-     * @param GenericFactory  $genericBlockFactory
-     * @param MysqlFactory    $mysqlBlockFactory
-     * @param ProfilerFactory $profilerBlockFactory
-     * @param RequestFactory  $requestBlockFactory
-     * @param ResponseFactory $responseBlockFactory
+     * @param CacheFactory      $cacheBlockFactory
+     * @param GenericFactory    $genericBlockFactory
+     * @param LayoutFactory     $layoutBlockFactory
+     * @param MysqlFactory      $mysqlBlockFactory
+     * @param ObserverFactory   $observerBlockFactory
+     * @param PreferenceFactory $preferenceBlockFactory
+     * @param ProfilerFactory   $profilerBlockFactory
+     * @param RequestFactory    $requestBlockFactory
+     * @param ResponseFactory   $responseBlockFactory
      */
     public function __construct(
-        CacheFactory    $cacheBlockFactory,
-        GenericFactory  $genericBlockFactory,
-        MysqlFactory    $mysqlBlockFactory,
-        ProfilerFactory $profilerBlockFactory,
-        RequestFactory  $requestBlockFactory,
-        ResponseFactory $responseBlockFactory
+        CacheFactory      $cacheBlockFactory,
+        GenericFactory    $genericBlockFactory,
+        LayoutFactory     $layoutBlockFactory,
+        MysqlFactory      $mysqlBlockFactory,
+        ObserverFactory   $observerBlockFactory,
+        PreferenceFactory $preferenceBlockFactory,
+        ProfilerFactory   $profilerBlockFactory,
+        RequestFactory    $requestBlockFactory,
+        ResponseFactory   $responseBlockFactory
     ) {
         $this->blockFactories[] = $genericBlockFactory;
         $this->blockFactories[] = $requestBlockFactory;
         $this->blockFactories[] = $responseBlockFactory;
+        $this->blockFactories[] = $layoutBlockFactory;
         $this->blockFactories[] = $mysqlBlockFactory;
         $this->blockFactories[] = $cacheBlockFactory;
         $this->blockFactories[] = $profilerBlockFactory;
+        $this->blockFactories[] = $observerBlockFactory;
+        $this->blockFactories[] = $preferenceBlockFactory;
     }
 
     /**

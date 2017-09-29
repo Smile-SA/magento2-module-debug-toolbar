@@ -8,6 +8,7 @@
 namespace Smile\DebugToolbar\Model\ResourceModel;
 
 use Magento\Framework\App\ResourceConnection;
+use Smile\DebugToolbar\DB\Profiler;
 
 /**
  * Main Debug Toolbar Resource Model
@@ -128,10 +129,10 @@ class Info
          /** @var \Magento\Framework\DB\Adapter\Pdo\Mysql $connection */
         $connection = $this->resourceConnection->getConnection();
 
-        /** @var \Smile\DebugToolbar\DB\Profiler $profiler */
+        /** @var Profiler $profiler */
         $profiler = $connection->getProfiler();
 
-        if (!($profiler instanceof \Smile\DebugToolbar\DB\Profiler)) {
+        if (!($profiler instanceof Profiler)) {
             throw new \Exception(
                 'DB Profiler is not set to \Smile\DebugToolbar\DB\Profiler. Please disable and enable the ToolBar'
             );

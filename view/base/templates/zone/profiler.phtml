@@ -6,10 +6,11 @@ $timers = $block->getTimers();
 ?>
 <table class="st-profiler">
     <colgroup>
-        <col style="width: 68%" />
-        <col style="width: 13%" />
-        <col style="width: 13%" />
+        <col style="width: 52%" />
+        <col style="width: 14%" />
+        <col style="width: 14%" />
         <col style="width:  6%" />
+        <col style="width: 14%" />
     </colgroup>
     <thead>
         <tr>
@@ -17,6 +18,7 @@ $timers = $block->getTimers();
             <th>Total</th>
             <th>AVG</th>
             <th>NB</th>
+            <th>Mem</th>
         </tr>
     </thead>
     <tbody>
@@ -27,9 +29,9 @@ $timers = $block->getTimers();
             style="<?php echo ($timer['parent'] ? 'display: none' : ''); ?>"
         >
             <td style="padding-left: <?php echo (10*$timer['level']); ?>px">
-<?php if ($timer['childs']>0): ?>
+<?php if ($timer['children']>0): ?>
                 <span
-                    class="st-expand st-with-childs"
+                    class="st-expand st-with-children"
                     id="<?php echo $block->getToolbarId(); ?>-pf-<?php echo $timer['uid']; ?>-span"
                     onclick="smileToolbarTreeGrid(this)"
                 >+</span>
@@ -46,6 +48,7 @@ $timers = $block->getTimers();
             </td>
             <td class="st-value-unit-s"><?php echo $block->displayHumanTime($timer['avg']); ?></td>
             <td class="st-value-number"><?php echo $timer['count']; ?></td>
+            <td class="st-value-unit-mo"><?php echo $block->displayHumanSizeMo($timer['mem']); ?></td>
         </tr>
 <?php endforeach; ?>
     </tbody>

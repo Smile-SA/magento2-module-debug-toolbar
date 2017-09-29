@@ -174,6 +174,18 @@ class Data extends AbstractHelper
         return number_format($value/1024., 3, '.', '').' Ko';
     }
 
+     /**
+     * Display Human Size in Mo
+     *
+     * @param int $value
+     *
+     * @return string
+     */
+    public function displayHumanSizeMo($value)
+    {
+        return number_format($value/(1024.*1024.), 3, '.', '').' Mo';
+    }
+
     /**
      * Display Human Time
      *
@@ -212,7 +224,7 @@ class Data extends AbstractHelper
      */
     public function displayHumanTimeMs($value)
     {
-        return number_format(10000*$value, 3, '.', '').' ms';
+        return number_format(1000*$value, 3, '.', '').' ms';
     }
 
     /**

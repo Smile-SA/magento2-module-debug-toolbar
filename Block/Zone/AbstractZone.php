@@ -304,6 +304,18 @@ abstract class AbstractZone extends MagentoTemplateBlock
     }
 
     /**
+     * Display a human size int in MO
+     *
+     * @param int $value
+     *
+     * @return string
+     */
+    public function displayHumanSizeMo($value)
+    {
+        return $this->helperData->displayHumanSizeMo($value);
+    }
+
+    /**
      * Display a human time int
      *
      * @param int $value
@@ -343,27 +355,33 @@ abstract class AbstractZone extends MagentoTemplateBlock
      * @param string $title
      * @param array  $values
      * @param array  $columns
-     * @param array  $additionnal
+     * @param string $additionnal
      *
      * @return string
      */
-    public function displayTable($title, &$values, $columns, $additionnal = [])
+    public function displayTable($title, &$values, $columns, $additionnal = null)
     {
         $html = '';
 
         $tableId = $this->helperData->getNewTableId();
+        $tableTitle       = str_replace('-', '_', $tableId).'_title';
         $tableValues      = str_replace('-', '_', $tableId).'_values';
         $tableColumns     = str_replace('-', '_', $tableId).'_columns';
         $tableAdditionnal = str_replace('-', '_', $tableId).'_additionnal';
 
         $html.= "<br />\n";
         $html.= '<script type="text/javascript">'."\n";
+        $html.= 'var '.$tableTitle.' = '.json_encode(strip_tags($title)).';'."\n";
         $html.= 'var '.$tableColumns.' = '.json_encode($columns).';'."\n";
         $html.= 'var '.$tableValues.' = '.json_encode($values).';'."\n";
         $html.= 'var '.$tableAdditionnal.' = '.json_encode($additionnal).';'."\n";
         $html.= "</script>\n";
-        $html.= '<a onclick="smileToolbarTableDisplay('.$tableValues.', '.$tableColumns.', '.$tableAdditionnal.');">';
-        $html.= $title.' ('.count($values).' rows)';
+        $html.= '<a onclick="smileToolbarTableDisplay('
+            .$tableTitle.', '
+            .$tableValues.', '
+            .$tableColumns.', '
+            .$tableAdditionnal.');">';
+        $html.= 'Show '.$title.' ('.count($values).' rows)';
         $html.= "</a>\n";
         $html.= "<br />\n";
         $html.= "<br />\n";

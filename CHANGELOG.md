@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.1] - 2017-10-09
+
+  * fix issue on layout zone - crash on the top menu
+
 ## [1.2.0] - 2017-09-29
 
   * add the "observer" zone

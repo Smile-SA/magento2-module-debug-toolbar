@@ -144,7 +144,6 @@ class Layout extends AbstractZone
         $html.= 'Type:         '.$row['type']."\n";
         $html.= 'ScopePrivate: '.($row['scope'] ? 'Yes' : 'No')."\n";
         $html.= 'Cacheable:    '.($row['cacheable'] ? 'Yes' : 'No')."\n";
-        $html.= 'Cache Key:    '.$row['cache_key']."\n";
         $html.= 'Class:        '.$row['classname']."\n";
         $html.= 'Template:     '.$row['template']."\n";
         $html.= '</pre>';

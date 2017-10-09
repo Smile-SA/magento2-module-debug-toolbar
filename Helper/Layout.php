@@ -68,7 +68,6 @@ class Layout extends AbstractHelper
                     'type'      => $type,
                     'cacheable' => $this->isBlockCacheable($childName),
                     'cache_ttl' => '',
-                    'cache_key' => '',
                     'scope'     => '',
                     'classname' => '',
                     'filename'  => '',
@@ -80,7 +79,6 @@ class Layout extends AbstractHelper
 
                 if (is_object($block)) {
                     $reflectionClass = new \ReflectionClass($block);
-                    $layout[$childName]['cache_key'] = $block->getCacheKey();
                     $layout[$childName]['scope']     = $block->isScopePrivate();
                     $layout[$childName]['classname'] = $this->cleanClassname(get_class($block));
                     $layout[$childName]['filename']  = $this->cleanFilename($reflectionClass->getFileName());

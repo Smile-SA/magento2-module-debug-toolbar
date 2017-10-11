@@ -31,6 +31,7 @@ class Observer extends AbstractHelper
      */
     public function initEventStat($eventName)
     {
+        $eventName = strtolower($eventName);
         if (!array_key_exists($eventName, $this->eventStats)) {
             $this->eventStats[$eventName] = [
                 'event_name'   => $eventName,
@@ -57,6 +58,7 @@ class Observer extends AbstractHelper
      */
     public function initObserverStat($eventName, $observerName, $observerInstance, $observerDisabled)
     {
+        $eventName = strtolower($eventName);
         if (!array_key_exists($observerName, $this->eventStats[$eventName]['observers'])) {
             $this->eventStats[$eventName]['observers'][$observerName] = [
                 'observer_name' => $observerName,
@@ -83,6 +85,7 @@ class Observer extends AbstractHelper
      */
     public function addEventStat($eventName, $deltaTime)
     {
+        $eventName = strtolower($eventName);
         $usage = $this->eventStats[$eventName];
 
         $usage['time_total']+= $deltaTime;
@@ -102,7 +105,7 @@ class Observer extends AbstractHelper
      */
     public function addObserverStat($eventName, $observerName, $deltaTime)
     {
-
+        $eventName = strtolower($eventName);
         $usage = $this->eventStats[$eventName]['observers'][$observerName];
 
         $usage['time_total']+= $deltaTime;

@@ -31,8 +31,8 @@ You have to enable the toolbar in the **Store Configuration** screen of the Back
 
 ## Magento versions compatibility
 
- * CE: 2.1.x
- * EE: 2.1.x
+ * CE: 2.2.x
+ * EE: 2.2.x
 
 ## Contact
 

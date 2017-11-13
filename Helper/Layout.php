@@ -10,8 +10,10 @@ namespace Smile\DebugToolbar\Helper;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\View\Element\AbstractBlock;
-use Magento\Framework\View\LayoutInterface as MagentoLayout;
 use Magento\Framework\View\Layout\Element;
+use Magento\Framework\View\LayoutInterface as MagentoLayoutInterface;
+use Magento\Framework\View\Layout          as MagentoLayout;
+use Smile\DebugToolbar\Layout\Builder;
 
 /**
  * Helper: Layout
@@ -22,22 +24,27 @@ use Magento\Framework\View\Layout\Element;
 class Layout extends AbstractHelper
 {
     /**
-     * @var MagentoLayout
+     * @var MagentoLayoutInterface
      */
     protected $layout;
 
     /**
-     * Layout constructor.
-     * @param Context $context
-     * @param MagentoLayout $layout
+     * Layout constructor
+     *
+     * @param Context                $context
+     * @param MagentoLayoutInterface $layout
+     * @param Builder                $builder
      */
     public function __construct(
-        Context       $context,
-        MagentoLayout $layout
+        Context                $context,
+        MagentoLayoutInterface $layout,
+        Builder                $builder
     ) {
         parent::__construct($context);
 
+        /** @var MagentoLayout $layout */
         $this->layout = $layout;
+        $this->layout->setBuilder($builder);
     }
 
     /**

@@ -13,7 +13,6 @@ use Smile\DebugToolbar\Helper\Data as HelperData;
 
 /**
  * Zone for Debug Toolbar Block
- * We do not use phtml template files because we do not want to duplicate the templates between FO and BO
  *
  * @author    Laurent MINGUET <lamin@smile.fr>
  * @copyright 2017 Smile

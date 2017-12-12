@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.1] - 2017-12-12
+[3.0.1]: https://git.smile.fr/magento2/module-debug-toolbar/compare/3.0.0...3.0.1
+
+  * fix minor issue on preference table
+
 ## [3.0.0] - 2017-11-13
 [3.0.0]: https://git.smile.fr/magento2/module-debug-toolbar/compare/1.2.2...3.0.0
 

@@ -94,6 +94,8 @@ class Preference extends AbstractZone
     {
         $html = "
 <table>
+    <col style='width: 80%' />
+    <col style='width: 20%' />
     <thead>
         <tr>
             <th>Method</th>

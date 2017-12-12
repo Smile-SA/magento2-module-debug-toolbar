@@ -20,7 +20,7 @@ You have to disable the native Magento profiler, by removing the `MAGE_PROFILER`
 
 Execute the following command on your main project folder to add the module:
 
-> composer require --dev smile/module-debug-toolbar --ignore-platform-reqs
+> composer require --dev smile/module-debug-toolbar
 
 Then, do a `setup upgrade` to install the module.
 

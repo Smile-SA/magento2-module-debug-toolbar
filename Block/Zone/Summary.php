@@ -10,8 +10,9 @@ namespace Smile\DebugToolbar\Block\Zone;
 /**
  * Summary Zone for Debug Toolbar Block
  *
- * @author    Laurent MINGUET <lamin@smile.fr>
- * @copyright 2017 Smile
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
 class Summary extends AbstractZone
 {
@@ -59,6 +60,10 @@ class Summary extends AbstractZone
      */
     public function addToSummary($sectionName, $key, $value)
     {
+        if (is_array($value) && array_key_exists('has_warning', $value) && $value['has_warning']) {
+            $this->hasWarning();
+        }
+
         $this->summary[$sectionName][$key] = $value;
     }
 }

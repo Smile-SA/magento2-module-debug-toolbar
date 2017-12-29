@@ -22,8 +22,9 @@ use Smile\DebugToolbar\Helper\Profiler as HelperProfiler;
 /**
  * Observer Add the Toolbar
  *
- * @author    Laurent MINGUET <lamin@smile.fr>
- * @copyright 2017 Smile
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
  * @SuppressWarnings("PMD.CouplingBetweenObjects")
  */
 class AddToolbar implements ObserverInterface
@@ -90,9 +91,13 @@ class AddToolbar implements ObserverInterface
             return;
         }
 
-        // we do not want that the toolbar has a impact on profile
-        //  => compute the stat in first
+        // we do not want that the toolbar has a impact on stats => stop the main timer
+        $this->helperData->stopTimer('app_http');
+
+        // we do not want that the toolbar has a impact on stats => compute the stat in first
+        $this->helperData->startTimer('profiler_build');
         $this->helperProfiler->computeStats();
+        $this->helperData->stopTimer('profiler_build');
 
         /** @var MagentoRequest $request */
         $request = $observer->getEvent()->getData('request');

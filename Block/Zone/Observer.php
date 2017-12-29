@@ -8,14 +8,16 @@
 namespace Smile\DebugToolbar\Block\Zone;
 
 use Magento\Framework\View\Element\Template\Context;
-use Smile\DebugToolbar\Helper\Data as HelperData;
+use Smile\DebugToolbar\Helper\Data     as HelperData;
+use Smile\DebugToolbar\Formatter\FormatterFactory;
 use Smile\DebugToolbar\Helper\Observer as HelperObserver;
 
 /**
  * Zone for Debug Toolbar Block
  *
- * @author    Laurent MINGUET <lamin@smile.fr>
- * @copyright 2017 Smile
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
 class Observer extends AbstractZone
 {
@@ -27,18 +29,20 @@ class Observer extends AbstractZone
     /**
      * Generic constructor.
      *
-     * @param Context        $context
-     * @param HelperData     $helperData
-     * @param HelperObserver $helperObserver
-     * @param array          $data
+     * @param Context          $context
+     * @param HelperData       $helperData
+     * @param FormatterFactory $formatterFactory
+     * @param HelperObserver   $helperObserver
+     * @param array            $data
      */
     public function __construct(
-        Context        $context,
-        HelperData     $helperData,
-        HelperObserver $helperObserver,
-        array          $data = []
+        Context          $context,
+        HelperData       $helperData,
+        FormatterFactory $formatterFactory,
+        HelperObserver   $helperObserver,
+        array            $data = []
     ) {
-        parent::__construct($context, $helperData, $data);
+        parent::__construct($context, $helperData, $formatterFactory, $data);
 
         $this->helperObserver  = $helperObserver;
     }
@@ -96,17 +100,23 @@ class Observer extends AbstractZone
     </thead>
     <tbody>";
         foreach ($observers as $observer) {
-            $total = $this->displayHumanTimeMs($observer['time_total']);
-            $mean = $this->displayHumanTimeMs($observer['time_mean']);
+            $row = [
+                'name'     => $this->formatValue($observer['observer_name'], [], 'text'),
+                'instance' => $this->formatValue($observer['instance'], [], 'text'),
+                'disabled' => $this->formatValue(($observer['disabled'] ? 'Yes' : 'No'), [], 'center'),
+                'nb_call'  => $this->formatValue($observer['nb_call'], [], 'number'),
+                'total'    => $this->formatValue($observer['time_total'], [], 'time_ms'),
+                'mean'     => $this->formatValue($observer['time_mean'], [], 'time_ms'),
+            ];
 
             $html.= "
         <tr>
-            <td>".$this->escapeHtml($observer['observer_name'])."</td>
-            <td>".$this->escapeHtml($observer['instance'])."</td>
-            <td class=\"st-value-center\"  style=\"width: 100px;\">".($observer['disabled'] ? 'Yes' : 'No')."</td>
-            <td class=\"st-value-number\"  style=\"width: 100px;\">".$this->escapeHtml($observer['nb_call'])."</td>
-            <td class=\"st-value-unit-ms\" style=\"width: 100px;\">".$total."</td>
-            <td class=\"st-value-unit-ms\" style=\"width: 100px;\">".$mean."</td>
+            <td class=\"".$row['name']['css_class']."\"     >".$row['name']['value']."</td>
+            <td class=\"".$row['instance']['css_class']."\" >".$row['instance']['value']."</td>
+            <td class=\"".$row['disabled']['css_class']."\" style=\"width: 100px;\">".$row['disabled']['value']."</td>
+            <td class=\"".$row['nb_call']['css_class']."\"  style=\"width: 100px;\">".$row['nb_call']['value']."</td>
+            <td class=\"".$row['total']['css_class']."\"    style=\"width: 120px;\">".$row['total']['value']."</td>
+            <td class=\"".$row['mean']['css_class']."\"     style=\"width: 120px;\">".$row['mean']['value']."</td>
         </tr>
             ";
         }

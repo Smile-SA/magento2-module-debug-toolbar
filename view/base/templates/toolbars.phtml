@@ -1,0 +1,33 @@
+<?php
+/**
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this module
+ * to newer versions in the future.
+ *
+ *
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
+ */
+
+/** @var \Magento\Framework\View\TemplateEngine\Php $this */
+/** @var \Smile\DebugToolbar\Block\Toolbars $block */
+
+$toolbars = $block->getToolbarList();
+foreach ($toolbars as $toolbarContent):
+    echo $toolbarContent."\n";
+endforeach;
+?>
+<div class="smile-toolbar" id="st-modal-display">
+    <div class="st-main" id="st-modal-main" onclick="event.stopPropagation();">
+        <div class="st-title">
+            <div class="st-close" id="st-modal-close"></div>
+            <h1 id="st-modal-title">My Modal Title</h1>
+        </div>
+        <div id="st-modal-content">My Modal Content</div>
+    </div>
+</div>
+<script type="text/javascript">
+    smileToolbarInit();
+</script>

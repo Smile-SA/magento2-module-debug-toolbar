@@ -1,3 +1,29 @@
+/**
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this module
+ * to newer versions in the future.
+ *
+ *
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
+ */
+
+:root {
+    --color-smile-orange:          #FF8054;
+    --color-smile-blue:            #3B72FF;
+    --color-toolbar-dark:          #3D414C;
+    --color-toolbar-dark-selected: #4D515C;
+    --color-toolbar-light:         #ADB3BF;
+    --color-toolbar-verylight:     #E8EAED;
+    --toolbar-shadow:              0 0 3px 0px #555;
+    --toolbar-font-size:           13px;
+    --size-height-header:          41px;
+    --size-height-title:           61px;
+    --background-disabled:         rgba(50, 50, 50, 0.5);
+}
+
 .smile-toolbar {
     display: none;
 }
@@ -9,11 +35,9 @@
 
 .smile-toolbar * {
     z-index: 99999;
-    background: #FFF;
-    color: #111;
     border: none;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 13px;
+    font-size: var(--toolbar-font-size);
     font-weight: normal;
     box-sizing: border-box;
 }
@@ -24,142 +48,180 @@
     width: 100%;
 }
 
-.smile-toolbar .st-main {
-    position: absolute;
-    right: 0;
+.smile-toolbar .st-close {
+    cursor: pointer;
+    text-align: center;
+    float: right;
+    height: var(--size-height-header);
+    line-height: var(--size-height-header);
+}
+
+.smile-toolbar .st-close:before {
+    content:     '\e616';
+    font-family: 'luma-icons';
+    font-weight: bold;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.smile-toolbar .st-close:hover {
+    color: #FFF;
+}
+
+.smile-toolbar .box-warning {
+    background-color: var(--color-smile-orange) !important;
+}
+
+.smile-toolbar .value-warning {
+    color: var(--color-smile-orange) !important;
+    font-weight: bold;
+}
+
+.smile-toolbar .st-logo {
+    position: fixed;
     top: 0;
-    border-left: solid 2px darkorange;
-    border-bottom: solid 2px darkorange;
-    border-bottom-left-radius: 10px;
-}
-
-.smile-toolbar .st-main .st-selector {
-    float: left;
-    border-bottom-left-radius: 10px;
-    font-weight: bold;
-    padding: 2px 6px;
-}
-
-.smile-toolbar .st-main .st-selector a {
-    font-weight: bold;
-}
-
-.smile-toolbar .st-main .st-logo {
-    float: left;
-    border-left: solid 1px darkorange;
-    color: darkorange;
-    font-weight: bold;
-    padding: 2px 6px;
+    right: 0;
     cursor: pointer;
+    font-weight: bold;
+    color: #FFF;
+    background-color: var(--color-smile-blue);
+    width: 150px;
+    height: var(--size-height-header);
+    line-height: var(--size-height-header);
+    text-align: center;
+    vertical-align: middle;
+    box-shadow: var(--toolbar-shadow);
 }
 
-.smile-toolbar .st-main .st-titles {
+.smile-toolbar .st-titles {
+    position: fixed;
+    left: 0;
+    top: 0;
+    border: none;
+    width: 100%;
+    padding-right: 150px;
+    text-align: center;
+
     display: none;
-    float: left;
+    background-color: var(--color-toolbar-dark);
+    color: var(--color-toolbar-verylight);
+    box-shadow: var(--toolbar-shadow);
 }
-
-.smile-toolbar .st-main .st-titles .st-title {
-    float: left;
-    border-left: solid 1px darkorange;
-    padding: 2px 6px;
+.smile-toolbar .st-titles span {
+    padding-left:  14px;
+    padding-right: 14px;
+    padding-top:    calc((var(--size-height-header) - var(--toolbar-font-size) - 1px) / 2);
+    padding-bottom: calc((var(--size-height-header) - var(--toolbar-font-size) - 1px) / 2 - 1px);
+    height: var(--size-height-header);
+    line-height:var(--size-height-header);
     cursor: pointer;
 }
 
-.smile-toolbar .st-main .st-titles .st-title::first-letter {
-    font-weight: bold;
+.smile-toolbar .st-titles span.st-selected {
+    background-color: var(--color-toolbar-dark-selected);
 }
 
 .smile-toolbar .st-zones {
-    position: absolute;
+    position: fixed;
     right: 0;
-    top: 30px;
-    background: transparent;
-}
-
-.smile-toolbar .st-zones .st-navigator {
-    float: right;
-    border: solid 2px darkorange;
-    border-radius: 10px;
-    margin: 0;
-    padding: 10px;
-    margin-right: 10px;
-}
-
-.smile-toolbar .st-zones .st-navigator th {
-    text-align: center;
-}
-
-.smile-toolbar .st-zones .st-navigator td {
-    cursor: pointer;
+    top: var(--size-height-header);
+    width: 100%;
+    height: 100vh;
+    background-color: var(--background-disabled);
 }
 
 .smile-toolbar .st-zones .st-zone {
     float: right;
     display: none;
-    border-top: solid 2px darkorange;
-    border-left: solid 2px darkorange;
-    border-bottom: solid 2px darkorange;
-    border-bottom-left-radius: 10px;
-    border-top-left-radius: 10px;
+    background: #FFF;
+    box-shadow: var(--toolbar-shadow);
+    width: 700px;
+}
+
+.smile-toolbar .st-zones .st-title,
+#st-modal-display #st-modal-main .st-title {
+    padding: 20px;
+    margin: 0;
+    background-color: var(--color-toolbar-verylight);
+    height: var(--size-height-title);
+}
+
+.smile-toolbar .st-zones h1,
+#st-modal-display #st-modal-main .st-title h1 {
+    color: var(--color-toolbar-dark);
+    font-weight: bold;
+    font-size: 150%;
+    padding: 0;
+    margin: 0;
+}
+
+.smile-toolbar .st-zones .st-table-links {
+    float: right;
+}
+
+.smile-toolbar .st-zones .st-table-links a {
+    text-transform: uppercase;
+    color: var(--color-smile-blue);
+    font-weight: bold;
 }
 
 .smile-toolbar .st-zones .st-content {
-    padding: 2px 6px;
-    text-align: center;
-    border-bottom-left-radius: 10px;
+    padding: 15px;
+    color: var(--color-toolbar-dark);
+    max-height: calc(95vh - var(--size-height-header) - var(--size-height-title));
+    overflow: auto;
 }
 
-.smile-toolbar .st-zones h1 {
-    padding: 2px 6px;
-    margin: 0;
-    font-weight: bold;
-    font-size: 120%;
-    color: orange;
-    border-top-left-radius: 10px;
-    text-align: right;
-}
-
-.smile-toolbar .st-zones h2 {
-    padding: 2px 6px;
-    margin: 0;
+.smile-toolbar h2 {
+    color: var(--color-toolbar-dark);
+    background-color: var(--color-toolbar-verylight);
     font-weight: bold;
     font-size: 110%;
-    color: orange;
-    text-align: right;
-    margin-top: 4px;
-    border-top: solid 1px darkorange;
+    padding: 10px;
+    margin: 0;
 }
 
-.smile-toolbar .st-zones table {
-    border: solid 1px;
+.smile-toolbar table {
+    border: none;
+    background: none;
+    margin-bottom: 10px;
+    width: 100%;
 }
 
-.smile-toolbar .st-zones th {
-    border: solid 1px grey;
-    text-align: right;
-    background: lightgrey;
-    padding: 2px 6px;
+.smile-toolbar th,
+.smile-toolbar td {
+    word-break: break-all;
+    margin: 0;
+    padding: 12px;
+}
+
+
+.smile-toolbar tr {
+    border-bottom: solid 1px var(--color-toolbar-light);
+}
+
+.smile-toolbar thead th,
+.smile-toolbar thead td {
     font-weight: bold;
-    word-break: break-all;
+    color: var(--color-toolbar-light);
+    text-transform: uppercase;
+    text-align: right;
 }
 
-.smile-toolbar .st-zones .st-content th {
-    width: 200px;
-}
-
-.smile-toolbar .st-zones td {
-    border: solid 1px grey;
+.smile-toolbar thead th {
     text-align: left;
-    background: white;
-    padding: 2px 6px;
-    word-break: break-all;
 }
 
-.smile-toolbar .st-zones .st-content td {
-    width: 400px;
+.smile-toolbar tbody > tr > th {
+    font-weight: bold;
+    width: 35%;
 }
 
-.smile-toolbar .st-zones pre.complex-value {
+.smile-toolbar tbody td {
+
+}
+
+.smile-toolbar pre.complex-value {
     font-size: 90%;
     border: solid 1px lightgrey;
     background-color: #EEE;
@@ -167,79 +229,188 @@
     margin: 0;
     padding: 0;
     overflow: auto;
-    width: 386px;
+    width: 450px;
 }
 
-.smile-toolbar .value-warning {
-    color: #d40707 !important;
-    background-color: yellow !important;
+.smile-toolbar tbody tr:hover {
+    background-color: var(--color-toolbar-verylight) !important;
 }
 
-.smile-toolbar #st-table-main {
-    width: 100%;
-    border: solid 2px darkorange;
-    border-radius: 0;
+.smile-toolbar table.st-profiler div.st-percent {
+    height: 3px;
+    border-radius: 2px;
+    margin: 0;
+    padding: 0;
+    background: var(--color-smile-orange);
 }
 
-.smile-toolbar #st-table-title {
-    border-bottom: solid 2px darkorange;
-    text-align: center;
-    padding: 1px 4px;
+.smile-toolbar table.st-profiler .st-with-children {
     font-weight: bold;
-}
-
-.smile-toolbar #st-table-close {
-    position: absolute;
-    right: 0;
-    top: 0;
-    cursor: pointer;
-    border-left: solid 2px darkorange;
-    padding: 1px 4px;
-}
-
-.smile-toolbar #st-table-content {
-    overflow: auto;
-    width: 100%;
-    height: 90vh;
-}
-
-.smile-toolbar .st-selected,
-.smile-toolbar .st-main .st-titles .st-title:hover,
-.smile-toolbar .st-main .st-logo:hover {
-    background-color: #FC8 !important;
-}
-
-.smile-toolbar table.st-profiler {
-    width: 610px;
 }
 
 .smile-toolbar table.st-profiler span.st-expand {
     float: left;
     margin: 0 2px 0 0;
     padding: 0;
-    border: solid 1px grey;
-    background: #FFBD69;
-    color: #000;
+    border: none;
+    color: var(--color-toolbar-dark-selected);
     font-weight: bold;
     text-align: center;
-    width: 15px;
+    width: 20px;
 }
 
-.smile-toolbar table.st-profiler span.st-with-children {
+.smile-toolbar table.st-profiler .st-with-children span.st-expand {
     cursor: pointer;
 }
 
-.smile-toolbar table.st-profiler div.st-percent {
-    height: 2px;
+.smile-toolbar .st-navigator {
+    float: right;
+    background: #FFF;
+    box-shadow: var(--toolbar-shadow);
+    width: 550px;
+    padding-bottom: 10px;
+}
+
+.smile-toolbar .st-navigator .st-title,
+#st-modal-display #st-modal-main .st-title {
+    background-color: var(--color-smile-blue);
+}
+
+.smile-toolbar .st-navigator .st-content {
+    padding-bottom: 0px;
+}
+
+.smile-toolbar .st-footer {
+    text-align: center;
+    color: var(--color-toolbar-light);
+}
+
+.smile-toolbar .st-navigator h1,
+#st-modal-display #st-modal-main .st-title h1 {
+    color: var(--color-toolbar-verylight);
+}
+
+.smile-toolbar .st-navigator tbody {
+    cursor: pointer;
+}
+
+.smile-toolbar .st-navigator td.st-selected {
+    background-color: var(--color-toolbar-verylight);
+    font-weight: bold;
+}
+
+#st-modal-display {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--background-disabled);
+    z-index: 99999;
+}
+
+#st-modal-display #st-modal-main {
+    width: 90vw;
+    height: 90vh;
+    margin: auto;
+    margin-top: 5vh;
+    border: none;
+    background: #FFF;
+    box-shadow: var(--toolbar-shadow);
+}
+#st-modal-display #st-modal-main .st-title {
+    text-align: center;
+    padding-right: 5px;
+}
+
+#st-modal-display #st-modal-main .st-close {
+    color: #FFF;
+    padding: 0;
+    margin: 0;
+    margin-top: -10px;
+}
+
+#st-modal-display #st-modal-content {
+    padding: 15px;
+    color: var(--color-toolbar-dark);
+    overflow: scroll;
+    width: 100%;
+    height: calc(100% - 61px);
+}
+
+#st-modal-display .smile-table {
+
+}
+
+#st-modal-display .smile-table thead th span {
+    cursor: pointer;
+    font-weight: normal;
+    background-color: transparent;
+}
+
+#st-modal-display .smile-table thead th span.selected {
+    cursor: default;
+    color: #111;
+}
+
+.smile-toolbar .hjs-code {
+}
+
+.smile-toolbar .hjs-code pre {
+    margin-bottom: 0 !important;
+    padding: 0 !important;
+}
+
+#st-modal-display .smile-sub-table {
     margin: 0;
     padding: 0;
-    background: #F00;
+    display: none;
 }
 
-.smile-toolbar tr:hover > th {
-    background-color: #CCC !important;
+#st-modal-display .smile-sub-table > td > div {
+    box-shadow: var(--toolbar-shadow);
+    background: #FFF;
+    margin: 5px;
+    padding: 5px;
 }
 
-.smile-toolbar tr:hover > td {
-    background-color: #EEE !important;
+
+#st-modal-display .smile-sub-table pre {
+    margin: 0;
+    padding: 0;
+}
+
+#st-modal-display .smile-has-sub-table {
+    cursor: pointer;
+}
+
+.st-sortable {
+    position: relative;
+    display: inline-block;
+    vertical-align: -50%;
+
+    padding: 0;
+    margin: 0;
+    margin-left: 5px;
+
+    width: var(--toolbar-font-size);
+    height: calc(var(--toolbar-font-size) * 2.2);
+}
+
+.st-sortable .st-sortable-asc {
+    position: absolute;
+    display: block;
+    left: 0;
+    top:  0;
+}
+
+.st-sortable .st-sortable-desc {
+    position: absolute;
+    display: block;
+    left:   0;
+    bottom: 0;
+}
+
+.smile-toolbar thead th {
+     white-space: nowrap;
 }

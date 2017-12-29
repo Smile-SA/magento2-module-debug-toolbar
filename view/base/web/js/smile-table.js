@@ -1,3 +1,15 @@
+/**
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this module
+ * to newer versions in the future.
+ *
+ *
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
+ */
+
 var smileTableValues        = [];
 var smileTableColumns       = [];
 var smileTableAdditional    = null;
@@ -22,7 +34,7 @@ function smileTableOpen(title, values, columns, additional, titleId, containerId
     smileTableAdditional = additional;
     smileTableContainer  = document.getElementById(containerId);
 
-    document.getElementById(titleId).innerHTML = smileTableProtectValue(title);
+    document.getElementById(titleId).innerHTML = title;
 
     smileTableSort(Object.keys(smileTableColumns)[0], 'asc');
 }
@@ -53,20 +65,16 @@ function smileTableSort(column, order)
    smileTableCurrentColumn = column;
    smileTableCurrentOrder = order;
 
-   var isDecimal = false;
-
-   if (smileTableColumns[column]['class'].substring(0, 13) === 'st-value-unit') {
-       isDecimal = true;
-   }
-   if (smileTableColumns[column]['class'] === 'st-value-number') {
-       isDecimal = true;
-   }
-
    smileTableValues.sort(
        function(rowA, rowB)
        {
-           var a = rowA[smileTableCurrentColumn];
-           var b = rowB[smileTableCurrentColumn];
+           var a = rowA[smileTableCurrentColumn]['value'];
+           var b = rowB[smileTableCurrentColumn]['value'];
+
+           var isDecimal = (rowA[smileTableCurrentColumn]['css_class'].substring(0, 15) === 'st-value-number'
+               || rowA[smileTableCurrentColumn]['css_class'].substring(0, 13) === 'st-value-time'
+               || rowA[smileTableCurrentColumn]['css_class'].substring(0, 13) === 'st-value-size'
+           );
 
            if (isDecimal) {
                 a = parseFloat(a);
@@ -95,7 +103,6 @@ function smileTableDisplay()
 {
     var html = '';
     var columnKey;
-    var column;
     var valuesKey;
     var values;
     var nbColumns = 0;
@@ -107,19 +114,29 @@ function smileTableDisplay()
     html+= '<tr>';
     for (columnKey in smileTableColumns) {
         nbColumns++;
-        column = smileTableColumns[columnKey];
-        html+= '<th class="'+column['class']+'">';
+
+        var column = smileTableColumns[columnKey];
+        var columnLabel = column['label'];
+        var columnWidth = column['width'];
+
+        html+= '<th';
+        if (columnWidth) {
+            html+= ' style="width: '+columnWidth+';"'
+        }
+        html+= '>';
+        html+= columnLabel;
+        html+= '<span class="st-sortable">';
         if (smileTableCurrentColumn === columnKey && smileTableCurrentOrder === 'asc') {
-            html+= '<span class="selected">&#x25B2;</span>';
+            html+= '<span class="st-sortable-asc selected">&#x25B2;</span>';
         } else {
-            html+= '<span onclick="smileTableSort(\''+columnKey+'\', \'asc\');">&#x25B2;</span>';
+            html+= '<span class="st-sortable-asc" onclick="smileTableSort(\''+columnKey+'\', \'asc\');">&#x25B2;</span>';
         }
         if (smileTableCurrentColumn === columnKey && smileTableCurrentOrder === 'desc') {
-            html += '<span class="selected">&#x25BC;</span>'
+            html += '<span class="st-sortable-desc selected">&#x25BC;</span>'
         } else {
-            html += '<span onclick="smileTableSort(\'' + columnKey + '\', \'desc\');">&#x25BC;</span>';
+            html += '<span class="st-sortable-desc" onclick="smileTableSort(\'' + columnKey + '\', \'desc\');">&#x25BC;</span>';
         }
-        html+= column['title'];
+        html+= '</span>';
         html+= '</th>';
     }
     html+= '</tr>';
@@ -134,32 +151,17 @@ function smileTableDisplay()
         html+= '>';
         values = smileTableValues[valuesKey];
         for (columnKey in smileTableColumns) {
-            column = smileTableColumns[columnKey];
-
-            var hjsType = null;
-            var cssClass = column['class'];
-            if (cssClass.substring(0, 9) === 'hjs-code-') {
-                hjsType = column['class'].substring(9);
-                cssClass = 'hjs-code';
+            if (values[columnKey]['css_class'].substring(0, 9) === 'hjs-code') {
                 needHjs = true;
             }
 
-            html+= '<td class="'+cssClass+'"';
-            html+= '>';
-            if (hjsType) {
-                html+= '<pre><code class="'+hjsType+'">';
-            }
-            html+= smileTableProtectValue(values[columnKey]);
-            if (hjsType) {
-                html+= '</code></pre>';
-            }
-            html+= '</td>';
+            html+= '<td class="'+values[columnKey]['css_class']+'">' + values[columnKey]['value'] + '</td>';
         }
         html+= '</tr>';
 
         if (smileTableAdditional) {
             html+= '<tr class="smile-sub-table" id="smile-table-row-'+valuesKey+'">';
-            html+= '<td colspan="'+nbColumns+'" >'+values[smileTableAdditional]+'</td>';
+            html+= '<td colspan="'+nbColumns+'" ><div>'+values[smileTableAdditional]+'</div></td>';
             html+= '</tr>';
         }
     }
@@ -170,21 +172,12 @@ function smileTableDisplay()
     smileTableContainer.innerHTML = html;
 
     if (needHjs) {
-        setTimeout('smileTableHighlight();', 100);
+        setTimeout('smileToolbarHighlight();', 100);
     }
 }
 
 /**
- * HighLight the codes
- */
-function smileTableHighlight()
-{
-    var blocks = document.querySelectorAll('pre code');
-    [].forEach.call(blocks, hljs.highlightBlock);
-}
-
-/**
- * toogle a table row
+ * toggle a table row
  *
  * @param rowKey
  */
@@ -193,17 +186,4 @@ function smileTableToggleRow(rowKey)
     var obj = document.getElementById(rowKey);
 
     obj.style.display = ((obj.style.display === 'table-row') ? 'none' : 'table-row');
-}
-
-/**
- * Protect a value
- *
- * @param value
- *
- * @returns string
- */
-function smileTableProtectValue(value)
-{
-    value = ''+value;
-    return value.replace('<', '&lt;');
 }

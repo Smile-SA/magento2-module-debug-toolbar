@@ -1,3 +1,14 @@
+/**
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this module
+ * to newer versions in the future.
+ *
+ *
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
+ */
 
 var smileToolbarList    = [];
 var smileToolbarCount   = 0;
@@ -27,6 +38,7 @@ function smileToolbarAdd(toolbarIdentifier, hasWarning)
 function smileToolbarInit()
 {
     smileToolbarSelect(smileToolbarCount);
+    setTimeout('smileToolbarHighlight();', 500);
 }
 
 /**
@@ -63,7 +75,6 @@ function smileToolbarSelect(toolbarId)
 
     smileToolbarCurrent = toolbarId;
     document.getElementById(smileToolbarList[smileToolbarCurrent].id+'-toolbar').style.display = 'block';
-    document.getElementById(smileToolbarList[smileToolbarCurrent].id+'-name').innerHTML = smileToolbarCurrent + '/' + smileToolbarCount;
 
     smileToolbarMainInit();
     smileToolbarZoneDisplay();
@@ -99,19 +110,50 @@ function smileToolbarZoneSelect(zoneId)
  */
 function smileToolbarTableDisplay(title, values, columns, additional)
 {
-    document.getElementById('st-table-display').style.display = 'block';
+    smileToolbarModalShow();
 
-    smileTableOpen(title, values, columns, additional, 'st-table-title', 'st-table-content');
+    document.getElementById('st-modal-display').onclick = smileToolbarTableHide;
+    document.getElementById('st-modal-close').onclick   = smileToolbarTableHide;
+
+    smileTableOpen(title, values, columns, additional, 'st-modal-title', 'st-modal-content');
 }
 
 /**
- * Hide a table
+ * Hide the Table
  */
 function smileToolbarTableHide()
 {
-    document.getElementById('st-table-display').style.display = 'none';
+    smileToolbarModalHide();
 
     smileTableClose();
+}
+
+/**
+ * Show the Modal
+ */
+function smileToolbarModalShow()
+{
+    document.getElementById('st-modal-display').style.display = 'block';
+
+    document.getElementById('st-modal-display').onclick = smileToolbarModalHide;
+    document.getElementById('st-modal-close').onclick   = smileToolbarModalHide;
+
+    document.getElementById('st-modal-title').innerHTML   = "My Modal Title";
+    document.getElementById('st-modal-content').innerHTML = "My Modal Content";
+}
+
+/**
+ * Hide the modal
+ */
+function smileToolbarModalHide()
+{
+    document.getElementById('st-modal-display').style.display = 'none';
+
+    document.getElementById('st-modal-display').onclick = smileToolbarModalHide;
+    document.getElementById('st-modal-close').onclick   = smileToolbarModalHide;
+
+    document.getElementById('st-modal-title').innerHTML   = "My Modal Title";
+    document.getElementById('st-modal-content').innerHTML = "My Modal Content";
 }
 
 /**
@@ -153,10 +195,16 @@ function smileToolbarNavigatorDisplay()
 {
     var html = '';
 
+    html+= '<div class="st-title">';
     html+= '<h1>Last '+smileToolbarCount+' executions</h1>';
-
+    html+= '</div>';
+    html+= '<div class="st-content">';
     html+= "<table>\n";
-    html+= "<tr><th>Date</th><th>Area</th><th>Action</th></tr>\n";
+    html+= '<col style="width: 150px" />';
+    html+= '<col style="width: 100px" />';
+    html+= '<col />';
+    html+= "<thead><tr><th>Date</th><th>Area</th><th>Action</th></tr></thead>\n";
+    html+= '<tbody>';
 
     for (var k=smileToolbarCount; k>0; k--) {
         var value = smileToolbarList[k].id.split('-');
@@ -175,7 +223,9 @@ function smileToolbarNavigatorDisplay()
         html+= '<td class="'+htmlClass+'">'+value[5]+'</td>';
         html+= "</tr>\n";
     }
+    html+= '</tbody>';
     html+= '</table>';
+    html+= '</div>';
 
     document.getElementById(smileToolbarList[smileToolbarCurrent].id+'-navigator').innerHTML = html;
 }
@@ -208,4 +258,13 @@ function smileToolbarTreeGrid(node, forceClose)
     }
 
     return true;
+}
+
+/**
+ * HighLight the codes
+ */
+function smileToolbarHighlight()
+{
+    var blocks = document.querySelectorAll('pre code');
+    [].forEach.call(blocks, hljs.highlightBlock);
 }

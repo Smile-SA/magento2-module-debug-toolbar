@@ -15,8 +15,9 @@ use Magento\Framework\DataObject;
 /**
  * Helper: Cache
  *
- * @package   Smile\DebugToolbar\Helper
- * @copyright 2017 Smile
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
 class Cache extends AbstractHelper
 {
@@ -163,17 +164,12 @@ class Cache extends AbstractHelper
 
             foreach ($items as $item) {
                 $status  = ($item->getData('status') ? 'Enabled' : 'Disabled');
-                $warning = !$item->getData('status');
 
                 if (array_key_exists($item->getData('id'), $invalidated)) {
                     $status = 'Invalidated';
-                    $warning = true;
                 }
 
-                $this->cacheTypes[$item->getData('cache_type')] = [
-                    'value'   => $status,
-                    'warning' => $warning,
-                ];
+                $this->cacheTypes[$item->getData('cache_type')] = $status;
             }
         }
 

@@ -1,31 +1,61 @@
-td.st-value-unit-h,
-td.st-value-unit-m,
-td.st-value-unit-s,
-td.st-value-unit-ms {
+/**
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this module
+ * to newer versions in the future.
+ *
+ *
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
+ */
+
+.st-value-time-h,
+.st-value-time-m,
+.st-value-time-s,
+.st-value-time-ms {
     text-align: right !important;
     white-space: nowrap;
 }
 
-td.st-value-unit-o,
-td.st-value-unit-ko,
-td.st-value-unit-mo,
-td.st-value-unit-go {
+.st-value-time-h:after  { content: ' h'; }
+.st-value-time-m:after  { content: ' m'; }
+.st-value-time-s:after  { content: ' s'; }
+.st-value-time-ms:after { content: ' ms'; }
+
+.st-value-size-o,
+.st-value-size-ko,
+.st-value-size-mo,
+.st-value-size-go {
     text-align: right !important;
     white-space: nowrap;
 }
 
-td.st-value-number {
+.st-value-size-o:after  { content: ' o'; }
+.st-value-size-ko:after { content: ' Ko'; }
+.st-value-size-mo:after { content: ' Mo'; }
+.st-value-size-go:after { content: ' Go'; }
+
+.st-value-number {
     text-align: right !important;
     white-space: nowrap;
 }
 
-td.st-value-date,
-td.st-value-time,
-td.st-value-datetime {
+.st-value-date,
+.st-value-hour,
+.st-value-datetime {
     text-align: center !important;
     white-space: nowrap;
 }
 
-td.st-value-center {
+.st-value-center {
     text-align: center !important;
+}
+
+.st-value-text {
+    text-align: left !important;
+}
+
+.st-value-nowrap {
+    white-space: nowrap;
 }

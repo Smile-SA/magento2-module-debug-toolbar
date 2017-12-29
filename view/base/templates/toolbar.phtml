@@ -1,0 +1,78 @@
+<?php
+/**
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this module
+ * to newer versions in the future.
+ *
+ *
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
+ */
+
+/** @var \Magento\Framework\View\TemplateEngine\Php $this */
+/** @var \Smile\DebugToolbar\Block\Toolbar $block */
+
+$zones = $block->getZones();
+
+$toolbarId = $block->getToolbarId();
+?>
+<div class="smile-toolbar" id="<?php echo $toolbarId; ?>-toolbar">
+    <div
+        class="st-zones"
+        id="<?php echo $toolbarId; ?>-zones"
+        onclick="smileToolbarMainToggle();"
+    >
+<?php foreach ($zones as $zone): ?>
+<?php   $zoneHtml = $zone->toHtml(); ?>
+        <div
+            id="<?php echo $toolbarId; ?>-zone-<?php echo $zone->getCode(); ?>"
+            class="st-zone"
+            onclick="event.stopPropagation();"
+        >
+            <div class="st-title">
+                <div class="st-table-links">
+<?php   foreach ($zone->getTablesToDisplay() as $key => $table): ?>
+                    <?php echo ($key>0 ? '|' : ''); ?>
+                    <a onclick="<?php echo $table['onclick']; ?>"><?php echo $table['label']; ?></a>
+<?php   endforeach; ?>
+                </div>
+                <h1><?php echo $zone->getTitle(); ?></h1>
+            </div>
+            <div class="st-content">
+                <?php echo $zoneHtml; ?>
+            </div>
+        </div>
+<?php endforeach; ?>
+        <div
+            class="st-navigator"
+            onclick="event.stopPropagation();"
+            id="<?php echo $toolbarId; ?>-navigator"
+        >
+            Smile Toolbar Navigator - Loading
+        </div>
+    </div>
+    <div class="st-titles" id="<?php echo $toolbarId; ?>-titles">
+        <div
+            id="<?php echo $toolbarId; ?>-close"
+            class="st-close"
+            onclick="smileToolbarMainToggle();"
+        ></div>
+<?php foreach ($zones as $zone): ?>
+        <span
+                id="<?php echo $toolbarId; ?>-title-<?php echo $zone->getCode(); ?>"
+                class="<?php echo ($zone->isWarning() ? 'value-warning' : ''); ?>"
+                onclick="smileToolbarZoneSelect('<?php echo $zone->getCode(); ?>');"
+        >
+            <?php echo $zone->getTitle(); ?>
+        </span>
+<?php endforeach; ?>
+    </div>
+    <div class="st-logo <?php echo ($block->isWarning() ? 'box-warning' : ''); ?>" onclick="smileToolbarMainToggle();">
+        Smile ToolBar
+    </div>
+</div>
+<script type="text/javascript">
+    smileToolbarAdd('<?php echo $toolbarId; ?>', <?php echo ($block->isWarning() ? 'true' : 'false'); ?>);
+</script>

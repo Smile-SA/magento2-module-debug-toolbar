@@ -15,8 +15,9 @@ use Smile\DebugToolbar\Helper\Config as HelperConfig;
 /**
  * Plugin on App
  *
- * @author    Laurent MINGUET <lamin@smile.fr>
- * @copyright 2017 Smile
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
 class AbstractAction
 {

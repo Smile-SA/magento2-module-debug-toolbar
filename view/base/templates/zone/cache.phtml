@@ -1,15 +1,28 @@
 <?php
+/**
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this module
+ * to newer versions in the future.
+ *
+ *
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
+ */
+
 /** @var \Magento\Framework\View\TemplateEngine\Php $this */
 /** @var \Smile\DebugToolbar\Block\Zone\Cache $block */
 
-$statSections = $block->getStatsPerAction();
 $list = $block->getCacheUsage();
 
 foreach ($list as $key => $row) {
-    $row['size_total'] = $block->displayHumanSizeKo($row['size_total']);
-    $row['size_mean']  = $block->displayHumanSizeKo($row['size_mean']);
-    $row['time_total'] = $block->displayHumanTimeMs($row['time_total']);
-    $row['time_mean']  = $block->displayHumanTimeMs($row['time_mean']);
+    $row['identifier'] = $block->formatValue($row['identifier'], [], 'text');
+    $row['nb_call']    = $block->formatValue($row['nb_call'], [], 'number');
+    $row['size_total'] = $block->formatValue($row['size_total'], [], 'size_ko');
+    $row['size_mean']  = $block->formatValue($row['size_mean'], ['gt' => 128*1024], 'size_ko');
+    $row['time_total'] = $block->formatValue($row['time_total'], [], 'time_ms');
+    $row['time_mean']  = $block->formatValue($row['time_mean'], ['gt' => 0.01], 'time_ms');
     $row['html_info']  = $block->buildHtmlInfo($row['calls']);
     $list[$key] = $row;
 }
@@ -18,63 +31,55 @@ echo $block->displayTable(
     'Cache Usage',
     $list,
     [
-        'identifier' => [
-            'title' => 'identifier',
-            'class' => '',
-        ],
-        'nb_call'    => [
-            'title' => 'Nb Call',
-            'class' => 'st-value-number',
-        ],
-        'size_total' => [
-            'title' => 'Size Total',
-            'class' => 'st-value-unit-ko',
-        ],
-        'size_mean'  => [
-            'title' => 'Size Mean',
-            'class' => 'st-value-unit-ko',
-        ],
-        'time_total' => [
-            'title' => 'Time Total',
-            'class' => 'st-value-unit-ms',
-        ],
-        'time_mean'  => [
-            'title' => 'Time Mean',
-            'class' => 'st-value-unit-ms',
-        ],
+        'identifier' => ['label' => 'Identifier',   'width' => ''],
+        'nb_call'    => ['label' => 'Nb Call',      'width' => '100px'],
+        'size_total' => ['label' => 'Size Total',   'width' => '120px'],
+        'size_mean'  => ['label' => 'Size Mean',    'width' => '120px'],
+        'time_total' => ['label' => 'Time Total',   'width' => '120px'],
+        'time_mean'  => ['label' => 'Time Mean',    'width' => '120px'],
     ],
     'html_info'
 );
 
-$sections = [
-    'Types'  => $block->getCacheTypes(),
-    'Config' => [
-        'Mode'   => [
-            'value'   => $block->getCacheMode(),
-            'warning' => ($block->getCacheMode() !== 'Cm_Cache_Backend_Redis')
-        ],
-        'Config' => $block->getCacheInfo(),
-    ],
+$sections = $block->getStatsPerAction();
+
+$sections['Number'] = [
+    'total'  => $block->formatValue($sections['Number']['total'], ['gt' => 150], 'number'),
+    'load'   => $block->formatValue($sections['Number']['load'], ['gt' => 100], 'number'),
+    'save'   => $block->formatValue($sections['Number']['save'], ['gt' => 100], 'number'),
+    'remove' => $block->formatValue($sections['Number']['remove'], ['gt' => 50], 'number'),
 ];
 
-$sections = array_merge($statSections, $sections);
-
 $sections['Size'] = [
-    'total'  => $block->displayHumanSize($sections['Size']['total']),
-    'load'   => $block->displayHumanSize($sections['Size']['load']),
-    'save'   => $block->displayHumanSize($sections['Size']['save']),
-    'remove' => $block->displayHumanSize($sections['Size']['remove']),
+    'total'  => $block->formatValue($sections['Size']['total'], ['gt' => 1024*1024], 'size'),
+    'load'   => $block->formatValue($sections['Size']['load'], ['gt' => 1024*1024], 'size'),
+    'save'   => $block->formatValue($sections['Size']['save'], ['gt' => 1024*1024], 'size'),
+    'remove' => $block->formatValue($sections['Size']['remove'], ['gt' => 1024*1024], 'size'),
 ];
 
 $sections['Time'] = [
-    'total'  => $block->displayHumanTime($sections['Time']['total']),
-    'load'   => $block->displayHumanTime($sections['Time']['load']),
-    'save'   => $block->displayHumanTime($sections['Time']['save']),
-    'remove' => $block->displayHumanTime($sections['Time']['remove']),
+    'total'  => $block->formatValue($sections['Time']['total'], ['gt' => 0.5], 'time'),
+    'load'   => $block->formatValue($sections['Time']['load'], ['gt' => 0.5], 'time'),
+    'save'   => $block->formatValue($sections['Time']['save'], ['gt' => 0.5], 'time'),
+    'remove' => $block->formatValue($sections['Time']['remove'], ['gt' => 0.5], 'time'),
 ];
 
 $block->addToSummary('Cache', 'Number', $sections['Number']['total']);
 $block->addToSummary('Cache', 'Time', $sections['Time']['total']);
 $block->addToSummary('Cache', 'Size', $sections['Size']['total']);
+
+echo $block->displaySectionsGrouped($sections);
+
+$sections = [
+    'Types'  => $block->getCacheTypes(),
+    'Config' => [
+        'Mode'   => $block->formatValue($block->getCacheMode(), ['neq' => 'Cm_Cache_Backend_Redis'], 'text'),
+        'Config' => $block->getCacheInfo(),
+    ],
+];
+
+foreach ($sections['Types'] as $type => $value) {
+    $sections['Types'][$type] = $block->formatValue($value, ['neq' => 'Enabled'], 'text');
+}
 
 echo $block->displaySections($sections);

@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.1.0] - 2017-12-28
+[3.1.0]: https://git.smile.fr/magento2/module-debug-toolbar/compare/3.0.1...3.1.0
+
+  * implement new design
+  * lots of minor fixes
+  * better PHPDoc
+  * update all the copyright date
+  * add doc
+
 ## [3.0.1] - 2017-12-12
 [3.0.1]: https://git.smile.fr/magento2/module-debug-toolbar/compare/3.0.0...3.0.1
 
@@ -13,7 +22,6 @@ All notable changes to this project will be documented in this file.
 WARNING: Break compatibility with Magento 2.1
 
   * The module is now compatible only with Magento 2.2 version
-  * Unify the version of all the Smile modules - 3.x.x = Magento 2.2
   * Fix issue on message display conflict with the layout debug zone
 
 ## [1.2.2] - 2017-10-10

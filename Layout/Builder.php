@@ -11,10 +11,11 @@ use Magento\Framework\View\Layout\BuilderInterface;
 use Magento\Framework\View\LayoutInterface;
 
 /**
- * Mock of Layout Buildern to avoid layout rebuild
+ * Mock of Layout Builder to avoid layout rebuild
  *
- * @author    Laurent MINGUET <lamin@smile.fr>
- * @copyright 2017 Smile
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
 class Builder implements BuilderInterface
 {

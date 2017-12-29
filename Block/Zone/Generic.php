@@ -11,13 +11,15 @@ use Magento\Framework\App\State as AppState;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\App\DeploymentConfig;
-use Smile\DebugToolbar\Helper\Data as HelperData;
+use Smile\DebugToolbar\Helper\Data  as HelperData;
+use Smile\DebugToolbar\Formatter\FormatterFactory;
 
 /**
  * Zone for Debug Toolbar Block
  *
- * @author    Laurent MINGUET <lamin@smile.fr>
- * @copyright 2017 Smile
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
 class Generic extends AbstractZone
 {
@@ -40,7 +42,8 @@ class Generic extends AbstractZone
      * Generic constructor.
      *
      * @param Context                  $context
-     * @param HelperData               $helper
+     * @param HelperData               $helperData
+     * @param FormatterFactory         $formatterFactory
      * @param ProductMetadataInterface $productMetadata
      * @param AppState                 $appState
      * @param DeploymentConfig         $deployConfig
@@ -48,13 +51,14 @@ class Generic extends AbstractZone
      */
     public function __construct(
         Context                  $context,
-        HelperData               $helper,
+        HelperData               $helperData,
+        FormatterFactory         $formatterFactory,
         ProductMetadataInterface $productMetadata,
         AppState                 $appState,
         DeploymentConfig         $deployConfig,
         array                    $data = []
     ) {
-        parent::__construct($context, $helper, $data);
+        parent::__construct($context, $helperData, $formatterFactory, $data);
 
         $this->productMetadata = $productMetadata;
         $this->appState        = $appState;

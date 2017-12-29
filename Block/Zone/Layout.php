@@ -8,14 +8,16 @@
 namespace Smile\DebugToolbar\Block\Zone;
 
 use Magento\Framework\View\Element\Template\Context;
-use Smile\DebugToolbar\Helper\Data as HelperData;
+use Smile\DebugToolbar\Helper\Data   as HelperData;
+use Smile\DebugToolbar\Formatter\FormatterFactory;
 use Smile\DebugToolbar\Helper\Layout as HelperLayout;
 
 /**
  * Zone for Debug Toolbar Block
  *
- * @author    Laurent MINGUET <lamin@smile.fr>
- * @copyright 2017 Smile
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
 class Layout extends AbstractZone
 {
@@ -27,18 +29,20 @@ class Layout extends AbstractZone
     /**
      * Generic constructor.
      *
-     * @param Context      $context
-     * @param HelperData   $helperData
-     * @param HelperLayout $helperLayout
-     * @param array        $data
+     * @param Context          $context
+     * @param HelperData       $helperData
+     * @param FormatterFactory $formatterFactory
+     * @param HelperLayout     $helperLayout
+     * @param array            $data
      */
     public function __construct(
-        Context      $context,
-        HelperData   $helperData,
-        HelperLayout $helperLayout,
-        array        $data = []
+        Context          $context,
+        HelperData       $helperData,
+        FormatterFactory $formatterFactory,
+        HelperLayout     $helperLayout,
+        array            $data = []
     ) {
-        parent::__construct($context, $helperData, $data);
+        parent::__construct($context, $helperData, $formatterFactory, $data);
 
         $this->helperLayout = $helperLayout;
     }
@@ -127,7 +131,7 @@ class Layout extends AbstractZone
         $span = '<span class="st-expand">&nbsp;</span>';
         if ($row['nb_child']>0) {
             $span = '<span ';
-            $span.= ' class="st-expand st-with-children"';
+            $span.= ' class="st-expand"';
             $span.= ' id="'.$prefix.$row['name'].'-span"';
             $span.= ' onclick="smileToolbarTreeGrid(this)"';
             $span.= '>+</span>';
@@ -138,9 +142,10 @@ class Layout extends AbstractZone
         $html.= ' class="'.($row['parent'] ? $prefix.$row['parent'] : '').'"';
         $html.= ' style="'.($row['parent'] ? 'display: none': '').'"';
         $html.= '>';
-        $html.= '<td style="padding-left: '.(10*$level).'px">'.$span.$row['name'].'</td>';
+        $html.= '<td style="padding-left: '.(10*$level).'px" ';
+        $html.= 'class="'.(($row['nb_child']>0) ? 'st-with-children' : '').'">'.$span.$row['name'].'</td>';
         $html.= '<td>';
-        $html.= '<pre class="complex-value" style="width: 350px;">';
+        $html.= '<pre class="complex-value" style="width: 370px;">';
         $html.= 'Type:         '.$row['type']."\n";
         $html.= 'ScopePrivate: '.($row['scope'] ? 'Yes' : 'No')."\n";
         $html.= 'Cacheable:    '.($row['cacheable'] ? 'Yes' : 'No')."\n";

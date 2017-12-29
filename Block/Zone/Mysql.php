@@ -8,14 +8,16 @@
 namespace Smile\DebugToolbar\Block\Zone;
 
 use Magento\Framework\View\Element\Template\Context;
-use Smile\DebugToolbar\Helper\Data as HelperData;
+use Smile\DebugToolbar\Helper\Data  as HelperData;
+use Smile\DebugToolbar\Formatter\FormatterFactory;
 use Smile\DebugToolbar\Model\ResourceModel\Info as ResourceModel;
 
 /**
  * Zone for Debug Toolbar Block
  *
- * @author    Laurent MINGUET <lamin@smile.fr>
- * @copyright 2017 Smile
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
 class Mysql extends AbstractZone
 {
@@ -28,18 +30,20 @@ class Mysql extends AbstractZone
     /**
      * Mysql constructor.
      *
-     * @param Context       $context
-     * @param HelperData    $helper
-     * @param ResourceModel $resourceModel
-     * @param array         $data
+     * @param Context          $context
+     * @param HelperData       $helperData
+     * @param FormatterFactory $formatterFactory
+     * @param ResourceModel    $resourceModel
+     * @param array            $data
      */
     public function __construct(
-        Context       $context,
-        HelperData    $helper,
-        ResourceModel $resourceModel,
-        array         $data = []
+        Context          $context,
+        HelperData       $helperData,
+        FormatterFactory $formatterFactory,
+        ResourceModel    $resourceModel,
+        array            $data = []
     ) {
-        parent::__construct($context, $helper, $data);
+        parent::__construct($context, $helperData, $formatterFactory, $data);
 
         $this->resourceModel = $resourceModel;
     }
@@ -117,22 +121,44 @@ class Mysql extends AbstractZone
         $html = '';
 
         if (count($params)>0) {
+            $html.= "<h2>Query Parameters</h2>";
             $html.= "<table>";
-            $html.= "<tr><th colspan=\"2\">Query Parameters</th></tr>";
+            $html.= "<col style='width: 100px'/>";
+            $html.= "<col style=''/>";
+            $html.= "<thead><tr><th>Id</th><th>Value</th></tr></thead>";
+            $html.= "<tbody>";
             foreach ($params as $key => $value) {
                 $html.= "<tr>";
                 $html.= "<th style=\"width: 30%\">".$this->escapeHtml($key)."</th>";
                 $html.= "<td>".$this->escapeHtml($value)."</td>";
                 $html.= "</tr>";
             }
+            $html.= "</tbody>";
             $html.= "</table>";
             $html.= "<br />";
         }
 
+        $html.= "<h2>PHP Trace</h2>";
         $html.= "<table>";
-        $html.= "<tr><th>PHP Trace</th></tr>";
+        $html.= "<col style='width: 45%'/>";
+        $html.= "<col style='width: 80px'/>";
+        $html.= "<col style='width: 45%'/>";
+        $html.= "<thead><tr><th>File</th><th>Line</th><th>Code</th></tr></thead>";
+        $html.= "<tbody>";
         foreach ($trace as $row) {
-            $html.= "<tr><td>".$this->escapeHtml($row)."</td></tr>";
+            $file = $row;
+            $line = null;
+            $code = null;
+            if (preg_match('/^([^\(]+)\(([0-9]+)\): (.*)$/', $row, $match)) {
+                $file = $match[1];
+                $line = $match[2];
+                $code = $match[3];
+            }
+            $html.= "<tr>";
+            $html.= "<td>".$this->escapeHtml($file)."</td>";
+            $html.= "<td>".$this->escapeHtml($line)."</td>";
+            $html.= "<td>".$this->escapeHtml($code)."</td>";
+            $html.= "</tr>";
         }
         $html.= "</table>";
         return $html;

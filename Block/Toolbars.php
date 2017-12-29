@@ -7,17 +7,18 @@
  */
 namespace Smile\DebugToolbar\Block;
 
-use Magento\Framework\View\Element\AbstractBlock as MagentoAbstractBlock;
-use Magento\Framework\View\Element\Context;
+use Magento\Framework\View\Element\Template as MagentoTemplateBlock;
+use Magento\Framework\View\Element\Template\Context;
 use Smile\DebugToolbar\Helper\Data as HelperData;
 
 /**
  * Main Debug Toolbar Block
  *
- * @author    Laurent MINGUET <lamin@smile.fr>
- * @copyright 2017 Smile
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
-class Toolbars extends MagentoAbstractBlock
+class Toolbars extends MagentoTemplateBlock
 {
     /**
      * @var HelperData
@@ -41,6 +42,7 @@ class Toolbars extends MagentoAbstractBlock
         $this->helperData = $helperData;
 
         $this->setData('cache_lifetime', 0);
+        $this->setTemplate('toolbars.phtml');
     }
 
     /**
@@ -60,36 +62,6 @@ class Toolbars extends MagentoAbstractBlock
      */
     public function toHtml()
     {
-        $html = '';
-
-        $toolbars = $this->getToolbarList();
-        foreach ($toolbars as $toolbarContent) {
-            $html.= $toolbarContent."\n";
-        }
-
-        $html.= $this->getSmileTableHtml()."\n";
-        $html.= '
-<script type="text/javascript">
-    smileToolbarInit();
-</script>
-';
-        return $html;
-    }
-
-    /**
-     * Get the smile table html content
-     *
-     * @return string
-     */
-    protected function getSmileTableHtml()
-    {
-        return '
-<div class="smile-toolbar" id="st-table-display">
-    <div class="st-main" id="st-table-main">
-        <div id="st-table-title">...</div>
-        <div id="st-table-close" onclick="smileToolbarTableHide()">X</div>
-        <div id="st-table-content">...</div>
-    </div>
-</div>';
+         return $this->_toHtml();
     }
 }

@@ -9,14 +9,16 @@ namespace Smile\DebugToolbar\Block\Zone;
 
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Framework\App\DeploymentConfig;
-use Smile\DebugToolbar\Helper\Data as HelperData;
+use Smile\DebugToolbar\Helper\Data  as HelperData;
+use Smile\DebugToolbar\Formatter\FormatterFactory;
 use Smile\DebugToolbar\Helper\Cache as HelperCache;
 
 /**
  * Zone for Debug Toolbar Block
  *
- * @author    Laurent MINGUET <lamin@smile.fr>
- * @copyright 2017 Smile
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
 class Cache extends AbstractZone
 {
@@ -35,6 +37,7 @@ class Cache extends AbstractZone
      *
      * @param Context          $context
      * @param HelperData       $helperData
+     * @param FormatterFactory $formatterFactory
      * @param DeploymentConfig $deployConfig
      * @param HelperCache      $helperCache
      * @param array            $data
@@ -42,11 +45,12 @@ class Cache extends AbstractZone
     public function __construct(
         Context          $context,
         HelperData       $helperData,
+        FormatterFactory $formatterFactory,
         DeploymentConfig $deployConfig,
         HelperCache      $helperCache,
         array            $data = []
     ) {
-        parent::__construct($context, $helperData, $data);
+        parent::__construct($context, $helperData, $formatterFactory, $data);
 
         $this->deployConfig = $deployConfig;
         $this->helperCache  = $helperCache;
@@ -145,20 +149,23 @@ class Cache extends AbstractZone
 <table>
     <thead>
         <tr>
-            <th>Call Id</th>
-            <th>Action</th>
-            <th>Size</th>
-            <th>Time</th>
+            <th style=\"width: 100px\">Call Id</th>
+            <th >Action</th>
+            <th style=\"width: 120px\">Size</th>
+            <th style=\"width: 120px\">Time</th>
         </tr>    
     </thead>
     <tbody>";
         foreach ($calls as $callId => $call) {
+            $size = $this->formatValue($call['size'], [], 'size_ko');
+            $time = $this->formatValue($call['time'], [], 'time_ms');
+
             $html.= "
         <tr>
-            <td class=\"st-value-number\">".$this->escapeHtml($callId)."</td>
-            <td class=\"st-value-center\">".$this->escapeHtml($call['action'])."</td>
-            <td class=\"st-value-unit-ko\">".$this->displayHumanSizeKo($call['size'])."</td>
-            <td class=\"st-value-unit-ms\">".$this->displayHumanTimeMs($call['time'])."</td>
+            <td class=\"\">".$this->escapeHtml($callId)."</td>
+            <td class=\"\">".$this->escapeHtml($call['action'])."</td>
+            <td class=\"".$size['css_class']."\">".$size['value']."</td>
+            <td class=\"".$time['css_class']."\">".$time['value']."</td>
         </tr>
             ";
         }

@@ -18,8 +18,9 @@ use Smile\DebugToolbar\DB\Profiler as DbProfiler;
 /**
  * Observer Enable the DbProfiler
  *
- * @author    Laurent MINGUET <lamin@smile.fr>
- * @copyright 2017 Smile
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
 class EnableDbProfiler implements ObserverInterface
 {

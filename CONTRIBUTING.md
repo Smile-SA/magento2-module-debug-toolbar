@@ -13,9 +13,8 @@ A step by step guide on how to reproduce the issue will greatly increase the cha
 Contributing policy
 -------------------
 
-**Please don't commit directly on this repository.**
+**Don't commit directly on this repository.**
 
 Fork the project, create a feature branch, and send a pull request.
 
 Unauthorized commits will always be removed.
-

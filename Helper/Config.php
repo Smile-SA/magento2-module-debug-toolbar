@@ -12,8 +12,9 @@ use Magento\Framework\App\Helper\AbstractHelper;
 /**
  * Helper : Config
  *
- * @package Smile\DebugToolbar
- * @class   Config
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
 class Config extends AbstractHelper
 {

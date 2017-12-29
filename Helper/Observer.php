@@ -12,8 +12,9 @@ use Magento\Framework\App\Helper\AbstractHelper;
 /**
  * Helper: Observer
  *
- * @package   Smile\DebugToolbar\Helper
- * @copyright 2017 Smile
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
 class Observer extends AbstractHelper
 {

@@ -8,14 +8,16 @@
 namespace Smile\DebugToolbar\Block\Zone;
 
 use Magento\Framework\View\Element\Template\Context;
-use Smile\DebugToolbar\Helper\Data as HelperData;
+use Smile\DebugToolbar\Helper\Data       as HelperData;
+use Smile\DebugToolbar\Formatter\FormatterFactory;
 use Smile\DebugToolbar\Helper\Preference as HelperPreference;
 
 /**
  * Zone for Debug Toolbar Block
  *
- * @author    Laurent MINGUET <lamin@smile.fr>
- * @copyright 2017 Smile
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
 class Preference extends AbstractZone
 {
@@ -29,16 +31,18 @@ class Preference extends AbstractZone
      *
      * @param Context          $context
      * @param HelperData       $helperData
+     * @param FormatterFactory $formatterFactory
      * @param HelperPreference $helperPreference
      * @param array            $data
      */
     public function __construct(
         Context          $context,
         HelperData       $helperData,
+        FormatterFactory $formatterFactory,
         HelperPreference $helperPreference,
         array            $data = []
     ) {
-        parent::__construct($context, $helperData, $data);
+        parent::__construct($context, $helperData, $formatterFactory, $data);
 
         $this->helperPreference  = $helperPreference;
     }
@@ -99,14 +103,14 @@ class Preference extends AbstractZone
     <thead>
         <tr>
             <th>Method</th>
-            <th>Type</th>
+            <th class=\"st-value-center\">Type</th>
         </tr>    
     </thead>
     <tbody>";
         foreach ($methods as $method => $type) {
             $html.= "
         <tr>
-            <td class=\"\">".$method."</td>
+            <td>".$method."</td>
             <td class=\"st-value-center\">".$type."</td>
         </tr>
             ";

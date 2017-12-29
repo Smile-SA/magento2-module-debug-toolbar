@@ -9,22 +9,20 @@ namespace Smile\DebugToolbar\Block\Zone;
 
 use Magento\Framework\View\Element\Template as MagentoTemplateBlock;
 use Magento\Framework\View\Element\Template\Context;
-use Smile\DebugToolbar\Helper\Data as HelperData;
+use Smile\DebugToolbar\Helper\Data  as HelperData;
+use Smile\DebugToolbar\Formatter\FormatterFactory;
 
 /**
  * Zone for Debug Toolbar Block
  *
- * @author    Laurent MINGUET <lamin@smile.fr>
- * @copyright 2017 Smile
+ * @api
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 abstract class AbstractZone extends MagentoTemplateBlock
 {
-    /**
-     * max string length for values
-     */
-    const MAX_STRING_LENGTH = 128;
-
     /**
      * @var bool
      */
@@ -36,25 +34,39 @@ abstract class AbstractZone extends MagentoTemplateBlock
     protected $helperData;
 
     /**
+     * @var FormatterFactory
+     */
+    protected $formatterFactory;
+
+    /**
      * @var Summary
      */
     protected $summaryBlock;
 
     /**
+     * @var array
+     */
+    protected $tablesToDisplay = [];
+
+    /**
      * AbstractZone constructor.
      *
-     * @param Context    $context
-     * @param HelperData $helperData
-     * @param array      $data
+     * @param Context          $context
+     * @param HelperData       $helperData
+     * @param FormatterFactory $formatterFactory
+     * @param array            $data
      */
     public function __construct(
-        Context    $context,
-        HelperData $helperData,
-        array      $data = []
+        Context          $context,
+        HelperData       $helperData,
+        FormatterFactory $formatterFactory,
+        array            $data = []
     ) {
         parent::__construct($context, $data);
 
-        $this->helperData = $helperData;
+        $this->helperData       = $helperData;
+        $this->formatterFactory = $formatterFactory;
+
         $this->setData('cache_lifetime', 0);
         $this->setTemplate('zone/'.$this->getCode().'.phtml');
     }
@@ -132,58 +144,6 @@ abstract class AbstractZone extends MagentoTemplateBlock
     }
 
     /**
-     * Prepare Basic Value
-     *
-     * @param mixed $value
-     *
-     * @return string
-     */
-    protected function prepareBasicValue($value)
-    {
-        if ($value === null) {
-            $value = 'NULL';
-        }
-
-        if ($value === true) {
-            $value = 'TRUE';
-        }
-
-        if ($value === false) {
-            $value = 'FALSE';
-        }
-
-        return $value;
-    }
-
-    /**
-     * @param mixed $value
-     *
-     * @return string
-     */
-    public function escapeField($value)
-    {
-        $value = $this->prepareBasicValue($value);
-
-        $printable = false;
-
-        if (is_array($value) || is_object($value)) {
-            $printable = true;
-            $value = print_r($value, true);
-        }
-
-        if (mb_strlen($value) > self::MAX_STRING_LENGTH) {
-            $printable = true;
-        }
-
-        $value = $this->escapeHtml($value);
-        if ($printable) {
-            $value = '<pre class="complex-value">'.$value.'</pre>';
-        }
-
-        return $value;
-    }
-
-    /**
      * Display sections
      *
      * @param array $sections
@@ -198,6 +158,7 @@ abstract class AbstractZone extends MagentoTemplateBlock
             $html.= "<h2>{$sectionName}</h2>\n";
 
             $html.= "<table>\n";
+            $html.= '<tbody>';
             if (count($sectionValues) == 0) {
                 $html.= "<tr><td>No Values</td></tr>\n";
             }
@@ -205,11 +166,61 @@ abstract class AbstractZone extends MagentoTemplateBlock
             foreach ($sectionValues as $name => $value) {
                 $html.= $this->displaySectionValue($name, $value);
             }
+            $html.= '</tbody>';
 
             $html.= "</table>\n";
         }
 
         return $html;
+    }
+
+    /**
+     * Display sections
+     *
+     * @param array $sections
+     *
+     * @return string
+     */
+    public function displaySectionsGrouped($sections = [])
+    {
+        $sectionNames = array_keys($sections);
+        $rowNames = array_keys($sections[$sectionNames[0]]);
+
+        $html = "<table>\n";
+        $html.= '<thead><tr><th></th><td>'.implode('</td><td>', $sectionNames).'</td></tr></thead>';
+        $html.= '<tbody>';
+        foreach ($rowNames as $rowName) {
+            $html.= '<tr>';
+            $html.= '<th>'.$rowName.'</th>';
+            foreach ($sectionNames as $sectionName) {
+                list($class, $value) = $this->getClassAndValue($sections[$sectionName][$rowName]);
+                $html.= '<td class="'.$class.'">'.$value.'</td>';
+            }
+            $html.= '<tr>';
+        }
+        $html.= '</tbody>';
+        $html.= '</table>';
+
+        return $html;
+    }
+
+    /**
+     * Get the good css class and the cleaned value
+     *
+     * @param mixed $value
+     *
+     * @return string[]
+     */
+    protected function getClassAndValue($value)
+    {
+        if (!is_array($value)
+            || !array_key_exists('value', $value)
+            || !array_key_exists('css_class', $value)
+        ) {
+            $value = $this->formatValue($value);
+        }
+
+        return array($value['css_class'], $value['value']);
     }
 
     /**
@@ -222,120 +233,9 @@ abstract class AbstractZone extends MagentoTemplateBlock
      */
     protected function displaySectionValue($name, $value)
     {
-        $warning = false;
-        $class = [];
-        if (is_array($value) && array_key_exists('value', $value) && array_key_exists('warning', $value)) {
-            if ($value['warning']) {
-                $this->hasWarning();
-                $warning = true;
-            }
-            $value = $value['value'];
-        }
-        $value = $this->escapeField($value);
-        if ($warning) {
-            $class[] = 'value-warning';
-        }
+        list($class, $value) = $this->getClassAndValue($value);
 
-        $classValue = $this->getClassFromType($value);
-        if (!is_null($classValue)) {
-            $class[] = $classValue;
-        }
-
-        $class = implode(' ', $class);
-
-        return "    <tr><th class=\"{$class}\">{$name}</th><td class=\"{$class}\">{$value}</td></tr>\n";
-    }
-
-    /**
-     * Get the css class from the value
-     *
-     * @param string $value
-     *
-     * @return string|null
-     */
-    protected function getClassFromType($value)
-    {
-        if (preg_match('/^[0-9\.]+ ([a-zA-Z]+)$/', $value, $match)) {
-            return 'st-value-unit-'.strtolower($match[1]);
-        }
-
-        if (preg_match('/^[0-9]+(\.[0-9]+)?$/', $value, $match)) {
-            return 'st-value-number';
-        }
-
-        if (preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $value, $match)) {
-            return 'st-value-date';
-        }
-
-        if (preg_match('/^[0-9]{2}:[0-9]{2}:[0-9]{2}$/', $value, $match)) {
-            return 'st-value-time';
-        }
-
-        if (preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$/', $value, $match)) {
-            return 'st-value-datetime';
-        }
-
-        return null;
-    }
-
-    /**
-     * Display a human size int
-     *
-     * @param int $value
-     *
-     * @return string
-     */
-    public function displayHumanSize($value)
-    {
-        return $this->helperData->displayHumanSize($value);
-    }
-
-    /**
-     * Display a human size int in KO
-     *
-     * @param int $value
-     *
-     * @return string
-     */
-    public function displayHumanSizeKo($value)
-    {
-        return $this->helperData->displayHumanSizeKo($value);
-    }
-
-    /**
-     * Display a human size int in MO
-     *
-     * @param int $value
-     *
-     * @return string
-     */
-    public function displayHumanSizeMo($value)
-    {
-        return $this->helperData->displayHumanSizeMo($value);
-    }
-
-    /**
-     * Display a human time int
-     *
-     * @param int $value
-     *
-     * @return string
-     */
-    public function displayHumanTime($value)
-    {
-        return $this->helperData->displayHumanTime($value);
-    }
-
-    /**
-     * Display a human time int
-     *
-     * @param int $value
-     *
-     * @return string
-     */
-    public function displayHumanTimeMs($value)
-    {
-        return $this->helperData->displayHumanTimeMs($value);
+        return "    <tr><th>{$name}</th><td class=\"{$class}\">{$value}</td></tr>\n";
     }
 
     /**
@@ -360,31 +260,78 @@ abstract class AbstractZone extends MagentoTemplateBlock
      */
     public function displayTable($title, &$values, $columns, $additionnal = null)
     {
-        $html = '';
-
         $tableId = $this->helperData->getNewTableId();
         $tableTitle       = str_replace('-', '_', $tableId).'_title';
         $tableValues      = str_replace('-', '_', $tableId).'_values';
         $tableColumns     = str_replace('-', '_', $tableId).'_columns';
         $tableAdditionnal = str_replace('-', '_', $tableId).'_additionnal';
 
-        $html.= "<br />\n";
-        $html.= '<script type="text/javascript">'."\n";
-        $html.= 'var '.$tableTitle.' = '.json_encode(strip_tags($title)).';'."\n";
-        $html.= 'var '.$tableColumns.' = '.json_encode($columns).';'."\n";
-        $html.= 'var '.$tableValues.' = '.json_encode($values).';'."\n";
+        $html = '<script type="text/javascript">'."\n";
+        $html.= 'var '.$tableTitle.'       = '.json_encode(strip_tags($title)).';'."\n";
+        $html.= 'var '.$tableColumns.'     = '.json_encode($columns).';'."\n";
+        $html.= 'var '.$tableValues.'      = '.json_encode($values).';'."\n";
         $html.= 'var '.$tableAdditionnal.' = '.json_encode($additionnal).';'."\n";
         $html.= "</script>\n";
-        $html.= '<a onclick="smileToolbarTableDisplay('
+
+        $label   = 'Show '.$title.' ('.count($values).' rows)';
+
+        $onClick = 'smileToolbarTableDisplay('
             .$tableTitle.', '
             .$tableValues.', '
             .$tableColumns.', '
-            .$tableAdditionnal.');">';
-        $html.= 'Show '.$title.' ('.count($values).' rows)';
-        $html.= "</a>\n";
-        $html.= "<br />\n";
-        $html.= "<br />\n";
+            .$tableAdditionnal.');';
+
+        $this->tablesToDisplay[] = [
+            'label'   => $label,
+            'onclick' => $onClick,
+        ];
 
         return $html;
+    }
+
+    /**
+     * get the tables to display
+     *
+     * @return array
+     */
+    public function getTablesToDisplay()
+    {
+        return $this->tablesToDisplay;
+    }
+
+    /**
+     * get the helper data
+     *
+     * @return HelperData
+     */
+    public function getHelperData()
+    {
+        return $this->helperData;
+    }
+
+    /**
+     * format a value, using rules, and type
+     *
+     * @param float  $value
+     * @param array  $rules
+     * @param string $type
+     *
+     * @return array
+     */
+    public function formatValue($value, $rules = [], $type = null)
+    {
+        $formatter = $this->formatterFactory->create(
+            [
+                'value' => $value,
+                'type'  => $type,
+                'rules' => $rules,
+            ]
+        );
+
+        if ($formatter->hasWarning()) {
+            $this->hasWarning();
+        }
+
+        return $formatter->getResult();
     }
 }

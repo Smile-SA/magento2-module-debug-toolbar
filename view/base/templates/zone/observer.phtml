@@ -1,18 +1,27 @@
 <?php
+/**
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this module
+ * to newer versions in the future.
+ *
+ *
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
+ */
+
 /** @var \Magento\Framework\View\TemplateEngine\Php $this */
 /** @var \Smile\DebugToolbar\Block\Zone\Observer $block */
 
 $stats = $block->getObserverStats();
 
-$sectionUsed = [
+$sections = [
     'Used Events' => [
         'Number'  => 0,
         'Called'  => 0,
         'Time'    => 0,
-    ]
-];
-
-$sectionUnused = [
+    ],
     'Unused Events' => [
         'Number'  => 0,
         'Called'  => 0,
@@ -23,94 +32,70 @@ $sectionUnused = [
 $used = [];
 $unused = [];
 foreach ($stats as $event) {
-    $section = &$sectionUnused['Unused Events'];
+    $section = &$sections['Unused Events'];
+    $list = &$unused;
     if ($event['nb_observers'] > 0 ) {
-        $section = &$sectionUsed['Used Events'];
+        $section = &$sections['Used Events'];
+        $list = &$used;
+        $event['html_info'] = $block->buildHtmlInfo($event['observers']);
     }
 
     $section['Number']++;
     $section['Called']+= $event['nb_call'];
     $section['Time']  += $event['time_total'];
 
-    $event['time_total'] = $block->displayHumanTimeMs($event['time_total']);
-    $event['time_mean']  = $block->displayHumanTimeMs($event['time_mean']);
-    if ($event['nb_observers'] > 0 ) {
-        $event['id'] = count($used)+1;
-        $event['html_info'] = $block->buildHtmlInfo($event['observers']);
-        $used[] = $event;
-    } else {
-        $event['id'] = count($unused)+1;
-        $unused[] = $event;
-    }
+    $event['id']           = $block->formatValue(count($list)+1, [], 'number');
+    $event['event_name']   = $block->formatValue($event['event_name'], [], 'text');
+    $event['nb_call']      = $block->formatValue($event['nb_call'], ['gt' => 200], 'number');
+    $event['time_total']   = $block->formatValue($event['time_total'], ['gt' => 0.5], 'time_ms');
+    $event['time_mean']    = $block->formatValue($event['time_mean'], ['gt' => 0.5], 'time_ms');
+    $event['nb_observers'] = $block->formatValue($event['nb_observers'], ['gt' => 10], 'number');
+
+    $list[] = $event;
 }
 unset($stats);
-
-$sectionUsed['Used Events']['Time']     = $block->displayHumanTime($sectionUsed['Used Events']['Time']);
-$sectionUnused['Unused Events']['Time'] = $block->displayHumanTime($sectionUnused['Unused Events']['Time']);
-
-echo $block->displaySections($sectionUsed);
 
 echo $block->displayTable(
     'Used Events',
     $used,
     [
-        'id' => [
-            'title' => 'Id',
-            'class' => 'st-value-number',
-        ],
-        'event_name' => [
-            'title' => 'Name',
-            'class' => '',
-        ],
-        'nb_call'  => [
-            'title' => 'Nb Call',
-            'class' => 'st-value-number',
-        ],
-        'time_total'  => [
-            'title' => 'Total Time',
-            'class' => 'st-value-unit-ms',
-        ],
-        'time_mean' => [
-            'title' => 'Mean Time',
-            'class' => 'st-value-unit-ms',
-        ],
-        'nb_observers' => [
-            'title' => 'Nb Observers',
-            'class' => 'st-value-number',
-        ],
+        'id'           => ['label' => 'Id',          'width' => '60px'],
+        'event_name'   => ['label' => 'Name',        'width' => ''],
+        'nb_call'      => ['label' => 'Nb Call',     'width' => '100px'],
+        'time_total'   => ['label' => 'Total Time',  'width' => '120px'],
+        'time_mean'    => ['label' => 'Mean Time',   'width' => '120px'],
+        'nb_observers' => ['label' => 'Observers',   'width' => '130px'],
     ],
     'html_info'
 );
-
-echo $block->displaySections($sectionUnused);
 
 echo $block->displayTable(
     'Unused Events',
     $unused,
     [
-        'id' => [
-            'title' => 'Id',
-            'class' => 'st-value-number',
-        ],
-        'event_name' => [
-            'title' => 'Name',
-            'class' => '',
-        ],
-        'nb_call'  => [
-            'title' => 'Nb Call',
-            'class' => 'st-value-number',
-        ],
-        'time_total'  => [
-            'title' => 'Total Time',
-            'class' => 'st-value-unit-ms',
-        ],
-        'time_mean' => [
-            'title' => 'Mean Time',
-            'class' => 'st-value-unit-ms',
-        ],
+        'id'         => ['label' => 'Id',           'width' => '60px'],
+        'event_name' => ['label' => 'Name',         'width' => ''],
+        'nb_call'    => ['label' => 'Nb Call',      'width' => '100px'],
+        'time_total' => ['label' => 'Total Time',   'width' => '120px'],
+        'time_mean'  => ['label' => 'Mean Time',    'width' => '120px'],
     ]
 );
 
-$block->addToSummary('Observers', 'Used Events', $sectionUsed['Used Events']['Number']);
-$block->addToSummary('Observers', 'Called Events', $sectionUsed['Used Events']['Called']);
-$block->addToSummary('Observers', 'Time', $sectionUsed['Used Events']['Time']);
+$sections = [
+    'Used Events' => [
+        'Number' => $block->formatValue($sections['Used Events']['Number'], ['gt' => 100], 'number'),
+        'Called' => $block->formatValue($sections['Used Events']['Called'], ['gt' => 500], 'number'),
+        'Time'   => $block->formatValue($sections['Used Events']['Time'], ['gt' => 1.000], 'time'),
+    ],
+    'Unused Events' => [
+        'Number' => $block->formatValue($sections['Unused Events']['Number'], [], 'number'),
+        'Called' => $block->formatValue($sections['Unused Events']['Called'], [], 'number'),
+        'Time'   => $block->formatValue($sections['Unused Events']['Time'], ['gt' => 0.5], 'time'),
+    ],
+];
+
+$block->addToSummary('Observers', 'Used Events', $sections['Used Events']['Number']);
+$block->addToSummary('Observers', 'Called Events', $sections['Used Events']['Called']);
+$block->addToSummary('Observers', 'Time', $sections['Used Events']['Time']);
+
+echo $block->displaySectionsGrouped($sections);

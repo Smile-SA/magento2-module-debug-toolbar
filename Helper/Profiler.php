@@ -13,8 +13,9 @@ use Magento\Framework\Profiler\Driver\Standard\Stat;
 /**
  * Helper: Profiler
  *
- * @package   Smile\DebugToolbar\Helper
- * @copyright 2017 Smile
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
 class Profiler extends AbstractHelper
 {
@@ -72,6 +73,7 @@ class Profiler extends AbstractHelper
      * Get the stat timers
      *
      * @return array
+     * @throws \Exception
      */
     public function getTimers()
     {
@@ -86,6 +88,7 @@ class Profiler extends AbstractHelper
      * prepare the timers with good sorting
      *
      * @return void
+     * @throws \Exception
      */
     protected function prepareTimers()
     {
@@ -101,15 +104,6 @@ class Profiler extends AbstractHelper
 
             $label  = array_pop($explodedTimerId);
             $parent = implode('->', $explodedTimerId);
-            $sum    = $stat->fetch($timerId, Stat::TIME);
-
-            $percent = 0;
-            if ($timerId === 'magento') {
-                $percent = 100;
-            }
-            if ($parent !== '') {
-                $percent = $sum / $this->timers['magento']['sum'] * 100.;
-            }
 
             $timer = [
                 'uid'      => $uid,
@@ -118,8 +112,7 @@ class Profiler extends AbstractHelper
                 'children' => 0,
                 'level'    => $level,
                 'label'    => $label,
-                'sum'      => $sum,
-                'percent'  => round($percent, 2),
+                'sum'      => $stat->fetch($timerId, Stat::TIME),
                 'avg'      => $stat->fetch($timerId, Stat::AVG),
                 'count'    => $stat->fetch($timerId, Stat::COUNT),
                 'mem'      => $stat->fetch($timerId, Stat::EMALLOC),
@@ -137,6 +130,61 @@ class Profiler extends AbstractHelper
             $this->timers[$timer['id']] = $timer;
 
             $uid++;
+        }
+
+        $this->removeToolbarObserverFromTimers();
+        $this->calculatePercents();
+    }
+
+    /**
+     * Remove the Toolbar observer from the profiler timers
+     *
+     * @return bool
+     */
+    protected function removeToolbarObserverFromTimers()
+    {
+        $toolbarKey = 'OBSERVER:smile_debugtoolbar_add_toolbar_to_response';
+
+        $toolbarTimer = end($this->timers);
+        if ($toolbarTimer['label'] !== $toolbarKey) {
+            return false;
+        }
+
+        $toolbarSum = $toolbarTimer['sum'];
+        $toolbarAvg = $toolbarTimer['avg'];
+        $keys = explode('->', $toolbarTimer['id']);
+
+        while (count($keys)>1) {
+            array_pop($keys);
+            $key = implode('->', $keys);
+            $this->timers[$key]['sum']-= $toolbarSum;
+            $this->timers[$key]['avg']-= $toolbarAvg;
+        }
+
+        unset($this->timers[$toolbarTimer['id']]);
+
+        return true;
+    }
+
+    /**
+     * Calculate the percents
+     *
+     * @return void
+     */
+    protected function calculatePercents()
+    {
+        foreach ($this->timers as &$timer) {
+            $percent = 0;
+
+            if ($timer['id'] === 'magento') {
+                $percent = 100;
+            }
+
+            if ($timer['parent'] !== null) {
+                $percent = $timer['sum'] / $this->timers['magento']['sum'] * 100.;
+            }
+
+            $timer['percent'] = round($percent, 2);
         }
     }
 }

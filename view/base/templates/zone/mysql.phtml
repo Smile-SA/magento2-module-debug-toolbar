@@ -1,4 +1,16 @@
 <?php
+/**
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this module
+ * to newer versions in the future.
+ *
+ *
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
+ */
+
 /** @var \Magento\Framework\View\TemplateEngine\Php $this */
 /** @var \Smile\DebugToolbar\Block\Zone\Mysql $block */
 
@@ -10,9 +22,11 @@ try {
     return;
 }
 
-
 foreach ($list as $key => $row) {
-    $row['time'] = $block->displayHumanTimeMs($row['time']);
+    $row['id']    = $block->formatValue($row['id'], [], 'number');
+    $row['type']  = $block->formatValue($row['type'], [], 'center');
+    $row['time']  = $block->formatValue($row['time'], ['gt' => 0.05], 'time_ms');
+    $row['query'] = $block->formatValue($row['query'], [], 'code_sql');
     $row['html_info']  = $block->buildHtmlInfo($row['params'], $row['trace']);
     $list[$key] = $row;
 }
@@ -21,22 +35,10 @@ echo $block->displayTable(
     'MySQL Queries',
     $list,
     [
-        'id'    => [
-            'title' => 'Id',
-            'class' => 'st-value-number',
-        ],
-        'type'  => [
-            'title' => 'Type',
-            'class' => 'st-value-center',
-        ],
-        'time'  => [
-            'title' => 'Time',
-            'class' => 'st-value-unit-ms',
-        ],
-        'query' => [
-            'title' => 'Query',
-            'class' => 'hjs-code-sql',
-        ],
+        'id'    => ['label' => 'Id',    'width' => '60px'],
+        'type'  => ['label' => 'Type',  'width' => '100px'],
+        'time'  => ['label' => 'Time',  'width' => '100px'],
+        'query' => ['label' => 'Query', 'width' => ''],
     ],
     'html_info'
 );
@@ -44,26 +46,40 @@ echo $block->displayTable(
 $sections = [
     'Number' => $block->getCountPerTypes(),
     'Time'   => $block->getTimePerTypes(),
-    'Server' => [
-        'Version' => $block->getMysqlVersion(),
-    ],
 ];
 
-foreach ($sections['Time'] as $key => $value) {
-    $sections['Time'][$key] = $block->displayHumanTime($value);
-}
 
-$sections['Number']['total'] = [
-    'value'   => $sections['Number']['total'],
-    'warning' => $sections['Number']['total'] > 200,
+$sections['Time'] = [
+    'total'       => $block->formatValue($sections['Time']['total'], ['gt' => 1.], 'time'),
+    'select'      => $block->formatValue($sections['Time']['select'], ['gt' => 1.], 'time'),
+    'insert'      => $block->formatValue($sections['Time']['insert'], ['gt' => 0.5], 'time'),
+    'update'      => $block->formatValue($sections['Time']['update'], ['gt' => 0.5], 'time'),
+    'delete'      => $block->formatValue($sections['Time']['delete'], ['gt' => 0.5], 'time'),
+    'query'       => $block->formatValue($sections['Time']['query'],  ['gt' => 0.5], 'time'),
+    'transaction' => $block->formatValue($sections['Time']['transaction'], ['gt' => 0.5], 'time'),
+    'connect'     => $block->formatValue($sections['Time']['connect'], ['gt' => 0.01], 'time'),
 ];
 
-$sections['Number']['connect'] = [
-    'value'   => $sections['Number']['connect'],
-    'warning' => $sections['Number']['connect'] > 1,
+$sections['Number'] = [
+    'total'       => $block->formatValue($sections['Number']['total'], ['gt' => 200], 'number'),
+    'select'      => $block->formatValue($sections['Number']['select'], ['gt' => 200], 'number'),
+    'insert'      => $block->formatValue($sections['Number']['insert'], ['gt' => 15], 'number'),
+    'update'      => $block->formatValue($sections['Number']['update'], ['gt' => 15], 'number'),
+    'delete'      => $block->formatValue($sections['Number']['delete'], ['gt' => 15], 'number'),
+    'query'       => $block->formatValue($sections['Number']['query'],  ['gt' => 15], 'number'),
+    'transaction' => $block->formatValue($sections['Number']['transaction'], ['gt' => 15], 'number'),
+    'connect'     => $block->formatValue($sections['Number']['connect'], ['gt' => 1], 'number'),
 ];
 
 $block->addToSummary('Mysql', 'Number', $sections['Number']['total']);
 $block->addToSummary('Mysql', 'Time', $sections['Time']['total']);
+
+echo $block->displaySectionsGrouped($sections);
+
+$sections = [
+    'Server' => [
+        'Version' => $block->getMysqlVersion(),
+    ],
+];
 
 echo $block->displaySections($sections);

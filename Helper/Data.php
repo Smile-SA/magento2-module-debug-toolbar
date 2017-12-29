@@ -17,8 +17,9 @@ use Smile\DebugToolbar\Block\Toolbar;
 /**
  * Helper: Data
  *
- * @package   Smile\DebugToolbar\Helper
- * @copyright 2017 Smile
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
 class Data extends AbstractHelper
 {
@@ -72,7 +73,7 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Set a timer
+     * Start a timer
      *
      * @param string $code
      *
@@ -80,7 +81,32 @@ class Data extends AbstractHelper
      */
     public function startTimer($code)
     {
-        $this->timers[$code] = microtime(true);
+        $this->timers[$code] = [
+            'start' => microtime(true),
+            'stop'  => null,
+            'delta' => null,
+        ];
+
+        return $this;
+    }
+
+    /**
+     * Stop a timer
+     *
+     * @param string $code
+     *
+     * @return $this
+     */
+    public function stopTimer($code)
+    {
+        if (!array_key_exists($code, $this->timers)) {
+            $this->startTimer($code);
+        }
+
+        if ($this->timers[$code]['stop'] === null) {
+            $this->timers[$code]['stop']  = microtime(true);
+            $this->timers[$code]['delta'] = $this->timers[$code]['stop'] - $this->timers[$code]['start'];
+        }
 
         return $this;
     }
@@ -94,10 +120,19 @@ class Data extends AbstractHelper
      */
     public function getTimer($code)
     {
-        if (!array_key_exists($code, $this->timers)) {
-            $this->startTimer($code);
-        }
-        return microtime(true) - $this->timers[$code];
+        $this->stopTimer($code);
+
+        return $this->timers[$code]['delta'];
+    }
+
+    /**
+     * get the timers
+     *
+     * @return array
+     */
+    public function getTimers()
+    {
+        return $this->timers;
     }
 
     /**
@@ -131,100 +166,6 @@ class Data extends AbstractHelper
         }
 
         return $this->values[$key];
-    }
-
-    /**
-     * Display Human Size
-     *
-     * @param int $value
-     *
-     * @return string
-     */
-    public function displayHumanSize($value)
-    {
-        $unit = 'o';
-
-        if ($value > 1024) {
-            $value/= 1024.;
-            $unit = 'Ko';
-        }
-
-        if ($value > 1024) {
-            $value/= 1024.;
-            $unit = 'Mo';
-        }
-
-        if ($value > 1024) {
-            $value/= 1024.;
-            $unit = 'Go';
-        }
-
-        return number_format($value, 3, '.', '').' '.$unit;
-    }
-
-     /**
-     * Display Human Size in Ko
-     *
-     * @param int $value
-     *
-     * @return string
-     */
-    public function displayHumanSizeKo($value)
-    {
-        return number_format($value/1024., 3, '.', '').' Ko';
-    }
-
-     /**
-     * Display Human Size in Mo
-     *
-     * @param int $value
-     *
-     * @return string
-     */
-    public function displayHumanSizeMo($value)
-    {
-        return number_format($value/(1024.*1024.), 3, '.', '').' Mo';
-    }
-
-    /**
-     * Display Human Time
-     *
-     * @param int $value time in seconds
-     *
-     * @return string
-     */
-    public function displayHumanTime($value)
-    {
-        $unit = 's';
-
-        if ($value > 120) {
-            $value/= 60.;
-            $unit = 'm';
-        }
-
-        if ($value > 120) {
-            $value/= 60.;
-            $unit = 'h';
-        }
-
-        if ($value < 1) {
-            $value*= 1000.;
-            $unit = 'ms';
-        }
-
-        return number_format($value, 3, '.', '').' '.$unit;
-    }
-
-    /**
-     * Display a human time in ms
-     *
-     * @param float $value
-     *
-     * @return string
-     */
-    public function displayHumanTimeMs($value)
-    {
-        return number_format(1000*$value, 3, '.', '').' ms';
     }
 
     /**

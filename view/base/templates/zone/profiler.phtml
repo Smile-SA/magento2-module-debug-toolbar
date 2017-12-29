@@ -1,4 +1,16 @@
 <?php
+/**
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this module
+ * to newer versions in the future.
+ *
+ *
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
+ */
+
 /** @var \Magento\Framework\View\TemplateEngine\Php $this */
 /** @var \Smile\DebugToolbar\Block\Zone\Profiler $block */
 
@@ -6,32 +18,43 @@ $timers = $block->getTimers();
 ?>
 <table class="st-profiler">
     <colgroup>
-        <col style="width: 52%" />
+        <col style="width: 50%" />
         <col style="width: 14%" />
         <col style="width: 14%" />
-        <col style="width:  6%" />
+        <col style="width:  8%" />
         <col style="width: 14%" />
     </colgroup>
     <thead>
         <tr>
             <th>Timer</th>
-            <th>Total</th>
-            <th>AVG</th>
-            <th>NB</th>
-            <th>Mem</th>
+            <td>Total</td>
+            <td>AVG</td>
+            <td>NB</td>
+            <td>Mem</td>
         </tr>
     </thead>
     <tbody>
-<?php foreach ($timers as $timer): ?>
+<?php
+    foreach ($timers as $timer):
+        $row = [
+            'sum'   => $block->formatValue($timer['sum'], [], 'time'),
+            'avg'   => $block->formatValue($timer['avg'], ['gt' => 3], 'time'),
+            'count' => $block->formatValue($timer['count'], [], 'number'),
+            'mem'   => $block->formatValue($timer['mem'], [], 'size_mo'),
+        ];
+?>
         <tr
             id="<?php echo $block->getToolbarId(); ?>-pf-<?php echo $timer['uid']; ?>"
             class="<?php echo ($timer['parent'] ? $block->getToolbarId().'-pf-'.$timer['parent'] : ''); ?>"
             style="<?php echo ($timer['parent'] ? 'display: none' : ''); ?>"
         >
-            <td style="padding-left: <?php echo (10*$timer['level']); ?>px">
+            <td
+                style="padding-left: <?php echo (10*$timer['level']); ?>px"
+                class="<?php echo (($timer['children']>0) ? 'st-with-children' : ''); ?>"
+            >
 <?php if ($timer['children']>0): ?>
                 <span
-                    class="st-expand st-with-children"
+                    class="st-expand"
                     id="<?php echo $block->getToolbarId(); ?>-pf-<?php echo $timer['uid']; ?>-span"
                     onclick="smileToolbarTreeGrid(this)"
                 >+</span>
@@ -42,14 +65,21 @@ $timers = $block->getTimers();
 <?php endif; ?>
                 <?php echo $timer['label']; ?>
             </td>
-            <td class="st-value-unit-s">
+            <td class="<?php echo $row['sum']['css_class']; ?>">
                 <div class="st-percent" style="width: <?php echo $timer['percent']; ?>%"></div>
-                <?php echo $block->displayHumanTime($timer['sum']); ?>
+                <?php echo $row['sum']['value']; ?>
             </td>
-            <td class="st-value-unit-s"><?php echo $block->displayHumanTime($timer['avg']); ?></td>
-            <td class="st-value-number"><?php echo $timer['count']; ?></td>
-            <td class="st-value-unit-mo"><?php echo $block->displayHumanSizeMo($timer['mem']); ?></td>
+            <td class="<?php echo $row['avg']['css_class']; ?>"><?php echo $row['avg']['value']; ?></td>
+            <td class="<?php echo $row['count']['css_class']; ?>"><?php echo $row['count']['value']; ?></td>
+            <td class="<?php echo $row['mem']['css_class']; ?>"><?php echo $row['mem']['value']; ?></td>
         </tr>
 <?php endforeach; ?>
     </tbody>
 </table>
+<?php
+    $buildIn = $block->formatValue($block->getHelperData()->getTimer('profiler_build'), ['gt' => 3], 'time');
+?>
+<div class="st-footer">
+    <?php echo count($timers); ?> timers builded in
+    <span class="<?php echo $buildIn['css_class']; ?>"><?php echo $buildIn['value']; ?></span>
+</div>

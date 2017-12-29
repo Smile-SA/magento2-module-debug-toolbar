@@ -10,9 +10,8 @@ namespace Smile\DebugToolbar\Block;
 use Magento\Framework\DataObject;
 use Magento\Framework\App\Request\Http             as MagentoRequest;
 use Magento\Framework\HTTP\PhpEnvironment\Response as MagentoResponse;
-use Magento\Framework\View\Element\AbstractBlock as MagentoAbstractBlock;
-use Magento\Framework\View\Element\Context;
-use Smile\DebugToolbar\Block\Zone\AbstractZone;
+use Magento\Framework\View\Element\Template        as MagentoTemplateBlock;
+use Magento\Framework\View\Element\Template\Context;
 use Smile\DebugToolbar\Block\Zone\SummaryFactory;
 use Smile\DebugToolbar\Block\Zone\Summary;
 use Smile\DebugToolbar\Helper\Data as HelperData;
@@ -20,10 +19,11 @@ use Smile\DebugToolbar\Helper\Data as HelperData;
 /**
  * Main Debug Toolbar Block
  *
- * @author    Laurent MINGUET <lamin@smile.fr>
- * @copyright 2017 Smile
+ * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @copyright 2018 Smile
+ * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
-class Toolbar extends MagentoAbstractBlock
+class Toolbar extends MagentoTemplateBlock
 {
     /**
      * @var HelperData
@@ -59,6 +59,7 @@ class Toolbar extends MagentoAbstractBlock
         $this->blockSummaryFactory = $blockSummaryFactory;
 
         $this->setData('cache_lifetime', 0);
+        $this->setTemplate('toolbar.phtml');
     }
 
     /**
@@ -134,104 +135,22 @@ class Toolbar extends MagentoAbstractBlock
     }
 
     /**
+     * Get the helper data
+     *
+     * @return HelperData
+     */
+    public function getHelperData()
+    {
+        return $this->helperData;
+    }
+
+    /**
      * Redefine the toHtml method to remove all the cache policy
      *
      * @return string
      */
     public function toHtml()
     {
-        $zones = $this->getZones();
-        $toolbarId = $this->getToolbarId();
-
-        $parts = explode('-', $toolbarId);
-        $date   = $parts[1];
-        $area   = $parts[4];
-        $action = $parts[5];
-
-        $date = preg_replace(
-            '/^([0-9]{4})([0-9]{2})([0-9]{2})_([0-9]{2})([0-9]{2})([0-9]{2})$/',
-            '$1-$2-$3 $4:$5:$6',
-            $date
-        );
-
-        $html = '';
-
-        $html.= '
-<div class="smile-toolbar" id="'.$toolbarId.'-toolbar">
-    <div class="st-zones" id="'.$toolbarId.'-zones">';
-
-        foreach ($zones as $zone) {
-            $html.= $this->getHtmlZoneContent($toolbarId, $zone);
-        }
-
-        $html.= '
-        <div class="st-navigator" id="'.$toolbarId.'-navigator">...</div>
-    </div>
-    <div class="st-main">
-        <div class="st-selector">
-            '.$action.' | '.$area.' | '.$date.' | <span id="'.$toolbarId.'-name">...</span>
-            <a onclick="smileToolbarPrevious();">&lt;</a>
-            <a onclick="smileToolbarNext();">&gt;</a>
-        </div>
-        <div class="st-titles" id="'.$toolbarId.'-titles">';
-
-        foreach ($zones as $zone) {
-            $html.= $this->getHtmlZoneTitle($toolbarId, $zone);
-        }
-
-        $html.= '
-        </div>
-        <div class="st-logo '.($this->isWarning() ? 'value-warning' : '').'" onclick="smileToolbarMainToggle();">
-            Smile ToolBar
-        </div>
-    </div>
-</div>
-<script type="text/javascript">
-    smileToolbarAdd(\''.$toolbarId.'\', '.($this->isWarning() ? 'true' : 'false').');
-</script>';
-
-        return $html;
-    }
-
-    /**
-     * Get the html content of a zone
-     *
-     * @param string       $toolbarId
-     * @param AbstractZone $zone
-     *
-     * @return string
-     */
-    public function getHtmlZoneContent($toolbarId, AbstractZone $zone)
-    {
-        return '
-        <div class="st-zone" id="'.$toolbarId.'-zone-'.$zone->getCode().'">
-            <h1>'.$zone->getTitle().'</h1>
-            <div class="st-content">
-'.$zone->toHtml().'
-            </div>
-        </div>';
-    }
-
-    /**
-     * Get the html title of a zone
-     *
-     * @param string       $toolbarId
-     * @param AbstractZone $zone
-     *
-     * @return string
-     */
-    public function getHtmlZoneTitle($toolbarId, AbstractZone $zone)
-    {
-        $htmlId    = $toolbarId.'-title-'.$zone->getCode();
-
-        $htmlClass = 'st-title';
-        if ($zone->isWarning()) {
-            $htmlClass.= ' value-warning';
-        }
-
-        return '
-            <div id="'.$htmlId.'" class="'.$htmlClass.'" onclick="smileToolbarZoneSelect(\''.$zone->getCode().'\');">
-                '.$zone->getTitle().'
-            </div>';
+         return $this->_toHtml();
     }
 }

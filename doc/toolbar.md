@@ -26,9 +26,9 @@ You can analyse every ajax call, esi block, ...
 
 If an execution has a warning, its line will be **orange**. 
 
-### Sections
+### Zones
 
-The following sections are available:
+The following zones are available:
 
 * Generic
 * Request
@@ -41,15 +41,15 @@ The following sections are available:
 * Preferences
 * Summary
 
-You can click on each section label to see the concerned information.
+You can click on each zone label to see the concerned information.
 
-If a section is **orange**, it means that there is at least one warning in it.
+If a zone is **orange**, it means that there is at least one warning in it.
 
 The value in warning will be in **orange**:
 
 ![configuration](images/screenshot-zone-mysql.png)
 
-In some zones, you can display additionnal information, by clicking on the links **Show xxx (xx rows)** on the top of the section.
+In some zones, you can display additionnal information, by clicking on the links **Show xxx (xx rows)** on the top of the zone.
 
 it will display a popin with a sortable table.
 

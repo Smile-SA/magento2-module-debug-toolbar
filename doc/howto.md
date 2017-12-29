@@ -6,8 +6,9 @@
 
 ### Add a new zone
 
-A zone in a specific block associated to a template file.
 You can add a new zone in the toolbar.
+
+To do it, you must implement a new block associated to a template file.
 
 Your new block must :
 

@@ -18,7 +18,7 @@ For more information, install procedure, and more, see the [**Documentation**](d
 
 ## Changelog
 
-Loog at the [ChangeLog](CHANGELOG.md) file. 
+Look at the [ChangeLog](CHANGELOG.md) file. 
 
 ## License
 

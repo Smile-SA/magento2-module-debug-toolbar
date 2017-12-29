@@ -16,9 +16,13 @@ Its allows you to analyse the queries, the layout, the plugins, ...
 
 For more information, install procedure, and more, see the [**Documentation**](doc/README.md). 
 
+## Changelog
+
+Loog at the [ChangeLog](CHANGELOG.md) file. 
+
 ## License
 
-Eclipse Public License - v 2.0
+[Eclipse Public License - v 2.0](LICENSE.md)
 
 ## Magento versions compatibility
 

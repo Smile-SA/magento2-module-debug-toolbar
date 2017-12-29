@@ -140,9 +140,9 @@ class Mysql extends AbstractZone
 
         $html.= "<h2>PHP Trace</h2>";
         $html.= "<table>";
-        $html.= "<col style='width: 45%'/>";
+        $html.= "<col style='width: 40%'/>";
         $html.= "<col style='width: 80px'/>";
-        $html.= "<col style='width: 45%'/>";
+        $html.= "<col style='width: 50%'/>";
         $html.= "<thead><tr><th>File</th><th>Line</th><th>Code</th></tr></thead>";
         $html.= "<tbody>";
         foreach ($trace as $row) {
@@ -154,6 +154,7 @@ class Mysql extends AbstractZone
                 $line = $match[2];
                 $code = $match[3];
             }
+            $file = str_replace(BP.'/', '', $file);
             $html.= "<tr>";
             $html.= "<td>".$this->escapeHtml($file)."</td>";
             $html.= "<td>".$this->escapeHtml($line)."</td>";

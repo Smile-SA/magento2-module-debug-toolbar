@@ -58,7 +58,7 @@
 
 .smile-toolbar .st-close:before {
     content:     '\e616';
-    font-family: 'luma-icons';
+    font-family: 'luma-icons', 'Admin Icons';
     font-weight: bold;
     margin-left: 15px;
     margin-right: 15px;

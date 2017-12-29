@@ -103,6 +103,7 @@ class Profiler extends AbstractHelper
             $level = count($explodedTimerId)-1;
 
             $label  = array_pop($explodedTimerId);
+            $label = str_replace(BP.'/', '', $label);
             $parent = implode('->', $explodedTimerId);
 
             $timer = [

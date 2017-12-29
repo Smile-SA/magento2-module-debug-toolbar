@@ -49,7 +49,7 @@ foreach ($stats as $event) {
     $event['nb_call']      = $block->formatValue($event['nb_call'], ['gt' => 200], 'number');
     $event['time_total']   = $block->formatValue($event['time_total'], ['gt' => 0.5], 'time_ms');
     $event['time_mean']    = $block->formatValue($event['time_mean'], ['gt' => 0.5], 'time_ms');
-    $event['nb_observers'] = $block->formatValue($event['nb_observers'], ['gt' => 10], 'number');
+    $event['nb_observers'] = $block->formatValue($event['nb_observers'], ['gt' => 20], 'number');
 
     $list[] = $event;
 }
@@ -84,7 +84,7 @@ echo $block->displayTable(
 $sections = [
     'Used Events' => [
         'Number' => $block->formatValue($sections['Used Events']['Number'], ['gt' => 100], 'number'),
-        'Called' => $block->formatValue($sections['Used Events']['Called'], ['gt' => 500], 'number'),
+        'Called' => $block->formatValue($sections['Used Events']['Called'], ['gt' => 1000], 'number'),
         'Time'   => $block->formatValue($sections['Used Events']['Time'], ['gt' => 1.000], 'time'),
     ],
     'Unused Events' => [

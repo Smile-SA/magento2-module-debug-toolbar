@@ -24,7 +24,7 @@ It allows you to navigate into the last X executions.
 
 You can analyse every ajax call, esi block, ...
 
-If a execution has a warning, its line will be **orange**. 
+If an execution has a warning, its line will be **orange**. 
 
 ### Sections
 

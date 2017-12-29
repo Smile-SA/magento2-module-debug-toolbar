@@ -11,9 +11,9 @@ You can add a new zone in the toolbar.
 
 Your new block must :
 
-* extend the class `\Smile\DebugToolbar\Block\Zone\AbstractZone`.
-* implement the method `getTitle` (gives the name of the zone).
-* implement the method `getCode` (gives the code of the zone).
+* extend the class `\Smile\DebugToolbar\Block\Zone\AbstractZone`
+* implement the method `getTitle`
+* implement the method `getCode`
 
 ```php
 <?php
@@ -70,7 +70,7 @@ You can:
 * add values to the summary zone, using the `addToSummary` method.
 
 
-Then, you can add this new zone, by adding an observer on the event `smile_debug_toolbar_set_zones`.
+Then, you can add this new zone to the toolbar, by adding an observer on the event `smile_debug_toolbar_set_zones`.
 
 The following objects will be available in the event:
 

@@ -66,8 +66,8 @@ function smileTableSort(column, order)
    smileTableCurrentOrder = order;
 
    smileTableValues.sort(
-       function(rowA, rowB)
-       {
+       function (rowA, rowB) {
+       
            var a = rowA[smileTableCurrentColumn]['value'];
            var b = rowB[smileTableCurrentColumn]['value'];
 

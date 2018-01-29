@@ -36,11 +36,11 @@ class Observer extends AbstractZone
      * @param array            $data
      */
     public function __construct(
-        Context          $context,
-        HelperData       $helperData,
+        Context $context,
+        HelperData $helperData,
         FormatterFactory $formatterFactory,
-        HelperObserver   $helperObserver,
-        array            $data = []
+        HelperObserver $helperObserver,
+        array $data = []
     ) {
         parent::__construct($context, $helperData, $formatterFactory, $data);
 

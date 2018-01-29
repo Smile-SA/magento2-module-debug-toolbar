@@ -36,11 +36,11 @@ class Profiler extends AbstractZone
      * @param array            $data
      */
     public function __construct(
-        Context          $context,
-        HelperData       $helperData,
+        Context $context,
+        HelperData $helperData,
         FormatterFactory $formatterFactory,
-        HelperProfiler   $helperProfiler,
-        array            $data = []
+        HelperProfiler $helperProfiler,
+        array $data = []
     ) {
         parent::__construct($context, $helperData, $formatterFactory, $data);
 

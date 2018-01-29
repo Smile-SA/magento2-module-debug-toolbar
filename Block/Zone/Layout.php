@@ -36,11 +36,11 @@ class Layout extends AbstractZone
      * @param array            $data
      */
     public function __construct(
-        Context          $context,
-        HelperData       $helperData,
+        Context $context,
+        HelperData $helperData,
         FormatterFactory $formatterFactory,
-        HelperLayout     $helperLayout,
-        array            $data = []
+        HelperLayout $helperLayout,
+        array $data = []
     ) {
         parent::__construct($context, $helperData, $formatterFactory, $data);
 

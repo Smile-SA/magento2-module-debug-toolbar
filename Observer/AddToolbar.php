@@ -64,11 +64,11 @@ class AddToolbar implements ObserverInterface
      * @param HelperProfiler  $helperProfiler
      */
     public function __construct(
-        ToolbarFactory  $blockToolbarFactory,
+        ToolbarFactory $blockToolbarFactory,
         ToolbarsFactory $blockToolbarsFactory,
-        HelperData      $helperData,
-        HelperConfig    $helperConfig,
-        HelperProfiler  $helperProfiler
+        HelperData $helperData,
+        HelperConfig $helperConfig,
+        HelperProfiler $helperProfiler
     ) {
         $this->blockToolbarFactory  = $blockToolbarFactory;
         $this->blockToolbarsFactory = $blockToolbarsFactory;
@@ -123,7 +123,7 @@ class AddToolbar implements ObserverInterface
      * @return void
      */
     protected function buildToolbar(
-        MagentoRequest  $request,
+        MagentoRequest $request,
         MagentoResponse $response
     ) {
         // init the toolbar id
@@ -157,7 +157,7 @@ class AddToolbar implements ObserverInterface
      * @return Toolbar
      */
     protected function getCurrentExecutionToolbarBlock(
-        MagentoRequest  $request,
+        MagentoRequest $request,
         MagentoResponse $response
     ) {
         /** @var Toolbar $block */

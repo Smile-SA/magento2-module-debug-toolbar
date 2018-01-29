@@ -36,11 +36,11 @@ class Preference extends AbstractZone
      * @param array            $data
      */
     public function __construct(
-        Context          $context,
-        HelperData       $helperData,
+        Context $context,
+        HelperData $helperData,
         FormatterFactory $formatterFactory,
         HelperPreference $helperPreference,
-        array            $data = []
+        array $data = []
     ) {
         parent::__construct($context, $helperData, $formatterFactory, $data);
 

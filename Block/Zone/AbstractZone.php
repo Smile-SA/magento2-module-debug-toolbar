@@ -57,10 +57,10 @@ abstract class AbstractZone extends MagentoTemplateBlock
      * @param array            $data
      */
     public function __construct(
-        Context          $context,
-        HelperData       $helperData,
+        Context $context,
+        HelperData $helperData,
         FormatterFactory $formatterFactory,
-        array            $data = []
+        array $data = []
     ) {
         parent::__construct($context, $data);
 
@@ -220,7 +220,7 @@ abstract class AbstractZone extends MagentoTemplateBlock
             $value = $this->formatValue($value);
         }
 
-        return array($value['css_class'], $value['value']);
+        return [$value['css_class'], $value['value']];
     }
 
     /**

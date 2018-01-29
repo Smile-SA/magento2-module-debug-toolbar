@@ -50,13 +50,13 @@ class Generic extends AbstractZone
      * @param array                    $data
      */
     public function __construct(
-        Context                  $context,
-        HelperData               $helperData,
-        FormatterFactory         $formatterFactory,
+        Context $context,
+        HelperData $helperData,
+        FormatterFactory $formatterFactory,
         ProductMetadataInterface $productMetadata,
-        AppState                 $appState,
-        DeploymentConfig         $deployConfig,
-        array                    $data = []
+        AppState $appState,
+        DeploymentConfig $deployConfig,
+        array $data = []
     ) {
         parent::__construct($context, $helperData, $formatterFactory, $data);
 

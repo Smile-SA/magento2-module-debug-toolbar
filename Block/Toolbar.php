@@ -48,10 +48,10 @@ class Toolbar extends MagentoTemplateBlock
      * @param array          $data
      */
     public function __construct(
-        Context        $context,
-        HelperData     $helperData,
+        Context $context,
+        HelperData $helperData,
         SummaryFactory $blockSummaryFactory,
-        array          $data = []
+        array $data = []
     ) {
         parent::__construct($context, $data);
 
@@ -71,7 +71,7 @@ class Toolbar extends MagentoTemplateBlock
      * @return void
      */
     public function loadZones(
-        MagentoRequest  $request,
+        MagentoRequest $request,
         MagentoResponse $response
     ) {
         /** @var Summary $summaryBlock */

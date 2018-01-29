@@ -38,7 +38,7 @@ class AbstractAction
      * @param HelperConfig $helperConfig
      */
     public function __construct(
-        HelperData   $helperData,
+        HelperData $helperData,
         HelperConfig $helperConfig
     ) {
         $this->helperData   = $helperData;
@@ -55,7 +55,7 @@ class AbstractAction
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function beforeDispatch(
-        MagentoAction    $subject,
+        MagentoAction $subject,
         RequestInterface $request
     ) {
         if ($this->helperConfig->isEnabled()) {

@@ -43,8 +43,8 @@ class Preference extends AbstractHelper
      * @param ObjectManagerConfig $objectManagerConfig
      */
     public function __construct(
-        Context             $context,
-        PluginList          $pluginList,
+        Context $context,
+        PluginList $pluginList,
         ObjectManagerConfig $objectManagerConfig
     ) {
         parent::__construct($context);

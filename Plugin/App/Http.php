@@ -37,7 +37,7 @@ class Http
      * @param HelperConfig $helperConfig
      */
     public function __construct(
-        HelperData   $helperData,
+        HelperData $helperData,
         HelperConfig $helperConfig
     ) {
         $this->helperData   = $helperData;

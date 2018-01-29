@@ -48,7 +48,7 @@ class Cache extends AbstractHelper
      * @param TypeListInterface $cacheTypeList
      */
     public function __construct(
-        Context           $context,
+        Context $context,
         TypeListInterface $cacheTypeList
     ) {
         parent::__construct($context);

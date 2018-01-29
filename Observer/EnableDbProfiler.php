@@ -49,7 +49,7 @@ class EnableDbProfiler implements ObserverInterface
     public function __construct(
         DeploymentConfigWriter $deploymentConfigWriter,
         DeploymentConfigReader $deploymentConfigReader,
-        HelperConfig           $helperConfig
+        HelperConfig $helperConfig
     ) {
         $this->deploymentConfigWriter = $deploymentConfigWriter;
         $this->deploymentConfigReader = $deploymentConfigReader;

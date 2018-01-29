@@ -37,9 +37,9 @@ class Layout extends AbstractHelper
      * @param Builder                $builder
      */
     public function __construct(
-        Context                $context,
+        Context $context,
         MagentoLayoutInterface $layout,
-        Builder                $builder
+        Builder $builder
     ) {
         parent::__construct($context);
 

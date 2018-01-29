@@ -50,15 +50,15 @@ class AddZones implements ObserverInterface
      * @param ResponseFactory   $responseBlockFactory
      */
     public function __construct(
-        CacheFactory      $cacheBlockFactory,
-        GenericFactory    $genericBlockFactory,
-        LayoutFactory     $layoutBlockFactory,
-        MysqlFactory      $mysqlBlockFactory,
-        ObserverFactory   $observerBlockFactory,
+        CacheFactory $cacheBlockFactory,
+        GenericFactory $genericBlockFactory,
+        LayoutFactory $layoutBlockFactory,
+        MysqlFactory $mysqlBlockFactory,
+        ObserverFactory $observerBlockFactory,
         PreferenceFactory $preferenceBlockFactory,
-        ProfilerFactory   $profilerBlockFactory,
-        RequestFactory    $requestBlockFactory,
-        ResponseFactory   $responseBlockFactory
+        ProfilerFactory $profilerBlockFactory,
+        RequestFactory $requestBlockFactory,
+        ResponseFactory $responseBlockFactory
     ) {
         $this->blockFactories[] = $genericBlockFactory;
         $this->blockFactories[] = $requestBlockFactory;

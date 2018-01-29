@@ -43,12 +43,12 @@ class Cache extends AbstractZone
      * @param array            $data
      */
     public function __construct(
-        Context          $context,
-        HelperData       $helperData,
+        Context $context,
+        HelperData $helperData,
         FormatterFactory $formatterFactory,
         DeploymentConfig $deployConfig,
-        HelperCache      $helperCache,
-        array            $data = []
+        HelperCache $helperCache,
+        array $data = []
     ) {
         parent::__construct($context, $helperData, $formatterFactory, $data);
 

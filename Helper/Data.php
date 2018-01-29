@@ -62,9 +62,9 @@ class Data extends AbstractHelper
      * @param AppState      $appState
      */
     public function __construct(
-        Context       $context,
+        Context $context,
         DirectoryList $directoryList,
-        AppState      $appState
+        AppState $appState
     ) {
         parent::__construct($context);
 

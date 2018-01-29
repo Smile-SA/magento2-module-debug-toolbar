@@ -37,11 +37,11 @@ class Mysql extends AbstractZone
      * @param array            $data
      */
     public function __construct(
-        Context          $context,
-        HelperData       $helperData,
+        Context $context,
+        HelperData $helperData,
         FormatterFactory $formatterFactory,
-        ResourceModel    $resourceModel,
-        array            $data = []
+        ResourceModel $resourceModel,
+        array $data = []
     ) {
         parent::__construct($context, $helperData, $formatterFactory, $data);
 

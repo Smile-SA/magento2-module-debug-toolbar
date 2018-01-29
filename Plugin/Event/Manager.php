@@ -48,7 +48,7 @@ class Manager
      */
     public function aroundDispatch(
         MagentoManager $subject,
-        \Closure       $closure,
+        \Closure $closure,
         $eventName,
         array $data = []
     ) {

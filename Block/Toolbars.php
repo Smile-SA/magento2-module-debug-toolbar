@@ -33,9 +33,9 @@ class Toolbars extends MagentoTemplateBlock
      * @param array      $data
      */
     public function __construct(
-        Context    $context,
+        Context $context,
         HelperData $helperData,
-        array      $data = []
+        array $data = []
     ) {
         parent::__construct($context, $data);
 

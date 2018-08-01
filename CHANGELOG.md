@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.1.1] - 2018-08-01
+[3.1.1]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/3.1.0...3.1.1
+
+  * fix issue #1 - remove highlighjs lib (for mysql queries) because of a requireJs incompatibility
+
 ## [3.1.0] - 2017-12-29
 [3.1.0]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/3.0.1...3.1.0
 

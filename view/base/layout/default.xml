@@ -16,9 +16,7 @@
     <head>
         <css src="Smile_DebugToolbar::css/smile-toolbar.css"/>
         <css src="Smile_DebugToolbar::css/smile-unit.css"/>
-        <css src="Smile_DebugToolbar::css/highlight.min.css"/>
         <script src="Smile_DebugToolbar::js/smile-toolbar.js"/>
         <script src="Smile_DebugToolbar::js/smile-table.js"/>
-        <script src="Smile_DebugToolbar::js/highlight.min.js"/>
     </head>
 </page>

@@ -38,7 +38,7 @@ function smileToolbarAdd(toolbarIdentifier, hasWarning)
 function smileToolbarInit()
 {
     smileToolbarSelect(smileToolbarCount);
-    setTimeout('smileToolbarHighlight();', 500);
+    setTimeout(smileToolbarHighlight, 500);
 }
 
 /**
@@ -265,6 +265,11 @@ function smileToolbarTreeGrid(node, forceClose)
  */
 function smileToolbarHighlight()
 {
-    var blocks = document.querySelectorAll('pre code');
-    [].forEach.call(blocks, hljs.highlightBlock);
+    if (window.hljs === undefined) {
+        return false;
+    }
+
+    var blocks = document.querySelectorAll('.smile-toolbar pre code');
+    [].forEach.call(blocks, window.hljs.highlightBlock);
+    return true;
 }

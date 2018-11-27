@@ -7,8 +7,8 @@
  */
 namespace Smile\DebugToolbar\Observer;
 
-use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Event\Observer;
+use Magento\Framework\Event\ObserverInterface;
 use Smile\DebugToolbar\Block\Zone\AbstractZone;
 use Smile\DebugToolbar\Block\Zone\CacheFactory;
 use Smile\DebugToolbar\Block\Zone\GenericFactory;
@@ -17,37 +17,36 @@ use Smile\DebugToolbar\Block\Zone\MysqlFactory;
 use Smile\DebugToolbar\Block\Zone\ObserverFactory;
 use Smile\DebugToolbar\Block\Zone\PreferenceFactory;
 use Smile\DebugToolbar\Block\Zone\ProfilerFactory;
-use Smile\DebugToolbar\Block\Zone\RequestFactory;
-use Smile\DebugToolbar\Block\Zone\ResponseFactory;
 use Smile\DebugToolbar\Block\Zone\Request;
+use Smile\DebugToolbar\Block\Zone\RequestFactory;
 use Smile\DebugToolbar\Block\Zone\Response;
+use Smile\DebugToolbar\Block\Zone\ResponseFactory;
 use Smile\DebugToolbar\Block\Zone\Summary;
 
 /**
  * Observer Add the Zones
  *
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
 class AddZones implements ObserverInterface
 {
     /**
-     * Block Factories
+     * @var array
      */
     protected $blockFactories = [];
 
     /**
-     * AddZones constructor.
-     * @param CacheFactory      $cacheBlockFactory
-     * @param GenericFactory    $genericBlockFactory
-     * @param LayoutFactory     $layoutBlockFactory
-     * @param MysqlFactory      $mysqlBlockFactory
-     * @param ObserverFactory   $observerBlockFactory
+     * @param CacheFactory $cacheBlockFactory
+     * @param GenericFactory $genericBlockFactory
+     * @param LayoutFactory $layoutBlockFactory
+     * @param MysqlFactory $mysqlBlockFactory
+     * @param ObserverFactory $observerBlockFactory
      * @param PreferenceFactory $preferenceBlockFactory
-     * @param ProfilerFactory   $profilerBlockFactory
-     * @param RequestFactory    $requestBlockFactory
-     * @param ResponseFactory   $responseBlockFactory
+     * @param ProfilerFactory $profilerBlockFactory
+     * @param RequestFactory $requestBlockFactory
+     * @param ResponseFactory $responseBlockFactory
      */
     public function __construct(
         CacheFactory $cacheBlockFactory,
@@ -72,11 +71,7 @@ class AddZones implements ObserverInterface
     }
 
     /**
-     * Execute the observer
-     *
-     * @param Observer $observer Magento Observer Object
-     *
-     * @return void
+     * {@inheritdoc}
      */
     public function execute(Observer $observer)
     {

@@ -12,7 +12,7 @@ use Magento\Framework\HTTP\PhpEnvironment\Response as MagentoResponse;
 /**
  * Zone for Debug Toolbar Block
  *
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
@@ -24,9 +24,7 @@ class Response extends AbstractZone
     protected $response;
 
     /**
-     * Get the Code
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getCode()
     {
@@ -34,9 +32,7 @@ class Response extends AbstractZone
     }
 
     /**
-     * Get the Title
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTitle()
     {
@@ -44,10 +40,9 @@ class Response extends AbstractZone
     }
 
     /**
-     * Set the response
+     * Set the response.
      *
      * @param MagentoResponse $response
-     *
      * @return $this
      */
     public function setResponse(MagentoResponse $response)
@@ -58,7 +53,7 @@ class Response extends AbstractZone
     }
 
     /**
-     * Get the Response
+     * Get the response.
      *
      * @return MagentoResponse
      */
@@ -68,7 +63,7 @@ class Response extends AbstractZone
     }
 
     /**
-     * Get the Full Page Cache mode
+     * Get the Full Page Cache mode.
      *
      * @return string
      */
@@ -78,7 +73,7 @@ class Response extends AbstractZone
     }
 
     /**
-     * Get the list of the ESI blocks in the response
+     * Get the list of the ESI blocks in the response.
      *
      * @return string[]
      */

@@ -6,29 +6,31 @@ This module adds a Debug Toolbar in Magento 2.
 
 **Use it only on dev environment.**
 
-The toolbar saves all the last executions, including redirects, Ajax calls, WebApi calls, and ESI calls.
+The toolbar displays useful information about the last executions, including redirects, Ajax calls, WebApi calls, and ESI calls.
 
-Then, you can navigate in those executions to analyze them.
-
-Its allows you to analyze the queries, the layout, the plugins, ...
+It allows you to analyze the SQL queries, the layout, the plugins, ...
 
 ## Documentation
 
-For more information, install procedure, and more, see the [**Documentation**](doc/README.md). 
+1. [Install](doc/install.md)
+2. [Back-Office](doc/backoffice.md)
+3. [Toolbar](doc/toolbar.md)
+4. [How-To](doc/howto.md)
 
-## Changelog
+## Contributing
 
-Look at the [ChangeLog](CHANGELOG.md) file. 
+You can contribute to this module by submitting issues or pull requests.
+
+For more details, please take a look at the [contribution guidelines](CONTRIBUTING.md).
 
 ## License
 
-[Eclipse Public License - v 2.0](LICENSE.md)
+This module is licensed under the [Eclipse Public License - v 2.0](LICENSE.md).
 
-## Magento versions compatibility
+## Changelog
 
- * CE: 2.2.x
- * EE: 2.2.x
+All notable changes are recorded in this [changelog](CHANGELOG.md).
 
 ## Contact
 
-Laurent MINGUET <dirtech@smile.fr>
+Laurent Minguet <dirtech@smile.fr>

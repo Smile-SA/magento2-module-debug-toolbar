@@ -7,65 +7,54 @@
  */
 namespace Smile\DebugToolbar\DB;
 
-use \Zend_Db_Profiler as OriginalProfiler;
+use Zend_Db_Profiler as OriginalProfiler;
 
 /**
  * Smile Db Profiler
  *
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
 class Profiler extends OriginalProfiler
 {
     /**
-     * Host IP whereto a request is sent
-     *
      * @var string
      */
     protected $host = '';
 
     /**
-     * Database connection type
-     *
      * @var string
      */
     protected $type = '';
 
     /**
-     * Last query Id
-     *
      * @var string|null
      */
     protected $lastQueryId = null;
 
     /**
-     * List of all the queries
-     *
      * @var array
      */
     protected $queries = null;
 
     /**
-     * List of all the types
-     *
      * @var string[]
      */
     protected $types = [
-        self::CONNECT     => 'connect',
-        self::QUERY       => 'query',
-        self::INSERT      => 'insert',
-        self::UPDATE      => 'update',
-        self::DELETE      => 'delete',
-        self::SELECT      => 'select',
+        self::CONNECT => 'connect',
+        self::QUERY => 'query',
+        self::INSERT => 'insert',
+        self::UPDATE => 'update',
+        self::DELETE => 'delete',
+        self::SELECT => 'select',
         self::TRANSACTION => 'transaction',
     ];
 
     /**
-     * Setter for host IP
+     * Setter for host IP.
      *
      * @param string $host
-     *
      * @return $this
      */
     public function setHost($host)
@@ -76,10 +65,9 @@ class Profiler extends OriginalProfiler
     }
 
     /**
-     * Setter for database connection type
+     * Setter for database connection type.
      *
      * @param string $type
-     *
      * @return $this
      */
     public function setType($type)
@@ -90,12 +78,11 @@ class Profiler extends OriginalProfiler
     }
 
     /**
-     * Starts a query. Creates a new query profile object
+     * Starts a query. Creates a new query profile object.
      *
-     * @param string       $queryText
-     * @param integer|null $queryType
-     *
-     * @return integer|null
+     * @param string $queryText
+     * @param int|null $queryType
+     * @return int|null
      */
     public function queryStart($queryText, $queryType = null)
     {
@@ -103,7 +90,7 @@ class Profiler extends OriginalProfiler
             return null;
         }
 
-        // make sure we have a query type
+        // Make sure we have a query type
         if (null === $queryType) {
             $queryType = $this->getTypeFromQuery($queryText);
         }
@@ -118,10 +105,9 @@ class Profiler extends OriginalProfiler
     }
 
     /**
-     * Get the query type
+     * Get the query type.
      *
      * @param string $queryText
-     *
      * @return int
      */
     protected function getTypeFromQuery($queryText)
@@ -156,10 +142,9 @@ class Profiler extends OriginalProfiler
     }
 
     /**
-     * Get a type from its id
+     * Get a type from its id.
      *
      * @param int $typeId
-     *
      * @return string
      */
     protected function getTypeText($typeId)
@@ -177,7 +162,6 @@ class Profiler extends OriginalProfiler
      * Ends a query. Pass it the handle that was returned by queryStart().
      *
      * @param int $queryId
-     *
      * @return string
      */
     public function queryEnd($queryId)
@@ -202,7 +186,7 @@ class Profiler extends OriginalProfiler
     }
 
     /**
-     * Get the queries as array
+     * Get the queries as array.
      *
      * @return array
      */
@@ -226,27 +210,26 @@ class Profiler extends OriginalProfiler
     }
 
     /**
-     * Convert a query profile to a array
+     * Convert a query profile to a array.
      *
      * @param Profiler\Query $queryProfile
-     *
      * @return array
      */
     protected function convertQueryProfileToArray(Profiler\Query $queryProfile)
     {
         return [
-            'id'      => null,
-            'query'   => $queryProfile->getQuery(),
+            'id' => null,
+            'query' => $queryProfile->getQuery(),
             'type_id' => $queryProfile->getQueryType(),
-            'type'    => $this->getTypeText($queryProfile->getQueryType()),
-            'time'    => $queryProfile->getElapsedSecs(),
-            'params'  => $queryProfile->getQueryParams(),
-            'trace'   => $queryProfile->getTrace(),
+            'type' => $this->getTypeText($queryProfile->getQueryType()),
+            'time' => $queryProfile->getElapsedSecs(),
+            'params' => $queryProfile->getQueryParams(),
+            'trace' => $queryProfile->getTrace(),
         ];
     }
 
     /**
-     * Get the list of all the available types
+     * Get the list of all the available types.
      *
      * @return string[]
      */
@@ -256,7 +239,7 @@ class Profiler extends OriginalProfiler
     }
 
     /**
-     * Get a count per types
+     * Get a count per types.
      *
      * @return array
      */
@@ -279,7 +262,7 @@ class Profiler extends OriginalProfiler
     }
 
     /**
-     * Get a count per types
+     * Get a count per types.
      *
      * @return array
      */
@@ -294,8 +277,8 @@ class Profiler extends OriginalProfiler
         }
 
         foreach ($this->getQueryProfilesAsArray() as $query) {
-            $list['total']+= $query['time'];
-            $list[$query['type']]+= $query['time'];
+            $list['total'] += $query['time'];
+            $list[$query['type']] += $query['time'];
         }
 
         return $list;

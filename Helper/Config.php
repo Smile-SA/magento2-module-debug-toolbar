@@ -10,26 +10,23 @@ namespace Smile\DebugToolbar\Helper;
 use Magento\Framework\App\Helper\AbstractHelper;
 
 /**
- * Helper : Config
+ * Helper: Config
  *
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
 class Config extends AbstractHelper
 {
-    /**
-     * @var string
+    /**#@+
+     * Config paths.
      */
     const KEY_CONFIG_ENABLE = 'smile_debugtoolbar/configuration/enabled';
-
-    /**
-     * @var string
-     */
     const KEY_CONFIG_NB_EXECUTION_TO_KEEP = 'smile_debugtoolbar/configuration/keep_last_execution';
+    /**#@-*/
 
     /**
-     * Is enabled ?
+     * Is enabled?
      *
      * @return bool
      */
@@ -41,7 +38,7 @@ class Config extends AbstractHelper
     }
 
     /**
-     * get the Config value for flatfile_search
+     * Get the config value for keep_last_execution.
      *
      * @return int
      */
@@ -49,11 +46,11 @@ class Config extends AbstractHelper
     {
         $value = (int) $this->scopeConfig->getValue(self::KEY_CONFIG_NB_EXECUTION_TO_KEEP);
 
-        if ($value<1) {
+        if ($value < 1) {
             $value = 1;
         }
 
-        if ($value>1024) {
+        if ($value > 1024) {
             $value = 1024;
         }
 

@@ -9,14 +9,14 @@ namespace Smile\DebugToolbar\Block\Zone;
 
 use Magento\Framework\View\Element\Template as MagentoTemplateBlock;
 use Magento\Framework\View\Element\Template\Context;
-use Smile\DebugToolbar\Helper\Data  as HelperData;
 use Smile\DebugToolbar\Formatter\FormatterFactory;
+use Smile\DebugToolbar\Helper\Data as HelperData;
 
 /**
  * Zone for Debug Toolbar Block
  *
  * @api
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
@@ -49,12 +49,10 @@ abstract class AbstractZone extends MagentoTemplateBlock
     protected $tablesToDisplay = [];
 
     /**
-     * AbstractZone constructor.
-     *
-     * @param Context          $context
-     * @param HelperData       $helperData
+     * @param Context $context
+     * @param HelperData $helperData
      * @param FormatterFactory $formatterFactory
-     * @param array            $data
+     * @param array $data
      */
     public function __construct(
         Context $context,
@@ -64,42 +62,39 @@ abstract class AbstractZone extends MagentoTemplateBlock
     ) {
         parent::__construct($context, $data);
 
-        $this->helperData       = $helperData;
+        $this->helperData = $helperData;
         $this->formatterFactory = $formatterFactory;
 
         $this->setData('cache_lifetime', 0);
-        $this->setTemplate('zone/'.$this->getCode().'.phtml');
+        $this->setTemplate('zone/' . $this->getCode() . '.phtml');
     }
 
     /**
-     * Get the code
+     * Get the code.
      *
      * @return string
      */
     abstract public function getCode();
 
     /**
-     * Get the title
+     * Get the title.
      *
      * @return string
      */
     abstract public function getTitle();
 
     /**
-     * Redefine the toHtml method to remove all the cache policy
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function toHtml()
     {
-         return $this->_toHtml();
+        return $this->_toHtml();
     }
 
     /**
-     * Add the summary block
+     * Add the summary block.
      *
      * @param Summary $block
-     *
      * @return $this
      */
     public function setSummaryBlock(Summary $block)
@@ -110,11 +105,11 @@ abstract class AbstractZone extends MagentoTemplateBlock
     }
 
     /**
-     * Add a value to the summary
+     * Add a value to the summary.
      *
      * @param string $sectionName
      * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
      */
     public function addToSummary($sectionName, $key, $value)
     {
@@ -122,7 +117,7 @@ abstract class AbstractZone extends MagentoTemplateBlock
     }
 
     /**
-     * Set the warning flag
+     * Set the warning flag.
      *
      * @return $this
      */
@@ -134,7 +129,7 @@ abstract class AbstractZone extends MagentoTemplateBlock
     }
 
     /**
-     * Have we a warning ?
+     * Have we a warning?
      *
      * @return bool
      */
@@ -144,10 +139,9 @@ abstract class AbstractZone extends MagentoTemplateBlock
     }
 
     /**
-     * Display sections
+     * Display sections.
      *
      * @param array $sections
-     *
      * @return string
      */
     public function displaySections($sections = [])
@@ -155,30 +149,29 @@ abstract class AbstractZone extends MagentoTemplateBlock
         $html = '';
 
         foreach ($sections as $sectionName => $sectionValues) {
-            $html.= "<h2>{$sectionName}</h2>\n";
+            $html .= "<h2>{$sectionName}</h2>\n";
 
-            $html.= "<table>\n";
-            $html.= '<tbody>';
+            $html .= "<table>\n";
+            $html .= '<tbody>';
             if (count($sectionValues) == 0) {
-                $html.= "<tr><td>No Values</td></tr>\n";
+                $html .= "<tr><td>No Values</td></tr>\n";
             }
 
             foreach ($sectionValues as $name => $value) {
-                $html.= $this->displaySectionValue($name, $value);
+                $html .= $this->displaySectionValue($name, $value);
             }
-            $html.= '</tbody>';
+            $html .= '</tbody>';
 
-            $html.= "</table>\n";
+            $html .= "</table>\n";
         }
 
         return $html;
     }
 
     /**
-     * Display sections
+     * Display sections.
      *
      * @param array $sections
-     *
      * @return string
      */
     public function displaySectionsGrouped($sections = [])
@@ -187,28 +180,27 @@ abstract class AbstractZone extends MagentoTemplateBlock
         $rowNames = array_keys($sections[$sectionNames[0]]);
 
         $html = "<table>\n";
-        $html.= '<thead><tr><th></th><td>'.implode('</td><td>', $sectionNames).'</td></tr></thead>';
-        $html.= '<tbody>';
+        $html .= '<thead><tr><th></th><td>' . implode('</td><td>', $sectionNames) . '</td></tr></thead>';
+        $html .= '<tbody>';
         foreach ($rowNames as $rowName) {
-            $html.= '<tr>';
-            $html.= '<th>'.$rowName.'</th>';
+            $html .= '<tr>';
+            $html .= '<th>' . $rowName . '</th>';
             foreach ($sectionNames as $sectionName) {
                 list($class, $value) = $this->getClassAndValue($sections[$sectionName][$rowName]);
-                $html.= '<td class="'.$class.'">'.$value.'</td>';
+                $html .= '<td class="' . $class . '">' . $value . '</td>';
             }
-            $html.= '<tr>';
+            $html .= '<tr>';
         }
-        $html.= '</tbody>';
-        $html.= '</table>';
+        $html .= '</tbody>';
+        $html .= '</table>';
 
         return $html;
     }
 
     /**
-     * Get the good css class and the cleaned value
+     * Get the good css class and the cleaned value.
      *
      * @param mixed $value
-     *
      * @return string[]
      */
     protected function getClassAndValue($value)
@@ -224,11 +216,10 @@ abstract class AbstractZone extends MagentoTemplateBlock
     }
 
     /**
-     * Display a row section
+     * Display a row section.
      *
      * @param string $name
-     * @param mixed  $value
-     *
+     * @param mixed $value
      * @return string
      */
     protected function displaySectionValue($name, $value)
@@ -239,7 +230,7 @@ abstract class AbstractZone extends MagentoTemplateBlock
     }
 
     /**
-     * Get the toolbar id
+     * Get the toolbar id.
      *
      * @return string
      */
@@ -249,40 +240,39 @@ abstract class AbstractZone extends MagentoTemplateBlock
     }
 
     /**
-     * Display the table
+     * Display the table.
      *
      * @param string $title
-     * @param array  $values
-     * @param array  $columns
-     * @param string $additionnal
-     *
+     * @param array $values
+     * @param array $columns
+     * @param string $additional
      * @return string
      */
-    public function displayTable($title, &$values, $columns, $additionnal = null)
+    public function displayTable($title, &$values, $columns, $additional = null)
     {
         $tableId = $this->helperData->getNewTableId();
-        $tableTitle       = str_replace('-', '_', $tableId).'_title';
-        $tableValues      = str_replace('-', '_', $tableId).'_values';
-        $tableColumns     = str_replace('-', '_', $tableId).'_columns';
-        $tableAdditionnal = str_replace('-', '_', $tableId).'_additionnal';
+        $tableTitle = str_replace('-', '_', $tableId) . '_title';
+        $tableValues = str_replace('-', '_', $tableId) . '_values';
+        $tableColumns = str_replace('-', '_', $tableId) . '_columns';
+        $tableAdditional = str_replace('-', '_', $tableId) . '_additional';
 
-        $html = '<script type="text/javascript">'."\n";
-        $html.= 'var '.$tableTitle.'       = '.json_encode(strip_tags($title)).';'."\n";
-        $html.= 'var '.$tableColumns.'     = '.json_encode($columns).';'."\n";
-        $html.= 'var '.$tableValues.'      = '.json_encode($values).';'."\n";
-        $html.= 'var '.$tableAdditionnal.' = '.json_encode($additionnal).';'."\n";
-        $html.= "</script>\n";
+        $html = '<script type="text/javascript">' . "\n";
+        $html .= 'var ' . $tableTitle . ' = ' . json_encode(strip_tags($title)) . ';' . "\n";
+        $html .= 'var ' . $tableColumns . ' = ' . json_encode($columns) . ';' . "\n";
+        $html .= 'var ' . $tableValues . ' = ' . json_encode($values) . ';' . "\n";
+        $html .= 'var ' . $tableAdditional . ' = ' . json_encode($additional) . ';' . "\n";
+        $html .= "</script>\n";
 
-        $label   = 'Show '.$title.' ('.count($values).' rows)';
+        $label = 'Show ' . $title . ' (' . count($values) . ' rows)';
 
         $onClick = 'smileToolbarTableDisplay('
-            .$tableTitle.', '
-            .$tableValues.', '
-            .$tableColumns.', '
-            .$tableAdditionnal.');';
+            . $tableTitle . ', '
+            . $tableValues . ', '
+            . $tableColumns . ', '
+            . $tableAdditional . ');';
 
         $this->tablesToDisplay[] = [
-            'label'   => $label,
+            'label' => $label,
             'onclick' => $onClick,
         ];
 
@@ -290,7 +280,7 @@ abstract class AbstractZone extends MagentoTemplateBlock
     }
 
     /**
-     * get the tables to display
+     * Get the tables to display.
      *
      * @return array
      */
@@ -300,7 +290,7 @@ abstract class AbstractZone extends MagentoTemplateBlock
     }
 
     /**
-     * get the helper data
+     * Get the data helper.
      *
      * @return HelperData
      */
@@ -310,12 +300,11 @@ abstract class AbstractZone extends MagentoTemplateBlock
     }
 
     /**
-     * format a value, using rules, and type
+     * Format a value, using rules, and type.
      *
-     * @param float  $value
-     * @param array  $rules
+     * @param float $value
+     * @param array $rules
      * @param string $type
-     *
      * @return array
      */
     public function formatValue($value, $rules = [], $type = null)
@@ -323,7 +312,7 @@ abstract class AbstractZone extends MagentoTemplateBlock
         $formatter = $this->formatterFactory->create(
             [
                 'value' => $value,
-                'type'  => $type,
+                'type' => $type,
                 'rules' => $rules,
             ]
         );

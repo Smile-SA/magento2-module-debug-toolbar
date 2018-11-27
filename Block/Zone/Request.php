@@ -12,7 +12,7 @@ use Magento\Framework\App\Request\Http as MagentoRequest;
 /**
  * Zone for Debug Toolbar Block
  *
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
@@ -24,9 +24,7 @@ class Request extends AbstractZone
     protected $request;
 
     /**
-     * Get the Code
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getCode()
     {
@@ -34,9 +32,7 @@ class Request extends AbstractZone
     }
 
     /**
-     * Get the Title
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTitle()
     {
@@ -44,10 +40,9 @@ class Request extends AbstractZone
     }
 
     /**
-     * Set the request
+     * Set the request.
      *
      * @param MagentoRequest $request
-     *
      * @return $this
      */
     public function setRequest(MagentoRequest $request)
@@ -58,9 +53,7 @@ class Request extends AbstractZone
     }
 
     /**
-     * Get the request
-     *
-     * @return MagentoRequest
+     * {@inheritdoc}
      */
     public function getRequest()
     {
@@ -68,7 +61,8 @@ class Request extends AbstractZone
     }
 
     /**
-     * Get the controller class name
+     * Get the controller class name.
+     *
      * @return string
      */
     public function getControllerClassName()

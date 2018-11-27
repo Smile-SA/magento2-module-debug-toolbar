@@ -7,13 +7,13 @@
  */
 namespace Smile\DebugToolbar\Plugin\App;
 
-use Magento\Framework\App\CacheInterface as MagentoCache;
+use Magento\Framework\App\CacheInterface;
 use Smile\DebugToolbar\Helper\Cache as HelperCache;
 
 /**
- * Plugin on Cache
+ * Plugin on cache.
  *
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
@@ -25,31 +25,24 @@ class Cache
     protected $helperCache;
 
     /**
-     * Cache constructor.
-     *
      * @param HelperCache $helperCache
      */
-    public function __construct(
-        HelperCache $helperCache
-    ) {
+    public function __construct(HelperCache $helperCache)
+    {
         $this->helperCache = $helperCache;
     }
 
     /**
-     * Add stats on load
+     * Add stats on load.
      *
-     * @param MagentoCache $subject
-     * @param \Closure     $closure
-     * @param string       $identifier
-     *
+     * @param CacheInterface $subject
+     * @param \Closure $closure
+     * @param string $identifier
      * @return string
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundLoad(
-        MagentoCache $subject,
-        \Closure $closure,
-        $identifier
-    ) {
+    public function aroundLoad(CacheInterface $subject, \Closure $closure, $identifier)
+    {
         $startTime = microtime(true);
 
         $result = $closure($identifier);
@@ -60,20 +53,19 @@ class Cache
     }
 
     /**
-     * Add stats on save
+     * Add stats on save.
      *
-     * @param MagentoCache $subject
-     * @param \Closure     $closure
-     * @param string       $data
-     * @param string       $identifier
-     * @param array        $tags
-     * @param int          $lifeTime
-     *
+     * @param CacheInterface $subject
+     * @param \Closure $closure
+     * @param string $data
+     * @param string $identifier
+     * @param array $tags
+     * @param int $lifeTime
      * @return bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundSave(
-        MagentoCache $subject,
+        CacheInterface $subject,
         \Closure $closure,
         $data,
         $identifier,
@@ -90,20 +82,16 @@ class Cache
     }
 
     /**
-     * Add stats on remove
+     * Add stats on remove.
      *
-     * @param MagentoCache $subject
-     * @param \Closure     $closure
-     * @param string       $identifier
-     *
+     * @param CacheInterface $subject
+     * @param \Closure $closure
+     * @param string $identifier
      * @return bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundRemove(
-        MagentoCache $subject,
-        \Closure $closure,
-        $identifier
-    ) {
+    public function aroundRemove(CacheInterface $subject, \Closure $closure, $identifier)
+    {
         $startTime = microtime(true);
 
         $result = $closure($identifier);

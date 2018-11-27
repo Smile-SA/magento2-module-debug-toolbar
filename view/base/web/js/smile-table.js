@@ -3,11 +3,6 @@
  *
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
- *
- *
- * @author    Laurent MINGUET <dirtech@smile.fr>
- * @copyright 2018 Smile
- * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
 
 var smileTableValues        = [];
@@ -67,7 +62,7 @@ function smileTableSort(column, order)
 
    smileTableValues.sort(
        function (rowA, rowB) {
-       
+
            var a = rowA[smileTableCurrentColumn]['value'];
            var b = rowB[smileTableCurrentColumn]['value'];
 

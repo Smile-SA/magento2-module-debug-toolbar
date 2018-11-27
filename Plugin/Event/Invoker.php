@@ -14,7 +14,7 @@ use Smile\DebugToolbar\Helper\Observer as HelperObserver;
 /**
  * Plugin on Event Invoker
  *
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
@@ -26,24 +26,20 @@ class Invoker
     protected $helperObserver;
 
     /**
-     * Invoker constructor.
-     *
      * @param HelperObserver $helperObserver
      */
-    public function __construct(
-        HelperObserver $helperObserver
-    ) {
+    public function __construct(HelperObserver $helperObserver)
+    {
         $this->helperObserver = $helperObserver;
     }
 
     /**
-     * Plugin on Dispatch
+     * Plugin on dispatch.
      *
-     * @param MagentoInvoker  $subject
-     * @param \Closure        $closure
-     * @param array           $configuration
+     * @param MagentoInvoker $subject
+     * @param \Closure $closure
+     * @param array $configuration
      * @param MagentoObserver $observer
-     *
      * @return mixed
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -53,9 +49,9 @@ class Invoker
         array $configuration,
         MagentoObserver $observer
     ) {
-        $eventName        = $observer->getEvent()->getName();
+        $eventName = $observer->getEvent()->getName();
         $observerInstance = $configuration['instance'];
-        $observerName     = array_key_exists('name', $configuration) ? $configuration['name'] : $observerInstance;
+        $observerName = array_key_exists('name', $configuration) ? $configuration['name'] : $observerInstance;
         $observerDisabled = array_key_exists('disabled', $configuration) ? $configuration['disabled'] : false;
 
         $this->helperObserver->initObserverStat($eventName, $observerName, $observerInstance, $observerDisabled);

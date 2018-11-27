@@ -9,17 +9,16 @@ namespace Smile\DebugToolbar\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
-use Magento\Framework\Interception\PluginListInterface as PluginList;
 use Magento\Framework\Interception\DefinitionInterface;
-
-use Magento\Framework\ObjectManager\ConfigInterface               as ObjectManagerConfig;
-use Magento\Framework\Interception\ObjectManager\Config\Compiled  as ObjectManagerConfigProd;
+use Magento\Framework\Interception\ObjectManager\Config\Compiled as ObjectManagerConfigProd;
 use Magento\Framework\Interception\ObjectManager\Config\Developer as ObjectManagerConfigDev;
+use Magento\Framework\Interception\PluginListInterface as PluginList;
+use Magento\Framework\ObjectManager\ConfigInterface as ObjectManagerConfig;
 
 /**
  * Helper: Preference
  *
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
@@ -36,10 +35,8 @@ class Preference extends AbstractHelper
     protected $objectManagerConfig;
 
     /**
-     * Plugin constructor.
-     *
-     * @param Context             $context
-     * @param PluginList          $pluginList
+     * @param Context $context
+     * @param PluginList $pluginList
      * @param ObjectManagerConfig $objectManagerConfig
      */
     public function __construct(
@@ -49,18 +46,18 @@ class Preference extends AbstractHelper
     ) {
         parent::__construct($context);
 
-        $this->pluginList          = $pluginList;
+        $this->pluginList = $pluginList;
         $this->objectManagerConfig = $objectManagerConfig;
     }
 
     /**
-     * Get the plugin stats
+     * Get the plugin stats.
      *
      * @return array
      */
     public function getPluginStats()
     {
-        // get some properties without rewrite but the properties are private
+        // Get some properties without rewrite but the properties are private
         $reflectionClass = new \ReflectionClass($this->pluginList);
 
         /** @var DefinitionInterface $definitions */
@@ -85,12 +82,12 @@ class Preference extends AbstractHelper
                 }
 
                 $plugins[] = [
-                    'main_classname'    => $originalClassname,
-                    'nb_plugins'        => count($pluginList),
-                    'plugin_name'       => $pluginName,
-                    'plugin_classname'  => get_class($pluginInstance),
+                    'main_classname' => $originalClassname,
+                    'nb_plugins' => count($pluginList),
+                    'plugin_name' => $pluginName,
+                    'plugin_classname' => get_class($pluginInstance),
                     'plugin_nb_methods' => count($methods),
-                    'plugin_methods'    => $methods,
+                    'plugin_methods' => $methods,
                 ];
             }
         }
@@ -99,10 +96,9 @@ class Preference extends AbstractHelper
     }
 
     /**
-     * Get the plugin type
+     * Get the plugin type.
      *
-     * @param $methodType
-     *
+     * @param int $methodType
      * @return string
      */
     protected function getPluginType($methodType)
@@ -118,11 +114,11 @@ class Preference extends AbstractHelper
                 return 'After';
         }
 
-        return 'Unknown ['.$methodType.']';
+        return 'Unknown [' . $methodType . ']';
     }
 
     /**
-     * Get the preference stats
+     * Get the preference stats.
      *
      * @return array
      */

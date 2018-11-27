@@ -12,7 +12,7 @@ use Magento\Framework\App\Helper\AbstractHelper;
 /**
  * Helper: Observer
  *
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
@@ -24,23 +24,21 @@ class Observer extends AbstractHelper
     protected $eventStats = [];
 
     /**
-     * Init Event Stat
+     * Init event stat.
      *
      * @param string $eventName
-     *
-     * return void
      */
     public function initEventStat($eventName)
     {
         $eventName = strtolower($eventName);
         if (!array_key_exists($eventName, $this->eventStats)) {
             $this->eventStats[$eventName] = [
-                'event_name'   => $eventName,
-                'nb_call'      => 0,
-                'time_total'   => 0,
-                'time_mean'    => 0,
+                'event_name' => $eventName,
+                'nb_call' => 0,
+                'time_total' => 0,
+                'time_mean' => 0,
                 'nb_observers' => 0,
-                'observers'    => [],
+                'observers' => [],
             ];
         }
 
@@ -48,14 +46,12 @@ class Observer extends AbstractHelper
     }
 
     /**
-     * init a stat on observer usage
+     * Init a stat on observer usage.
      *
      * @param string $eventName
      * @param string $observerName
      * @param string $observerInstance
-     * @param bool   $observerDisabled
-     *
-     * @return void
+     * @param bool $observerDisabled
      */
     public function initObserverStat($eventName, $observerName, $observerInstance, $observerDisabled)
     {
@@ -63,11 +59,11 @@ class Observer extends AbstractHelper
         if (!array_key_exists($observerName, $this->eventStats[$eventName]['observers'])) {
             $this->eventStats[$eventName]['observers'][$observerName] = [
                 'observer_name' => $observerName,
-                'instance'      => $observerInstance,
-                'disabled'      => $observerDisabled,
-                'nb_call'       => 0,
-                'time_total'    => 0,
-                'time_mean'     => 0,
+                'instance' => $observerInstance,
+                'disabled' => $observerDisabled,
+                'nb_call' => 0,
+                'time_total' => 0,
+                'time_mean' => 0,
             ];
 
             $this->eventStats[$eventName]['nb_observers']++;
@@ -77,46 +73,42 @@ class Observer extends AbstractHelper
     }
 
     /**
-     * Add a stat on event usage
+     * Add a stat on event usage.
      *
      * @param string $eventName
-     * @param float  $deltaTime
-     *
-     * @return void
+     * @param float $deltaTime
      */
     public function addEventStat($eventName, $deltaTime)
     {
         $eventName = strtolower($eventName);
         $usage = $this->eventStats[$eventName];
 
-        $usage['time_total']+= $deltaTime;
-        $usage['time_mean']  = $usage['time_total'] / $usage['nb_call'];
+        $usage['time_total'] += $deltaTime;
+        $usage['time_mean'] = $usage['time_total'] / $usage['nb_call'];
 
         $this->eventStats[$eventName] = $usage;
     }
 
     /**
-     * Add a stat on observer usage
+     * Add a stat on observer usage.
      *
      * @param string $eventName
      * @param string $observerName
-     * @param float  $deltaTime
-     *
-     * @return void
+     * @param float $deltaTime
      */
     public function addObserverStat($eventName, $observerName, $deltaTime)
     {
         $eventName = strtolower($eventName);
         $usage = $this->eventStats[$eventName]['observers'][$observerName];
 
-        $usage['time_total']+= $deltaTime;
-        $usage['time_mean']  = $usage['time_total'] / $usage['nb_call'];
+        $usage['time_total'] += $deltaTime;
+        $usage['time_mean'] = $usage['time_total'] / $usage['nb_call'];
 
         $this->eventStats[$eventName]['observers'][$observerName] = $usage;
     }
 
     /**
-     * get the event stats
+     * Get the event stats.
      *
      * @return array
      */

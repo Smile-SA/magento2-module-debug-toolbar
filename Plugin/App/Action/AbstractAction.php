@@ -9,13 +9,13 @@ namespace Smile\DebugToolbar\Plugin\App\Action;
 
 use Magento\Framework\App\Action\AbstractAction as MagentoAction;
 use Magento\Framework\App\RequestInterface;
-use Smile\DebugToolbar\Helper\Data   as HelperData;
 use Smile\DebugToolbar\Helper\Config as HelperConfig;
+use Smile\DebugToolbar\Helper\Data as HelperData;
 
 /**
  * Plugin on App
  *
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
@@ -32,32 +32,25 @@ class AbstractAction
     protected $helperConfig;
 
     /**
-     * Http constructor.
-     *
      * @param HelperData $helperData
      * @param HelperConfig $helperConfig
      */
-    public function __construct(
-        HelperData $helperData,
-        HelperConfig $helperConfig
-    ) {
-        $this->helperData   = $helperData;
+    public function __construct(HelperData $helperData, HelperConfig $helperConfig)
+    {
+        $this->helperData = $helperData;
         $this->helperConfig = $helperConfig;
     }
 
     /**
-     * Plugin on dispatch action
+     * Plugin on dispatch action.
      *
      * @param MagentoAction $subject
      * @param RequestInterface $request
-     *
      * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function beforeDispatch(
-        MagentoAction $subject,
-        RequestInterface $request
-    ) {
+    public function beforeDispatch(MagentoAction $subject, RequestInterface $request)
+    {
         if ($this->helperConfig->isEnabled()) {
             $className = get_class($subject);
             $className = preg_replace('!\\\\Interceptor$!', '', $className);

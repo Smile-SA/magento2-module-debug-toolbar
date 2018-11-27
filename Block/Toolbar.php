@@ -7,19 +7,19 @@
  */
 namespace Smile\DebugToolbar\Block;
 
+use Magento\Framework\App\Request\Http as MagentoRequest;
 use Magento\Framework\DataObject;
-use Magento\Framework\App\Request\Http             as MagentoRequest;
 use Magento\Framework\HTTP\PhpEnvironment\Response as MagentoResponse;
-use Magento\Framework\View\Element\Template        as MagentoTemplateBlock;
+use Magento\Framework\View\Element\Template as MagentoTemplateBlock;
 use Magento\Framework\View\Element\Template\Context;
-use Smile\DebugToolbar\Block\Zone\SummaryFactory;
 use Smile\DebugToolbar\Block\Zone\Summary;
+use Smile\DebugToolbar\Block\Zone\SummaryFactory;
 use Smile\DebugToolbar\Helper\Data as HelperData;
 
 /**
  * Main Debug Toolbar Block
  *
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
@@ -34,18 +34,17 @@ class Toolbar extends MagentoTemplateBlock
      * @var Zone\AbstractZone[]
      */
     protected $zones = [];
+
     /**
      * @var SummaryFactory
      */
     protected $blockSummaryFactory;
 
     /**
-     * Toolbar constructor.
-     *
-     * @param Context        $context
-     * @param HelperData     $helperData
+     * @param Context $context
+     * @param HelperData $helperData
      * @param SummaryFactory $blockSummaryFactory
-     * @param array          $data
+     * @param array $data
      */
     public function __construct(
         Context $context,
@@ -63,17 +62,13 @@ class Toolbar extends MagentoTemplateBlock
     }
 
     /**
-     * load the zones
+     * Load the zones.
      *
-     * @param MagentoRequest  $request
+     * @param MagentoRequest $request
      * @param MagentoResponse $response
-     *
-     * @return void
      */
-    public function loadZones(
-        MagentoRequest $request,
-        MagentoResponse $response
-    ) {
+    public function loadZones(MagentoRequest $request, MagentoResponse $response)
+    {
         /** @var Summary $summaryBlock */
         $summaryBlock = $this->blockSummaryFactory->create();
 
@@ -85,10 +80,10 @@ class Toolbar extends MagentoTemplateBlock
         $this->_eventManager->dispatch(
             'smile_debug_toolbar_set_zones',
             [
-                'zones'         => $zones,
+                'zones' => $zones,
                 'summary_block' => $summaryBlock,
-                'request'       => $request,
-                'response'      => $response,
+                'request' => $request,
+                'response' => $response,
             ]
         );
 
@@ -97,7 +92,7 @@ class Toolbar extends MagentoTemplateBlock
     }
 
     /**
-     * Get the zones
+     * Get the zones.
      *
      * @return Zone\AbstractZone[]
      */
@@ -107,7 +102,7 @@ class Toolbar extends MagentoTemplateBlock
     }
 
     /**
-     * Do we have a warning ?
+     * Do we have a warning?
      *
      * @return bool
      */
@@ -125,7 +120,7 @@ class Toolbar extends MagentoTemplateBlock
     }
 
     /**
-     * Get the toolbar id
+     * Get the toolbar id.
      *
      * @return string
      */
@@ -135,7 +130,7 @@ class Toolbar extends MagentoTemplateBlock
     }
 
     /**
-     * Get the helper data
+     * Get the data helper.
      *
      * @return HelperData
      */
@@ -145,12 +140,10 @@ class Toolbar extends MagentoTemplateBlock
     }
 
     /**
-     * Redefine the toHtml method to remove all the cache policy
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function toHtml()
     {
-         return $this->_toHtml();
+        return $this->_toHtml();
     }
 }

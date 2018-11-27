@@ -1,16 +1,12 @@
-# Smile Debug Toolbar for Magento 2
+# Back-Office
 
-[Back](README.md)
+## ACL
 
-## Back-Office
-
-### ACL
-
-A new specific resource ACL **Smile_DebugToolbar::config** has been added.
+A new specific resource ACL **Smile_DebugToolbar::config** was added.
 
 You must have this ACL if you want to modify the Smile Debug Toolbar configuration.
 
-This ACL is in the following path :
+This ACL is in the following path:
 
 * Magento_Backend::admin (Admin)
 * Magento_Backend::stores (Stores)
@@ -18,9 +14,9 @@ This ACL is in the following path :
 * Magento_Config::config (Configuration)
 * Smile_DebugToolbar::config (Smile DebugToolbar Section)
 
-### Configuration
+## Configuration
 
-A new configuration section **Smile > Smile DebugToolbar** has been added.
+A new configuration section **Smile > Smile DebugToolbar** was added.
 
 ![configuration](images/screenshot-back-configuration.png)
 
@@ -29,5 +25,4 @@ You can:
 * Enable / Disable the Debug Toolbar
 * Choose the number of last executions to save and display in the toolbar
 
-
-[Back](README.md)
+[Back](../README.md)

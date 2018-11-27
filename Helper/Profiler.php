@@ -13,7 +13,7 @@ use Magento\Framework\Profiler\Driver\Standard\Stat;
 /**
  * Helper: Profiler
  *
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
@@ -30,7 +30,7 @@ class Profiler extends AbstractHelper
     protected $timers;
 
     /**
-     * Set the Profiler Stat
+     * Set the profiler stat.
      *
      * @param Stat $stat
      */
@@ -40,7 +40,7 @@ class Profiler extends AbstractHelper
     }
 
     /**
-     * Get the profiler stat object
+     * Get the profiler stat object.
      *
      * @return Stat
      * @throws \Exception
@@ -55,9 +55,8 @@ class Profiler extends AbstractHelper
     }
 
     /**
-     * Compute the stats
+     * Compute the stats.
      *
-     * @return void
      * @throws \Exception
      */
     public function computeStats()
@@ -70,7 +69,7 @@ class Profiler extends AbstractHelper
     }
 
     /**
-     * Get the stat timers
+     * Get the stat timers.
      *
      * @return array
      * @throws \Exception
@@ -85,9 +84,8 @@ class Profiler extends AbstractHelper
     }
 
     /**
-     * prepare the timers with good sorting
+     * Prepare the timers, with sorting.
      *
-     * @return void
      * @throws \Exception
      */
     protected function prepareTimers()
@@ -100,23 +98,23 @@ class Profiler extends AbstractHelper
         $uid = 0;
         foreach ($timerIds as $timerId) {
             $explodedTimerId = explode('->', $timerId);
-            $level = count($explodedTimerId)-1;
+            $level = count($explodedTimerId) - 1;
 
-            $label  = array_pop($explodedTimerId);
-            $label = str_replace(BP.'/', '', $label);
+            $label = array_pop($explodedTimerId);
+            $label = str_replace(BP . '/', '', $label);
             $parent = implode('->', $explodedTimerId);
 
             $timer = [
-                'uid'      => $uid,
-                'id'       => $timerId,
-                'parent'   => null,
+                'uid' => $uid,
+                'id' => $timerId,
+                'parent' => null,
                 'children' => 0,
-                'level'    => $level,
-                'label'    => $label,
-                'sum'      => $stat->fetch($timerId, Stat::TIME),
-                'avg'      => $stat->fetch($timerId, Stat::AVG),
-                'count'    => $stat->fetch($timerId, Stat::COUNT),
-                'mem'      => $stat->fetch($timerId, Stat::EMALLOC),
+                'level' => $level,
+                'label' => $label,
+                'sum' => $stat->fetch($timerId, Stat::TIME),
+                'avg' => $stat->fetch($timerId, Stat::AVG),
+                'count' => $stat->fetch($timerId, Stat::COUNT),
+                'mem' => $stat->fetch($timerId, Stat::EMALLOC),
             ];
 
             if ($timer['mem'] < 0) {
@@ -138,7 +136,7 @@ class Profiler extends AbstractHelper
     }
 
     /**
-     * Remove the Toolbar observer from the profiler timers
+     * Remove the toolbar observer from the profiler timers.
      *
      * @return bool
      */
@@ -155,11 +153,11 @@ class Profiler extends AbstractHelper
         $toolbarAvg = $toolbarTimer['avg'];
         $keys = explode('->', $toolbarTimer['id']);
 
-        while (count($keys)>1) {
+        while (count($keys) > 1) {
             array_pop($keys);
             $key = implode('->', $keys);
-            $this->timers[$key]['sum']-= $toolbarSum;
-            $this->timers[$key]['avg']-= $toolbarAvg;
+            $this->timers[$key]['sum'] -= $toolbarSum;
+            $this->timers[$key]['avg'] -= $toolbarAvg;
         }
 
         unset($this->timers[$toolbarTimer['id']]);
@@ -168,9 +166,7 @@ class Profiler extends AbstractHelper
     }
 
     /**
-     * Calculate the percents
-     *
-     * @return void
+     * Calculate the percents.
      */
     protected function calculatePercents()
     {

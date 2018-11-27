@@ -13,7 +13,7 @@ use Smile\DebugToolbar\DB\Profiler;
 /**
  * Main Debug Toolbar Resource Model
  *
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
@@ -29,20 +29,16 @@ class Info
      */
     protected $version;
 
-
     /**
-     * Info constructor.
-     *
      * @param ResourceConnection $resourceConnection
      */
-    public function __construct(
-        ResourceConnection $resourceConnection
-    ) {
+    public function __construct(ResourceConnection $resourceConnection)
+    {
         $this->resourceConnection = $resourceConnection;
     }
 
     /**
-     * Get the connection
+     * Get the connection.
      *
      * @return \Magento\Framework\DB\Adapter\AdapterInterface
      */
@@ -52,7 +48,7 @@ class Info
     }
 
     /**
-     * Get Mysql Versions
+     * Get Mysql versions.
      *
      * @return string[]
      */
@@ -72,10 +68,9 @@ class Info
     }
 
     /**
-     * Get Mysql Version
+     * Get Mysql version.
      *
      * @param string $key
-     *
      * @return string
      */
     public function getMysqlVersion($key = 'version')
@@ -90,7 +85,7 @@ class Info
     }
 
     /**
-     * Get the executed queries
+     * Get the executed queries.
      *
      * @return array
      */
@@ -100,7 +95,7 @@ class Info
     }
 
     /**
-     * Get the count per types
+     * Get the count per types.
      *
      * @return array
      */
@@ -110,7 +105,7 @@ class Info
     }
 
     /**
-     * Get the time per types
+     * Get the time per types.
      *
      * @return array
      */
@@ -120,14 +115,14 @@ class Info
     }
 
     /**
-     * Get the profiler
+     * Get the profiler.
      *
      * @return \Smile\DebugToolbar\DB\Profiler
      * @throws \Exception
      */
     protected function getProfiler()
     {
-         /** @var \Magento\Framework\DB\Adapter\Pdo\Mysql $connection */
+        /** @var \Magento\Framework\DB\Adapter\Pdo\Mysql $connection */
         $connection = $this->resourceConnection->getConnection();
 
         /** @var Profiler $profiler */

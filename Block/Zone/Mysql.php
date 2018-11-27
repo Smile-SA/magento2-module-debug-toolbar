@@ -8,33 +8,30 @@
 namespace Smile\DebugToolbar\Block\Zone;
 
 use Magento\Framework\View\Element\Template\Context;
-use Smile\DebugToolbar\Helper\Data  as HelperData;
 use Smile\DebugToolbar\Formatter\FormatterFactory;
+use Smile\DebugToolbar\Helper\Data as HelperData;
 use Smile\DebugToolbar\Model\ResourceModel\Info as ResourceModel;
 
 /**
  * Zone for Debug Toolbar Block
  *
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
 class Mysql extends AbstractZone
 {
-
     /**
      * @var ResourceModel
      */
     protected $resourceModel;
 
     /**
-     * Mysql constructor.
-     *
-     * @param Context          $context
-     * @param HelperData       $helperData
+     * @param Context $context
+     * @param HelperData $helperData
      * @param FormatterFactory $formatterFactory
-     * @param ResourceModel    $resourceModel
-     * @param array            $data
+     * @param ResourceModel $resourceModel
+     * @param array $data
      */
     public function __construct(
         Context $context,
@@ -49,9 +46,7 @@ class Mysql extends AbstractZone
     }
 
     /**
-     * Get the Code
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getCode()
     {
@@ -59,9 +54,7 @@ class Mysql extends AbstractZone
     }
 
     /**
-     * Get the Title
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTitle()
     {
@@ -69,7 +62,7 @@ class Mysql extends AbstractZone
     }
 
     /**
-     * Get all the queries
+     * Get all the queries.
      *
      * @return array
      */
@@ -79,7 +72,7 @@ class Mysql extends AbstractZone
     }
 
     /**
-     * Get count per types
+     * Get count per types.
      *
      * @return array
      */
@@ -89,7 +82,7 @@ class Mysql extends AbstractZone
     }
 
     /**
-     * Get time per types
+     * Get time per types.
      *
      * @return array
      */
@@ -99,7 +92,7 @@ class Mysql extends AbstractZone
     }
 
     /**
-     * Get the Mysql Version
+     * Get the Mysql version.
      *
      * @return string
      */
@@ -109,42 +102,41 @@ class Mysql extends AbstractZone
     }
 
     /**
-     * Prepare params and trace for display in the table
+     * Prepare params and trace for display in the table.
      *
      * @param array $params
      * @param array $trace
-     *
      * @return string
      */
     public function buildHtmlInfo(array $params = [], array $trace = [])
     {
         $html = '';
 
-        if (count($params)>0) {
-            $html.= "<h2>Query Parameters</h2>";
-            $html.= "<table>";
-            $html.= "<col style='width: 100px'/>";
-            $html.= "<col style=''/>";
-            $html.= "<thead><tr><th>Id</th><th>Value</th></tr></thead>";
-            $html.= "<tbody>";
+        if (count($params) > 0) {
+            $html .= "<h2>Query Parameters</h2>";
+            $html .= "<table>";
+            $html .= "<col style='width: 100px'/>";
+            $html .= "<col style=''/>";
+            $html .= "<thead><tr><th>Id</th><th>Value</th></tr></thead>";
+            $html .= "<tbody>";
             foreach ($params as $key => $value) {
-                $html.= "<tr>";
-                $html.= "<th style=\"width: 30%\">".$this->escapeHtml($key)."</th>";
-                $html.= "<td>".$this->escapeHtml($value)."</td>";
-                $html.= "</tr>";
+                $html .= "<tr>";
+                $html .= "<th style=\"width: 30%\">" . $this->escapeHtml($key) . "</th>";
+                $html .= "<td>" . $this->escapeHtml($value) . "</td>";
+                $html .= "</tr>";
             }
-            $html.= "</tbody>";
-            $html.= "</table>";
-            $html.= "<br />";
+            $html .= "</tbody>";
+            $html .= "</table>";
+            $html .= "<br>";
         }
 
-        $html.= "<h2>PHP Trace</h2>";
-        $html.= "<table>";
-        $html.= "<col style='width: 40%'/>";
-        $html.= "<col style='width: 80px'/>";
-        $html.= "<col style='width: 50%'/>";
-        $html.= "<thead><tr><th>File</th><th>Line</th><th>Code</th></tr></thead>";
-        $html.= "<tbody>";
+        $html .= "<h2>PHP Trace</h2>";
+        $html .= "<table>";
+        $html .= "<col style='width: 40%'/>";
+        $html .= "<col style='width: 80px'/>";
+        $html .= "<col style='width: 50%'/>";
+        $html .= "<thead><tr><th>File</th><th>Line</th><th>Code</th></tr></thead>";
+        $html .= "<tbody>";
         foreach ($trace as $row) {
             $file = $row;
             $line = null;
@@ -154,14 +146,14 @@ class Mysql extends AbstractZone
                 $line = $match[2];
                 $code = $match[3];
             }
-            $file = str_replace(BP.'/', '', $file);
-            $html.= "<tr>";
-            $html.= "<td>".$this->escapeHtml($file)."</td>";
-            $html.= "<td>".$this->escapeHtml($line)."</td>";
-            $html.= "<td>".$this->escapeHtml($code)."</td>";
-            $html.= "</tr>";
+            $file = str_replace(BP . '/', '', $file);
+            $html .= "<tr>";
+            $html .= "<td>" . $this->escapeHtml($file) . "</td>";
+            $html .= "<td>" . $this->escapeHtml($line) . "</td>";
+            $html .= "<td>" . $this->escapeHtml($code) . "</td>";
+            $html .= "</tr>";
         }
-        $html.= "</table>";
+        $html .= "</table>";
         return $html;
     }
 }

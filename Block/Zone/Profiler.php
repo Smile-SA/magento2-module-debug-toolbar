@@ -8,14 +8,14 @@
 namespace Smile\DebugToolbar\Block\Zone;
 
 use Magento\Framework\View\Element\Template\Context;
-use Smile\DebugToolbar\Helper\Data     as HelperData;
 use Smile\DebugToolbar\Formatter\FormatterFactory;
+use Smile\DebugToolbar\Helper\Data as HelperData;
 use Smile\DebugToolbar\Helper\Profiler as HelperProfiler;
 
 /**
  * Zone for Debug Toolbar Block
  *
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
@@ -27,13 +27,11 @@ class Profiler extends AbstractZone
     protected $helperProfiler;
 
     /**
-     * Profiler constructor
-     * .
-     * @param Context          $context
-     * @param HelperData       $helperData
+     * @param Context $context
+     * @param HelperData $helperData
      * @param FormatterFactory $formatterFactory
-     * @param HelperProfiler   $helperProfiler
-     * @param array            $data
+     * @param HelperProfiler $helperProfiler
+     * @param array $data
      */
     public function __construct(
         Context $context,
@@ -48,9 +46,7 @@ class Profiler extends AbstractZone
     }
 
     /**
-     * Get the Code
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getCode()
     {
@@ -58,9 +54,7 @@ class Profiler extends AbstractZone
     }
 
     /**
-     * Get the Title
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTitle()
     {
@@ -68,7 +62,7 @@ class Profiler extends AbstractZone
     }
 
     /**
-     * Get the profiler timers
+     * Get the profiler timers.
      *
      * @return array
      */

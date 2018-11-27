@@ -12,7 +12,7 @@ use Zend_Db_Profiler_Query as OriginalProfilerQuery;
 /**
  * Smile Db Profiler Query
  *
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
@@ -24,7 +24,7 @@ class Query extends OriginalProfilerQuery
     protected $trace;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function start()
     {
@@ -35,22 +35,20 @@ class Query extends OriginalProfilerQuery
 
     /**
      * Init the trace
-     *
-     * @return void
      */
     protected function initTrace()
     {
         $exception = new \Exception();
         $trace = $exception->getTraceAsString();
 
-        // clean each lines
+        // Clean each lines
         $trace = preg_replace("!#[0-9]+\s+!", '', $trace);
         $trace = explode("\n", $trace);
 
-        // remove the {main} line
+        // Remove the {main} line
         array_pop($trace);
 
-        // remove the profiler lines
+        // Remove the profiler lines
         array_shift($trace);
         array_shift($trace);
         array_shift($trace);
@@ -59,7 +57,7 @@ class Query extends OriginalProfilerQuery
     }
 
     /**
-     * Get the trace
+     * Get the trace.
      *
      * @return string[]
      */

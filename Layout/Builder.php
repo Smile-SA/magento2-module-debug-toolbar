@@ -13,7 +13,7 @@ use Magento\Framework\View\LayoutInterface;
 /**
  * Mock of Layout Builder to avoid layout rebuild
  *
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
@@ -27,16 +27,13 @@ class Builder implements BuilderInterface
     /**
      * @param LayoutInterface $layout
      */
-    public function __construct(
-        LayoutInterface $layout
-    ) {
+    public function __construct(LayoutInterface $layout)
+    {
         $this->layout = $layout;
     }
 
     /**
-     * Build structure
-     *
-     * @return LayoutInterface
+     * {@inheritdoc}
      */
     public function build()
     {

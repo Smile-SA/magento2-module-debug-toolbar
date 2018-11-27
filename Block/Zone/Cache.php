@@ -7,16 +7,16 @@
  */
 namespace Smile\DebugToolbar\Block\Zone;
 
-use Magento\Framework\View\Element\Template\Context;
 use Magento\Framework\App\DeploymentConfig;
-use Smile\DebugToolbar\Helper\Data  as HelperData;
+use Magento\Framework\View\Element\Template\Context;
 use Smile\DebugToolbar\Formatter\FormatterFactory;
 use Smile\DebugToolbar\Helper\Cache as HelperCache;
+use Smile\DebugToolbar\Helper\Data as HelperData;
 
 /**
  * Zone for Debug Toolbar Block
  *
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
@@ -33,14 +33,12 @@ class Cache extends AbstractZone
     protected $helperCache;
 
     /**
-     * Generic constructor.
-     *
-     * @param Context          $context
-     * @param HelperData       $helperData
+     * @param Context $context
+     * @param HelperData $helperData
      * @param FormatterFactory $formatterFactory
      * @param DeploymentConfig $deployConfig
-     * @param HelperCache      $helperCache
-     * @param array            $data
+     * @param HelperCache $helperCache
+     * @param array $data
      */
     public function __construct(
         Context $context,
@@ -53,13 +51,11 @@ class Cache extends AbstractZone
         parent::__construct($context, $helperData, $formatterFactory, $data);
 
         $this->deployConfig = $deployConfig;
-        $this->helperCache  = $helperCache;
+        $this->helperCache = $helperCache;
     }
 
     /**
-     * Get the Code
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getCode()
     {
@@ -67,9 +63,7 @@ class Cache extends AbstractZone
     }
 
     /**
-     * Get the Title
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTitle()
     {
@@ -77,7 +71,7 @@ class Cache extends AbstractZone
     }
 
     /**
-     * Get the Cache mode
+     * Get the cache mode.
      *
      * @return string
      */
@@ -92,7 +86,7 @@ class Cache extends AbstractZone
     }
 
     /**
-     * Get the Cache Info
+     * Get the cache info.
      *
      * @return string
      */
@@ -107,7 +101,7 @@ class Cache extends AbstractZone
     }
 
     /**
-     * Get the cache types
+     * Get the cache types.
      *
      * @return array
      */
@@ -117,7 +111,7 @@ class Cache extends AbstractZone
     }
 
     /**
-     * Get the cache usage
+     * Get the cache usage.
      *
      * @return array
      */
@@ -127,7 +121,7 @@ class Cache extends AbstractZone
     }
 
     /**
-     * Get the usage per action
+     * Get the usage per action.
      *
      * @return array
      */
@@ -137,42 +131,40 @@ class Cache extends AbstractZone
     }
 
     /**
-     * Prepare calls for display in the table
+     * Prepare calls for display in the table.
      *
      * @param array $calls
-     *
      * @return string
      */
     public function buildHtmlInfo(array $calls = [])
     {
-        $html = "
-<table>
-    <thead>
-        <tr>
-            <th style=\"width: 100px\">Call Id</th>
-            <th >Action</th>
-            <th style=\"width: 120px\">Size</th>
-            <th style=\"width: 120px\">Time</th>
-        </tr>    
-    </thead>
-    <tbody>";
+        $html = '<table>';
+
+        // Table head
+        $html .= '<thead><tr>';
+        $html .= '<th style="width: 100px">Call Id</th>';
+        $html .= '<th>Action</th>';
+        $html .= '<th style="width: 120px">Size</th>';
+        $html .= '<th style="width: 120px">Time</th>';
+        $html .= '</tr></thead>';
+
+        // Table body
+        $html .= '<body>';
+
         foreach ($calls as $callId => $call) {
             $size = $this->formatValue($call['size'], [], 'size_ko');
             $time = $this->formatValue($call['time'], [], 'time_ms');
 
-            $html.= "
-        <tr>
-            <td class=\"\">".$this->escapeHtml($callId)."</td>
-            <td class=\"\">".$this->escapeHtml($call['action'])."</td>
-            <td class=\"".$size['css_class']."\">".$size['value']."</td>
-            <td class=\"".$time['css_class']."\">".$time['value']."</td>
-        </tr>
-            ";
+            $html .= '<tr>';
+            $html .= '<td>' . $this->escapeHtml($callId) . '</td>';
+            $html .= '<td>' . $this->escapeHtml($call['action']) . '</td>';
+            $html .= '<td class="' . $size['css_class'] . '">' . $size['value'] . '</td>';
+            $html .= '<td class="' . $time['css_class'] . '">' . $time['value'] . '</td>';
+            $html .= '</tr>';
         }
 
-        $html.= "
-    </tbody>
-</table>";
+        $html .= '</tbody>';
+        $html .= '</table>';
 
         return $html;
     }

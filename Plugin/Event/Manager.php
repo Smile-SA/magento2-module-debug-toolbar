@@ -13,7 +13,7 @@ use Smile\DebugToolbar\Helper\Observer as HelperObserver;
 /**
  * Plugin on Event Manager
  *
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
@@ -25,24 +25,20 @@ class Manager
     protected $helperObserver;
 
     /**
-     * Invoker constructor.
-     *
      * @param HelperObserver $helperObserver
      */
-    public function __construct(
-        HelperObserver $helperObserver
-    ) {
+    public function __construct(HelperObserver $helperObserver)
+    {
         $this->helperObserver = $helperObserver;
     }
 
     /**
-     * Plugin on Dispatch
+     * Plugin on dispatch.
      *
-     * @param MagentoManager  $subject
-     * @param \Closure        $closure
-     * @param string          $eventName
-     * @param array           $data
-     *
+     * @param MagentoManager $subject
+     * @param \Closure $closure
+     * @param string $eventName
+     * @param array $data
      * @return mixed
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -52,7 +48,6 @@ class Manager
         $eventName,
         array $data = []
     ) {
-
         $this->helperObserver->initEventStat($eventName);
 
         $startTime = microtime(true);

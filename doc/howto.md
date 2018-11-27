@@ -1,16 +1,12 @@
-# Smile Debug Toolbar for Magento 2
+# How To
 
-[Back](README.md)
-
-## How To
-
-### Add a new zone
+## Add a new zone
 
 You can add a new zone in the toolbar.
 
 To do it, you must implement a new block associated to a template file.
 
-Your new block must :
+Your new block must:
 
 * extend the class `\Smile\DebugToolbar\Block\Zone\AbstractZone`
 * implement the method `getTitle`
@@ -84,8 +80,8 @@ You can use them as follow:
 <?php
 namespace MyNameSpace\MyModule\Observer;
 
-use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Event\Observer;
+use Magento\Framework\Event\ObserverInterface;
 use MyNameSpace\MyModule\Block\Zone\MyZoneFactory;
 
 class AddZone implements ObserverInterface
@@ -96,22 +92,15 @@ class AddZone implements ObserverInterface
     protected $zoneFactory;
 
     /**
-     * AddZone constructor.
-     *
      * @param MyZoneFactory $zoneFactory
      */
-    public function __construct(
-        MyZoneFactory      $zoneFactory
-    ) {
+    public function __construct(MyZoneFactory $zoneFactory)
+    {
         $this->zoneFactory = $zoneFactory;
     }
 
     /**
-     * Execute the observer
-     *
-     * @param Observer $observer Magento Observer Object
-     *
-     * @return void
+     * {@inheritdoc}
      */
     public function execute(Observer $observer)
     {
@@ -125,4 +114,4 @@ class AddZone implements ObserverInterface
 }
 ```
 
-[Back](README.md)
+[Back](../README.md)

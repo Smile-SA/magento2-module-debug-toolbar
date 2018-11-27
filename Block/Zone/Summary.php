@@ -10,7 +10,7 @@ namespace Smile\DebugToolbar\Block\Zone;
 /**
  * Summary Zone for Debug Toolbar Block
  *
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
@@ -22,9 +22,7 @@ class Summary extends AbstractZone
     protected $summary = [];
 
     /**
-     * Get the Code
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getCode()
     {
@@ -32,9 +30,7 @@ class Summary extends AbstractZone
     }
 
     /**
-     * Get the Title
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTitle()
     {
@@ -42,7 +38,7 @@ class Summary extends AbstractZone
     }
 
     /**
-     * get the summary sections
+     * Get the summary sections.
      *
      * @return array
      */
@@ -52,11 +48,7 @@ class Summary extends AbstractZone
     }
 
     /**
-     * Add a value to the summary
-     *
-     * @param string $sectionName
-     * @param string $key
-     * @param mixed  $value
+     * {@inheritdoc}
      */
     public function addToSummary($sectionName, $key, $value)
     {

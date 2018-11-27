@@ -14,7 +14,7 @@ use Smile\DebugToolbar\Helper\Data as HelperData;
 /**
  * Main Debug Toolbar Block
  *
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
@@ -26,11 +26,9 @@ class Toolbars extends MagentoTemplateBlock
     protected $helperData;
 
     /**
-     * Toolbar constructor.
-     *
-     * @param Context    $context
+     * @param Context $context
      * @param HelperData $helperData
-     * @param array      $data
+     * @param array $data
      */
     public function __construct(
         Context $context,
@@ -46,7 +44,7 @@ class Toolbars extends MagentoTemplateBlock
     }
 
     /**
-     * Return the list of the toolbars
+     * Return the list of the toolbars.
      *
      * @return \string[]
      */
@@ -56,12 +54,10 @@ class Toolbars extends MagentoTemplateBlock
     }
 
     /**
-     * Redefine the toHtml method to remove all the cache policy
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function toHtml()
     {
-         return $this->_toHtml();
+        return $this->_toHtml();
     }
 }

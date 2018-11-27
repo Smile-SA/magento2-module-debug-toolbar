@@ -7,17 +7,17 @@
  */
 namespace Smile\DebugToolbar\Block\Zone;
 
+use Magento\Framework\App\DeploymentConfig;
+use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\App\State as AppState;
 use Magento\Framework\View\Element\Template\Context;
-use Magento\Framework\App\ProductMetadataInterface;
-use Magento\Framework\App\DeploymentConfig;
-use Smile\DebugToolbar\Helper\Data  as HelperData;
 use Smile\DebugToolbar\Formatter\FormatterFactory;
+use Smile\DebugToolbar\Helper\Data as HelperData;
 
 /**
  * Zone for Debug Toolbar Block
  *
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
@@ -39,15 +39,13 @@ class Generic extends AbstractZone
     protected $deployConfig;
 
     /**
-     * Generic constructor.
-     *
-     * @param Context                  $context
-     * @param HelperData               $helperData
-     * @param FormatterFactory         $formatterFactory
+     * @param Context $context
+     * @param HelperData $helperData
+     * @param FormatterFactory $formatterFactory
      * @param ProductMetadataInterface $productMetadata
-     * @param AppState                 $appState
-     * @param DeploymentConfig         $deployConfig
-     * @param array                    $data
+     * @param AppState $appState
+     * @param DeploymentConfig $deployConfig
+     * @param array $data
      */
     public function __construct(
         Context $context,
@@ -61,14 +59,12 @@ class Generic extends AbstractZone
         parent::__construct($context, $helperData, $formatterFactory, $data);
 
         $this->productMetadata = $productMetadata;
-        $this->appState        = $appState;
-        $this->deployConfig    = $deployConfig;
+        $this->appState = $appState;
+        $this->deployConfig = $deployConfig;
     }
 
     /**
-     * Get the Code
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getCode()
     {
@@ -76,9 +72,7 @@ class Generic extends AbstractZone
     }
 
     /**
-     * Get the Title
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTitle()
     {
@@ -86,7 +80,7 @@ class Generic extends AbstractZone
     }
 
     /**
-     * Get the product name
+     * Get the product name.
      *
      * @return string
      */
@@ -96,7 +90,7 @@ class Generic extends AbstractZone
     }
 
     /**
-     * Get the product edition
+     * Get the product edition.
      *
      * @return string
      */
@@ -106,7 +100,7 @@ class Generic extends AbstractZone
     }
 
     /**
-     * Get the product version
+     * Get the product version.
      *
      * @return string
      */
@@ -116,7 +110,7 @@ class Generic extends AbstractZone
     }
 
     /**
-     * Get the magento area
+     * Get the magento area.
      *
      * @return string
      */
@@ -126,7 +120,7 @@ class Generic extends AbstractZone
     }
 
     /**
-     * Get the magento mode
+     * Get the magento mode.
      *
      * @return string
      */
@@ -136,7 +130,7 @@ class Generic extends AbstractZone
     }
 
     /**
-     * Get the Session mode
+     * Get the session mode.
      *
      * @return string
      */
@@ -151,7 +145,7 @@ class Generic extends AbstractZone
     }
 
     /**
-     * Get the Session Info
+     * Get the session info.
      *
      * @return string
      */
@@ -166,7 +160,7 @@ class Generic extends AbstractZone
     }
 
     /**
-     * Get the php version
+     * Get the php version.
      *
      * @return string
      */
@@ -176,7 +170,7 @@ class Generic extends AbstractZone
     }
 
     /**
-     * Get the php memory limit
+     * Get the php memory limit.
      *
      * @return int
      */
@@ -185,24 +179,24 @@ class Generic extends AbstractZone
         $value = ini_get('memory_limit');
         $value = trim($value);
 
-        $unit = strtolower($value[strlen($value)-1]);
-        $value = (int) substr($value, 0, strlen($value)-1);
+        $unit = strtolower($value[strlen($value) - 1]);
+        $value = (int) substr($value, 0, strlen($value) - 1);
 
         $units = [
             'k' => 1024,
-            'm' => 1024*1024,
-            'g' => 1024*1024*1024,
+            'm' => 1024 * 1024,
+            'g' => 1024 * 1024 * 1024,
         ];
 
         if (array_key_exists($unit, $units)) {
-            $value*= $units[$unit];
+            $value *= $units[$unit];
         }
 
         return $value;
     }
 
     /**
-     * Get the php memory used
+     * Get the php memory used.
      *
      * @return int
      */
@@ -212,7 +206,7 @@ class Generic extends AbstractZone
     }
 
     /**
-     * Get the php max execution time
+     * Get the php max execution time.
      *
      * @return int
      */
@@ -222,7 +216,7 @@ class Generic extends AbstractZone
     }
 
     /**
-     * Get the php max execution time
+     * Get the php max execution time.
      *
      * @return string
      */

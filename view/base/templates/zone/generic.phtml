@@ -4,12 +4,9 @@
  *
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
- *
- *
- * @author    Laurent MINGUET <dirtech@smile.fr>
- * @copyright 2018 Smile
- * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
+
+// @codingStandardsIgnoreFile
 
 /** @var \Magento\Framework\View\TemplateEngine\Php $this */
 /** @var \Smile\DebugToolbar\Block\Zone\Generic $block */
@@ -18,9 +15,9 @@ $sections = [
     'Product' => [
         'Product' => $block->getProductName(),
         'Edition' => $block->getProductEdition(),
-        // 'Version' => $block->getProductVersion(), // disabled because it takes 300ms ?!
-        'Area'    => $block->getMagentoArea(),
-        'Mode'    => $block->getMagentoMode(),
+        //'Version' => $block->getProductVersion(), // disabled because it takes 300ms?!
+        'Area' => $block->getMagentoArea(),
+        'Mode' => $block->getMagentoMode(),
     ],
     'Server' => [
         'PHP Version'            => $block->getPhpVersion(),

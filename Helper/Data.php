@@ -17,7 +17,7 @@ use Smile\DebugToolbar\Block\Toolbar;
 /**
  * Helper: Data
  *
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
@@ -49,41 +49,34 @@ class Data extends AbstractHelper
     protected $values = [];
 
     /**
-     * Number of tables
      * @var int
      */
     protected $tableCount = 0;
 
     /**
-     * Data constructor.
-     *
-     * @param Context       $context
+     * @param Context $context
      * @param DirectoryList $directoryList
-     * @param AppState      $appState
+     * @param AppState $appState
      */
-    public function __construct(
-        Context $context,
-        DirectoryList $directoryList,
-        AppState $appState
-    ) {
+    public function __construct(Context $context, DirectoryList $directoryList, AppState $appState)
+    {
         parent::__construct($context);
 
         $this->directoryList = $directoryList;
-        $this->appState      = $appState;
+        $this->appState = $appState;
     }
 
     /**
-     * Start a timer
+     * Start a timer.
      *
      * @param string $code
-     *
      * @return $this
      */
     public function startTimer($code)
     {
         $this->timers[$code] = [
             'start' => microtime(true),
-            'stop'  => null,
+            'stop' => null,
             'delta' => null,
         ];
 
@@ -91,10 +84,9 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Stop a timer
+     * Stop a timer.
      *
      * @param string $code
-     *
      * @return $this
      */
     public function stopTimer($code)
@@ -104,7 +96,7 @@ class Data extends AbstractHelper
         }
 
         if ($this->timers[$code]['stop'] === null) {
-            $this->timers[$code]['stop']  = microtime(true);
+            $this->timers[$code]['stop'] = microtime(true);
             $this->timers[$code]['delta'] = $this->timers[$code]['stop'] - $this->timers[$code]['start'];
         }
 
@@ -112,10 +104,9 @@ class Data extends AbstractHelper
     }
 
     /**
-     * get a timer
+     * Get a timer.
      *
      * @param string $code
-     *
      * @return float
      */
     public function getTimer($code)
@@ -126,7 +117,7 @@ class Data extends AbstractHelper
     }
 
     /**
-     * get the timers
+     * Get the timers.
      *
      * @return array
      */
@@ -136,11 +127,10 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Set a value
+     * Set a value.
      *
      * @param string $key
-     * @param mixed  $value
-     *
+     * @param mixed $value
      * @return $this
      */
     public function setValue($key, $value)
@@ -151,11 +141,10 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Get a value
+     * Get a value.
      *
      * @param string $key
-     * @param mixed  $default
-     *
+     * @param mixed $default
      * @return mixed
      * @throws \Exception
      */
@@ -169,13 +158,12 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Init the toolbar id
+     * Init the toolbar id.
      *
-     * @param $actionName
-     *
+     * @param string $actionName
      * @return string
      * @throws \Exception
-     * @SuppressWarnings("PMD.StaticAccess")
+     * @SuppressWarnings(PMD.StaticAccess)
      */
     public function initToolbarId($actionName)
     {
@@ -200,7 +188,7 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Get toolbarId
+     * Get toolbar id.
      *
      * @return string
      * @throws \Exception
@@ -215,7 +203,7 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Get a new table id
+     * Get a new table id.
      *
      * @return string
      */
@@ -223,11 +211,11 @@ class Data extends AbstractHelper
     {
         $this->tableCount++;
 
-        return $this->toolbarId.'_table_'.$this->tableCount;
+        return $this->toolbarId . '_table_' . $this->tableCount;
     }
 
     /**
-     * Get the toolbar storage folder
+     * Get the toolbar storage folder.
      *
      * @return string
      */
@@ -243,32 +231,28 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Save the current toolbar
+     * Save the current toolbar.
      *
      * @param Toolbar $toolbarBlock
-     *
-     * @return void
      */
     public function saveToolbar(Toolbar $toolbarBlock)
     {
-        $filename = $this->getToolbarFolder().$toolbarBlock->getToolbarId().'.html';
+        $filename = $this->getToolbarFolder() . $toolbarBlock->getToolbarId() . '.html';
 
         file_put_contents($filename, $toolbarBlock->toHtml());
     }
 
     /**
-     * Clean the old toolbars
+     * Clean the old toolbars.
      *
      * @param int $nbToKeep
-     *
-     * @return void
      */
     public function cleanOldToolbars($nbToKeep)
     {
         $list = $this->getListToolbars();
 
         if (count($list) > $nbToKeep) {
-            $toDelete = array_slice($list, 0, count($list)-$nbToKeep);
+            $toDelete = array_slice($list, 0, count($list) - $nbToKeep);
 
             $folder = $this->getToolbarFolder();
             foreach ($toDelete as $file) {
@@ -280,7 +264,7 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Get the list of all the stored toolbars
+     * Get the list of all the stored toolbars.
      *
      * @return string[]
      */
@@ -291,7 +275,7 @@ class Data extends AbstractHelper
         $list = array_diff(scandir($folder), ['.', '..']);
 
         foreach ($list as $key => $value) {
-            if (!is_file($folder.$value) || is_dir($folder.$value)) {
+            if (!is_file($folder . $value) || is_dir($folder . $value)) {
                 unset($list[$key]);
             }
         }
@@ -302,7 +286,7 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Get the content of all the stored toolbars
+     * Get the content of all the stored toolbars.
      *
      * @return string[]
      */
@@ -315,14 +299,14 @@ class Data extends AbstractHelper
         $folder = $this->getToolbarFolder();
         foreach ($list as $filename) {
             $key = explode('.', $filename)[0];
-            $contents[$key] = file_get_contents($folder.$filename);
+            $contents[$key] = file_get_contents($folder . $filename);
         }
 
         return $contents;
     }
 
     /**
-     * Get the Full Page Cache mode
+     * Get the Full Page Cache mode.
      *
      * @return string
      */

@@ -12,13 +12,12 @@ use Magento\Framework\App\Helper\Context;
 use Magento\Framework\View\Element\AbstractBlock;
 use Magento\Framework\View\Layout\Element;
 use Magento\Framework\View\LayoutInterface as MagentoLayoutInterface;
-use Magento\Framework\View\Layout          as MagentoLayout;
 use Smile\DebugToolbar\Layout\Builder;
 
 /**
  * Helper: Layout
  *
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
@@ -30,11 +29,9 @@ class Layout extends AbstractHelper
     protected $layout;
 
     /**
-     * Layout constructor
-     *
-     * @param Context                $context
+     * @param Context $context
      * @param MagentoLayoutInterface $layout
-     * @param Builder                $builder
+     * @param Builder $builder
      */
     public function __construct(
         Context $context,
@@ -43,16 +40,14 @@ class Layout extends AbstractHelper
     ) {
         parent::__construct($context);
 
-        /** @var MagentoLayout $layout */
         $this->layout = $layout;
         $this->layout->setBuilder($builder);
     }
 
     /**
-     * build the layout
+     * Build the layout.
      *
      * @param string $parentNode
-     *
      * @return array
      */
     protected function buildLayout($parentNode)
@@ -71,15 +66,15 @@ class Layout extends AbstractHelper
                 }
 
                 $layout[$childName] = [
-                    'name'      => $childName,
-                    'parent'    => $parentNode,
-                    'type'      => $type,
+                    'name' => $childName,
+                    'parent' => $parentNode,
+                    'type' => $type,
                     'cacheable' => $this->isBlockCacheable($childName),
                     'cache_ttl' => '',
-                    'scope'     => '',
+                    'scope' => '',
                     'classname' => '',
-                    'filename'  => '',
-                    'template'  => '',
+                    'filename' => '',
+                    'template' => '',
                 ];
 
                 /** @var AbstractBlock $block */
@@ -87,10 +82,10 @@ class Layout extends AbstractHelper
 
                 if (is_object($block)) {
                     $reflectionClass = new \ReflectionClass($block);
-                    $layout[$childName]['scope']     = $block->isScopePrivate();
+                    $layout[$childName]['scope'] = $block->isScopePrivate();
                     $layout[$childName]['classname'] = $this->cleanClassname(get_class($block));
-                    $layout[$childName]['filename']  = $this->cleanFilename($reflectionClass->getFileName());
-                    $layout[$childName]['template']  = $this->cleanFilename($block->getTemplateFile());
+                    $layout[$childName]['filename'] = $this->cleanFilename($reflectionClass->getFileName());
+                    $layout[$childName]['template'] = $this->cleanFilename($block->getTemplateFile());
                 }
 
                 $layout[$childName]['children'] = $this->buildLayout($childName);
@@ -105,7 +100,6 @@ class Layout extends AbstractHelper
      * Check if a template can be cached.
      *
      * @param string $blockName
-     *
      * @return bool
      */
     protected function isBlockCacheable($blockName)
@@ -118,10 +112,9 @@ class Layout extends AbstractHelper
     }
 
     /**
-     * Clean a classname
+     * Clean a classname.
      *
      * @param string $classname
-     *
      * @return string
      */
     protected function cleanClassname($classname)
@@ -130,20 +123,19 @@ class Layout extends AbstractHelper
     }
 
     /**
-     * Clean a filename
+     * Clean a filename.
      *
      * @param string $filename
-     *
      * @return string
      */
     protected function cleanFilename($filename)
     {
 
-        return str_replace(BP.'/', '', $filename);
+        return str_replace(BP . '/', '', $filename);
     }
 
     /**
-     * get the event stats
+     * Get the event stats.
      *
      * @return array
      */
@@ -153,7 +145,7 @@ class Layout extends AbstractHelper
     }
 
     /**
-     * Get updated handles
+     * Get updated handles.
      *
      * @return array
      */

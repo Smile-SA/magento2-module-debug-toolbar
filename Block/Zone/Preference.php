@@ -8,14 +8,14 @@
 namespace Smile\DebugToolbar\Block\Zone;
 
 use Magento\Framework\View\Element\Template\Context;
-use Smile\DebugToolbar\Helper\Data       as HelperData;
 use Smile\DebugToolbar\Formatter\FormatterFactory;
+use Smile\DebugToolbar\Helper\Data as HelperData;
 use Smile\DebugToolbar\Helper\Preference as HelperPreference;
 
 /**
  * Zone for Debug Toolbar Block
  *
- * @author    Laurent MINGUET <dirtech@smile.fr>
+ * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2018 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
@@ -27,13 +27,11 @@ class Preference extends AbstractZone
     protected $helperPreference;
 
     /**
-     * Generic constructor.
-     *
-     * @param Context          $context
-     * @param HelperData       $helperData
+     * @param Context $context
+     * @param HelperData $helperData
      * @param FormatterFactory $formatterFactory
      * @param HelperPreference $helperPreference
-     * @param array            $data
+     * @param array $data
      */
     public function __construct(
         Context $context,
@@ -44,13 +42,11 @@ class Preference extends AbstractZone
     ) {
         parent::__construct($context, $helperData, $formatterFactory, $data);
 
-        $this->helperPreference  = $helperPreference;
+        $this->helperPreference = $helperPreference;
     }
 
     /**
-     * Get the Code
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getCode()
     {
@@ -58,9 +54,7 @@ class Preference extends AbstractZone
     }
 
     /**
-     * Get the Title
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTitle()
     {
@@ -68,7 +62,7 @@ class Preference extends AbstractZone
     }
 
     /**
-     * Get the plugin stats
+     * Get the plugin stats.
      *
      * @return array
      */
@@ -78,7 +72,7 @@ class Preference extends AbstractZone
     }
 
     /**
-     * Get the preference stats
+     * Get the preference stats.
      *
      * @return array
      */
@@ -88,10 +82,9 @@ class Preference extends AbstractZone
     }
 
     /**
-     * Get html info
+     * Get html info.
      *
      * @param string[] $methods
-     *
      * @return string
      */
     public function buildPluginHtmlInfo($methods)
@@ -108,15 +101,15 @@ class Preference extends AbstractZone
     </thead>
     <tbody>";
         foreach ($methods as $method => $type) {
-            $html.= "
+            $html .= "
         <tr>
-            <td>".$method."</td>
-            <td class=\"st-value-center\">".$type."</td>
+            <td>" . $method . "</td>
+            <td class=\"st-value-center\">" . $type . "</td>
         </tr>
             ";
         }
 
-        $html.= "
+        $html .= "
     </tbody>
 </table>";
 

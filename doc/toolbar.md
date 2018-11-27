@@ -1,10 +1,6 @@
-# Smile Debug Toolbar for Magento 2
+# Toolbar
 
-[Back](README.md)
-
-## Toolbar
-
-### Access
+## Access
 
 On the top of the page, you will see the **Smile ToolBar** button.
 
@@ -16,7 +12,7 @@ If the button is **orange**, it means that there is at least one warning during 
 
 ![configuration](images/screenshot-zone-summary.png)
 
-### Navigator
+## Navigator
 
 On the left, you can see the navigator.
 
@@ -26,7 +22,7 @@ You can analyse every ajax call, esi block, ...
 
 If an execution has a warning, its line will be **orange**. 
 
-### Zones
+## Zones
 
 The following zones are available:
 
@@ -49,14 +45,13 @@ The value in warning will be in **orange**:
 
 ![configuration](images/screenshot-zone-mysql.png)
 
-In some zones, you can display additionnal information, by clicking on the links **Show xxx (xx rows)** on the top of the zone.
+In some zones, you can display additional information, by clicking on the links **Show xxx (xx rows)** on the top of the zone.
 
 it will display a popin with a sortable table.
 
-On some tables, you can click on the row to display additionnal information.
+On some tables, you can click on the row to display additional information.
 For example, in the **mysql queries tables**, you can display the php trace: 
 
 ![configuration](images/screenshot-table-queries.png)
 
-
-[Back](README.md)
+[Back](../README.md)

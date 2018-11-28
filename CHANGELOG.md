@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.0] - 2018-11-28
+[4.0.0]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/3.2.0...4.0.0
+
+WARNING: Compatibility break with Magento 2.2
+
+  * The module is now compatible with Magento 2.3
+
 ## [3.2.0] - 2018-11-27
 [3.2.0]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/3.1.1...3.2.0
 

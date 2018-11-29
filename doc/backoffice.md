@@ -4,9 +4,9 @@
 
 A new specific resource ACL **Smile_DebugToolbar::config** was added.
 
-You must have this ACL if you want to modify the Smile Debug Toolbar configuration.
+This ACL is required if you want to modify the Smile Debug Toolbar configuration.
 
-This ACL is in the following path:
+This ACL uses the following path:
 
 * Magento_Backend::admin (Admin)
 * Magento_Backend::stores (Stores)

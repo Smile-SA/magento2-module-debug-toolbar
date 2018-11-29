@@ -12,7 +12,7 @@ It allows you to analyze the SQL queries, the layout, the plugins, ...
 
 ## Documentation
 
-1. [Install](doc/install.md)
+1. [Installation](doc/install.md)
 2. [Back-Office](doc/backoffice.md)
 3. [Toolbar](doc/toolbar.md)
 4. [How-To](doc/howto.md)

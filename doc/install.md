@@ -1,4 +1,4 @@
-# Install
+# Installation
 
 ## Step 1 - Disable the native Magento Profiler
 

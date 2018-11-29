@@ -21,9 +21,7 @@ use Smile\DebugToolbar\Block\Zone\AbstractZone;
 class MyZone extends AbstractZone
 {
     /**
-     * Get the Code
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getCode()
     {
@@ -31,9 +29,7 @@ class MyZone extends AbstractZone
     }
 
     /**
-     * Get the Title
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTitle()
     {
@@ -62,16 +58,16 @@ echo $block->displaySections($sections);
 ```
 You can:
 
-* format values, using the `formatValue` method. You can specify rules to generate automatic warnings.
-* display sections, using the `displaySections` method.
-* add values to the summary zone, using the `addToSummary` method.
+* Format values, using the `formatValue` method. You can specify rules to generate automatic warnings.
+* Display sections, using the `displaySections` method.
+* Add values to the summary zone, using the `addToSummary` method.
 
 
 Then, you can add this new zone to the toolbar, by adding an observer on the event `smile_debug_toolbar_set_zones`.
 
 The following objects will be available in the event:
 
-* `zones`: contains the list of all the current zones.
+* `zones`: contains the list of the current zones.
 * `summary_block`: contains the summary zone.
 
 You can use them as follow:

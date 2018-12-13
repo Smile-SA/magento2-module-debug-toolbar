@@ -7,7 +7,7 @@ Remove the `MAGE_PROFILER` environnement var.
 
 ## Step 2 - Install the module through composer
 
-Execute the following command on your main project folder to add the module:
+Execute the following command in your main project folder to add the module:
 
 ```bash
 composer require --dev smile/module-debug-toolbar

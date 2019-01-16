@@ -24,7 +24,7 @@ class Query extends OriginalProfilerQuery
     protected $trace;
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function start()
     {

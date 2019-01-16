@@ -54,7 +54,7 @@ class Toolbars extends MagentoTemplateBlock
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function toHtml()
     {

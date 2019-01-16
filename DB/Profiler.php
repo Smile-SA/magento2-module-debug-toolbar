@@ -31,12 +31,12 @@ class Profiler extends OriginalProfiler
     /**
      * @var string|null
      */
-    protected $lastQueryId = null;
+    protected $lastQueryId;
 
     /**
      * @var array
      */
-    protected $queries = null;
+    protected $queries;
 
     /**
      * @var string[]
@@ -192,7 +192,7 @@ class Profiler extends OriginalProfiler
      */
     public function getQueryProfilesAsArray()
     {
-        if (is_null($this->queries)) {
+        if ($this->queries === null) {
             $this->queries = [];
 
             $queryProfiles = $this->getQueryProfiles();

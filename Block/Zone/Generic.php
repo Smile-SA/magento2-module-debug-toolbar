@@ -64,7 +64,7 @@ class Generic extends AbstractZone
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getCode()
     {
@@ -72,7 +72,7 @@ class Generic extends AbstractZone
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getTitle()
     {

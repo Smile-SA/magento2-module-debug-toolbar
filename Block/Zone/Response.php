@@ -24,7 +24,7 @@ class Response extends AbstractZone
     protected $response;
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getCode()
     {
@@ -32,7 +32,7 @@ class Response extends AbstractZone
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getTitle()
     {

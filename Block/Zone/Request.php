@@ -24,7 +24,7 @@ class Request extends AbstractZone
     protected $request;
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getCode()
     {
@@ -32,7 +32,7 @@ class Request extends AbstractZone
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getTitle()
     {
@@ -53,7 +53,7 @@ class Request extends AbstractZone
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getRequest()
     {

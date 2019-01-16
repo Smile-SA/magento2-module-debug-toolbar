@@ -76,7 +76,7 @@ class AddToolbar implements ObserverInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @SuppressWarnings(PHPMD.ExitExpression)
      */
     public function execute(Observer $observer)
@@ -103,8 +103,10 @@ class AddToolbar implements ObserverInterface
         try {
             $this->buildToolbar($request, $response);
         } catch (\Exception $e) {
+            // @codingStandardsIgnoreStart
             echo json_encode($e->getMessage());
             exit;
+            // @codingStandardsIgnoreEnd
         }
     }
 

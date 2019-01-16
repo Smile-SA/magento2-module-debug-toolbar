@@ -22,7 +22,7 @@ class Summary extends AbstractZone
     protected $summary = [];
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getCode()
     {
@@ -30,7 +30,7 @@ class Summary extends AbstractZone
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getTitle()
     {
@@ -48,7 +48,7 @@ class Summary extends AbstractZone
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function addToSummary($sectionName, $key, $value)
     {

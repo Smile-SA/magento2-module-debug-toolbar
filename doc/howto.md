@@ -21,7 +21,7 @@ use Smile\DebugToolbar\Block\Zone\AbstractZone;
 class MyZone extends AbstractZone
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getCode()
     {
@@ -29,7 +29,7 @@ class MyZone extends AbstractZone
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getTitle()
     {
@@ -96,7 +96,7 @@ class AddZone implements ObserverInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function execute(Observer $observer)
     {

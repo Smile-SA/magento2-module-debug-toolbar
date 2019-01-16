@@ -148,7 +148,7 @@ class Cache extends AbstractHelper
      */
     public function getCacheTypes()
     {
-        if (is_null($this->cacheTypes)) {
+        if ($this->cacheTypes === null) {
             $this->cacheTypes = [];
 
             $invalidated = $this->cacheTypeList->getInvalidated();

@@ -33,7 +33,7 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function build()
     {

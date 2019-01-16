@@ -167,7 +167,7 @@ class Data extends AbstractHelper
      */
     public function initToolbarId($actionName)
     {
-        if (!is_null($this->toolbarId)) {
+        if ($this->toolbarId !== null) {
             throw new \Exception('The toolbar id has already been set');
         }
 
@@ -195,7 +195,7 @@ class Data extends AbstractHelper
      */
     public function getToolbarId()
     {
-        if (is_null($this->toolbarId)) {
+        if ($this->toolbarId === null) {
             throw new \Exception('The toolbar id has not been set');
         }
 

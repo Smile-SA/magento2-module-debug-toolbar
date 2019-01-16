@@ -108,7 +108,7 @@ class Layout extends AbstractHelper
         $element = $this->layout->getXPath('//' . Element::TYPE_BLOCK . '[@name="' . $blockName . '"]');
 
         $cacheable = empty($element) ? null : $element[0]->getAttribute('cacheable');
-        return is_null($cacheable) ? true : $cacheable == 'true';
+        return $cacheable === null ? true : $cacheable == 'true';
     }
 
     /**

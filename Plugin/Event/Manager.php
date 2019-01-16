@@ -14,7 +14,7 @@ use Smile\DebugToolbar\Helper\Observer as HelperObserver;
  * Plugin on Event Manager
  *
  * @author    Laurent Minguet <dirtech@smile.fr>
- * @copyright 2018 Smile
+ * @copyright 2019 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
 class Manager

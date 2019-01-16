@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.1] - 2019-01-16
+[4.0.1]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/4.0.0...4.0.1
+
+  * Use Magento coding standard ruleset
+  * Update copyright
+
 ## [4.0.0] - 2018-11-28
 [4.0.0]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/3.2.0...4.0.0
 

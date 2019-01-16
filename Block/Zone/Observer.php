@@ -16,7 +16,7 @@ use Smile\DebugToolbar\Helper\Observer as HelperObserver;
  * Zone for Debug Toolbar Block
  *
  * @author    Laurent Minguet <dirtech@smile.fr>
- * @copyright 2018 Smile
+ * @copyright 2019 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
 class Observer extends AbstractZone

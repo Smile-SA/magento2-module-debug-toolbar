@@ -19,7 +19,7 @@ use Magento\Framework\ObjectManager\ConfigInterface as ObjectManagerConfig;
  * Helper: Preference
  *
  * @author    Laurent Minguet <dirtech@smile.fr>
- * @copyright 2018 Smile
+ * @copyright 2019 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
 class Preference extends AbstractHelper

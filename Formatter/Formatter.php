@@ -13,7 +13,7 @@ use Magento\Framework\Escaper;
  * Formatter.
  *
  * @author    Laurent Minguet <dirtech@smile.fr>
- * @copyright 2018 Smile
+ * @copyright 2019 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  * @SuppressWarnings(PMD.ExcessiveClassComplexity)
  */

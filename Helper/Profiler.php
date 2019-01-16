@@ -14,7 +14,7 @@ use Magento\Framework\Profiler\Driver\Standard\Stat;
  * Helper: Profiler
  *
  * @author    Laurent Minguet <dirtech@smile.fr>
- * @copyright 2018 Smile
+ * @copyright 2019 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
  */
 class Profiler extends AbstractHelper

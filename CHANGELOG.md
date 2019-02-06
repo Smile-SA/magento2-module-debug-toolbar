@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.2] - 2019-02-06
+[4.0.2]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/4.0.1...4.0.2
+
+  * Fix composer dependencies
+
 ## [4.0.1] - 2019-01-16
 [4.0.1]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/4.0.0...4.0.1
 

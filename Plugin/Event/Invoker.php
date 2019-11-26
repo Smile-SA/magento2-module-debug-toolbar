@@ -7,6 +7,7 @@
  */
 namespace Smile\DebugToolbar\Plugin\Event;
 
+use Closure;
 use Magento\Framework\Event\InvokerInterface as MagentoInvoker;
 use Magento\Framework\Event\Observer as MagentoObserver;
 use Smile\DebugToolbar\Helper\Observer as HelperObserver;
@@ -37,7 +38,7 @@ class Invoker
      * Plugin on dispatch.
      *
      * @param MagentoInvoker $subject
-     * @param \Closure $closure
+     * @param Closure $closure
      * @param array $configuration
      * @param MagentoObserver $observer
      * @return mixed
@@ -45,10 +46,14 @@ class Invoker
      */
     public function aroundDispatch(
         MagentoInvoker $subject,
-        \Closure $closure,
+        Closure $closure,
         array $configuration,
         MagentoObserver $observer
     ) {
+        if (array_key_exists('disabled', $configuration) && $configuration['disabled'] === true) {
+            return $closure($configuration, $observer);
+        }
+
         $eventName = $observer->getEvent()->getName();
         $observerInstance = $configuration['instance'];
         $observerName = array_key_exists('name', $configuration) ? $configuration['name'] : $observerInstance;

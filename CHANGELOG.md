@@ -2,7 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
-## WIP
+## [4.0.3] - 2019-11-26
+[4.0.3]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/4.0.2...4.0.3
 
   * Fix PHP notice triggered when an observer is disabled
 

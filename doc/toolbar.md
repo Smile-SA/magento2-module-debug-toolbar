@@ -26,16 +26,16 @@ If an execution has a warning, its line will be **orange**.
 
 The following zones are available:
 
-* Generic
-* Request
-* Response
-* Layout
-* Mysql
-* Cache
-* Profiler
-* Observer
-* Preferences
-* Summary
+- Generic
+- Request
+- Response
+- Layout
+- Mysql
+- Cache
+- Profiler
+- Observer
+- Preferences
+- Summary
 
 You can click on each zone label to see the concerned information.
 

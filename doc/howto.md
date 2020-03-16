@@ -8,9 +8,9 @@ To do it, you must implement a new block associated to a template file.
 
 Your new block must:
 
-* extend the class `\Smile\DebugToolbar\Block\Zone\AbstractZone`
-* implement the method `getTitle`
-* implement the method `getCode`
+- extend the class `\Smile\DebugToolbar\Block\Zone\AbstractZone`
+- implement the method `getTitle`
+- implement the method `getCode`
 
 ```php
 <?php
@@ -58,17 +58,16 @@ echo $block->displaySections($sections);
 ```
 You can:
 
-* Format values, using the `formatValue` method. You can specify rules to generate automatic warnings.
-* Display sections, using the `displaySections` method.
-* Add values to the summary zone, using the `addToSummary` method.
-
+- Format values, using the `formatValue` method. You can specify rules to generate automatic warnings.
+- Display sections, using the `displaySections` method.
+- Add values to the summary zone, using the `addToSummary` method.
 
 Then, you can add this new zone to the toolbar, by adding an observer on the event `smile_debug_toolbar_set_zones`.
 
 The following objects will be available in the event:
 
-* `zones`: contains the list of the current zones.
-* `summary_block`: contains the summary zone.
+- `zones`: contains the list of the current zones.
+- `summary_block`: contains the summary zone.
 
 You can use them as follow:
 

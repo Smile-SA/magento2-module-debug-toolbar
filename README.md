@@ -33,4 +33,4 @@ All notable changes are recorded in this [changelog](CHANGELOG.md).
 
 ## Contact
 
-Laurent Minguet <dirtech@smile.fr>
+Smile Technical Office <dirtech@smile.fr>

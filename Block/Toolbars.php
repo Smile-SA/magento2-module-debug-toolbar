@@ -5,8 +5,11 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Block;
 
+use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\View\Element\Template as MagentoTemplateBlock;
 use Magento\Framework\View\Element\Template\Context;
 use Smile\DebugToolbar\Helper\Data as HelperData;
@@ -46,9 +49,10 @@ class Toolbars extends MagentoTemplateBlock
     /**
      * Return the list of the toolbars.
      *
-     * @return \string[]
+     * @return string[]
+     * @throws FileSystemException
      */
-    public function getToolbarList()
+    public function getToolbarList(): array
     {
         return $this->helperData->getContentToolbars();
     }
@@ -56,7 +60,7 @@ class Toolbars extends MagentoTemplateBlock
     /**
      * @inheritdoc
      */
-    public function toHtml()
+    public function toHtml(): string
     {
         return $this->_toHtml();
     }

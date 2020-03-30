@@ -5,11 +5,14 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Block\Zone;
 
 use Magento\Framework\App\DeploymentConfig;
 use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\App\State as AppState;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\View\Element\Template\Context;
 use Smile\DebugToolbar\Formatter\FormatterFactory;
 use Smile\DebugToolbar\Helper\Data as HelperData;
@@ -66,7 +69,7 @@ class Generic extends AbstractZone
     /**
      * @inheritdoc
      */
-    public function getCode()
+    public function getCode(): string
     {
         return 'generic';
     }
@@ -74,7 +77,7 @@ class Generic extends AbstractZone
     /**
      * @inheritdoc
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return 'Generic';
     }
@@ -84,7 +87,7 @@ class Generic extends AbstractZone
      *
      * @return string
      */
-    public function getProductName()
+    public function getProductName(): string
     {
         return $this->productMetadata->getName();
     }
@@ -94,7 +97,7 @@ class Generic extends AbstractZone
      *
      * @return string
      */
-    public function getProductEdition()
+    public function getProductEdition(): string
     {
         return $this->productMetadata->getEdition();
     }
@@ -104,7 +107,7 @@ class Generic extends AbstractZone
      *
      * @return string
      */
-    public function getProductVersion()
+    public function getProductVersion(): string
     {
         return $this->productMetadata->getVersion();
     }
@@ -114,9 +117,13 @@ class Generic extends AbstractZone
      *
      * @return string
      */
-    public function getMagentoArea()
+    public function getMagentoArea(): string
     {
-        return $this->appState->getAreaCode();
+        try {
+            return $this->appState->getAreaCode();
+        } catch (LocalizedException $e) {
+            return '';
+        }
     }
 
     /**
@@ -124,7 +131,7 @@ class Generic extends AbstractZone
      *
      * @return string
      */
-    public function getMagentoMode()
+    public function getMagentoMode(): string
     {
         return $this->appState->getMode();
     }
@@ -134,7 +141,7 @@ class Generic extends AbstractZone
      *
      * @return string
      */
-    public function getSessionMode()
+    public function getSessionMode(): string
     {
         $config = $this->deployConfig->get('session');
         if (!$config || !is_array($config) || empty($config['save'])) {
@@ -147,7 +154,7 @@ class Generic extends AbstractZone
     /**
      * Get the session info.
      *
-     * @return string
+     * @return array|string
      */
     public function getSessionInfo()
     {
@@ -164,9 +171,9 @@ class Generic extends AbstractZone
      *
      * @return string
      */
-    public function getPhpVersion()
+    public function getPhpVersion(): string
     {
-        return phpversion();
+        return PHP_VERSION;
     }
 
     /**
@@ -174,13 +181,13 @@ class Generic extends AbstractZone
      *
      * @return int
      */
-    public function getPhpMemoryLimit()
+    public function getPhpMemoryLimit(): int
     {
         $value = ini_get('memory_limit');
         $value = trim($value);
 
         $unit = strtolower($value[strlen($value) - 1]);
-        $value = (int) substr($value, 0, strlen($value) - 1);
+        $value = (int) substr($value, 0, -1);
 
         $units = [
             'k' => 1024,
@@ -200,7 +207,7 @@ class Generic extends AbstractZone
      *
      * @return int
      */
-    public function getPhpMemoryUsed()
+    public function getPhpMemoryUsed(): int
     {
         return (int) memory_get_peak_usage(true);
     }
@@ -210,7 +217,7 @@ class Generic extends AbstractZone
      *
      * @return int
      */
-    public function getPhpMaxExecutionTime()
+    public function getPhpMaxExecutionTime(): int
     {
         return (int) ini_get('max_execution_time');
     }
@@ -218,9 +225,9 @@ class Generic extends AbstractZone
     /**
      * Get the php max execution time.
      *
-     * @return string
+     * @return float
      */
-    public function getPhpExecutionTime()
+    public function getPhpExecutionTime(): float
     {
         return $this->helperData->getTimer('app_http');
     }

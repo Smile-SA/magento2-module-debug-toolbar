@@ -7,6 +7,7 @@
  */
 namespace Smile\DebugToolbar\Plugin\Event;
 
+use Closure;
 use Magento\Framework\Event\ManagerInterface as MagentoManager;
 use Smile\DebugToolbar\Helper\Observer as HelperObserver;
 
@@ -36,7 +37,7 @@ class Manager
      * Plugin on dispatch.
      *
      * @param MagentoManager $subject
-     * @param \Closure $closure
+     * @param Closure $closure
      * @param string $eventName
      * @param array $data
      * @return mixed
@@ -44,8 +45,8 @@ class Manager
      */
     public function aroundDispatch(
         MagentoManager $subject,
-        \Closure $closure,
-        $eventName,
+        Closure $closure,
+        string $eventName,
         array $data = []
     ) {
         $this->helperObserver->initEventStat($eventName);

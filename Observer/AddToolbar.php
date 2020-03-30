@@ -5,11 +5,16 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Observer;
 
+use Exception;
 use Magento\Framework\App\Request\Http as MagentoRequest;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Exception\FileSystemException;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\HTTP\PhpEnvironment\Response as MagentoResponse;
 use Smile\DebugToolbar\Block\Toolbar;
 use Smile\DebugToolbar\Block\ToolbarFactory;
@@ -79,7 +84,7 @@ class AddToolbar implements ObserverInterface
      * @inheritdoc
      * @SuppressWarnings(PHPMD.ExitExpression)
      */
-    public function execute(Observer $observer)
+    public function execute(Observer $observer): void
     {
         if (!$this->helperConfig->isEnabled()) {
             return;
@@ -102,7 +107,7 @@ class AddToolbar implements ObserverInterface
         // Build the toolbar
         try {
             $this->buildToolbar($request, $response);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // @codingStandardsIgnoreStart
             echo json_encode($e->getMessage());
             exit;
@@ -115,11 +120,13 @@ class AddToolbar implements ObserverInterface
      *
      * @param MagentoRequest $request
      * @param MagentoResponse $response
+     * @throws LocalizedException
+     * @throws FileSystemException
      */
-    protected function buildToolbar(
+    private function buildToolbar(
         MagentoRequest $request,
         MagentoResponse $response
-    ) {
+    ): void {
         // Init the toolbar id
         $this->helperData->initToolbarId($request->getFullActionName());
 
@@ -149,10 +156,10 @@ class AddToolbar implements ObserverInterface
      * @param MagentoResponse $response
      * @return Toolbar
      */
-    protected function getCurrentExecutionToolbarBlock(
+    private function getCurrentExecutionToolbarBlock(
         MagentoRequest $request,
         MagentoResponse $response
-    ) {
+    ): Toolbar {
         /** @var Toolbar $block */
         $block = $this->blockToolbarFactory->create();
         $block->loadZones($request, $response);
@@ -165,7 +172,7 @@ class AddToolbar implements ObserverInterface
      *
      * @return Toolbars
      */
-    protected function getToolbarsBlock()
+    private function getToolbarsBlock(): Toolbars
     {
         /** @var Toolbars $block */
         $block = $this->blockToolbarsFactory->create();

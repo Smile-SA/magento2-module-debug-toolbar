@@ -5,6 +5,8 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Block\Zone;
 
 /**
@@ -24,7 +26,7 @@ class Summary extends AbstractZone
     /**
      * @inheritdoc
      */
-    public function getCode()
+    public function getCode(): string
     {
         return 'summary';
     }
@@ -32,7 +34,7 @@ class Summary extends AbstractZone
     /**
      * @inheritdoc
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return 'Summary';
     }
@@ -42,7 +44,7 @@ class Summary extends AbstractZone
      *
      * @return array
      */
-    public function getSummarySections()
+    public function getSummarySections(): array
     {
         return $this->summary;
     }
@@ -50,7 +52,7 @@ class Summary extends AbstractZone
     /**
      * @inheritdoc
      */
-    public function addToSummary($sectionName, $key, $value)
+    public function addToSummary(string $sectionName, string $key, $value): void
     {
         if (is_array($value) && array_key_exists('has_warning', $value) && $value['has_warning']) {
             $this->hasWarning();

@@ -5,6 +5,8 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Layout;
 
 use Magento\Framework\View\Layout\BuilderInterface;
@@ -35,7 +37,7 @@ class Builder implements BuilderInterface
     /**
      * @inheritdoc
      */
-    public function build()
+    public function build(): LayoutInterface
     {
         return $this->layout;
     }

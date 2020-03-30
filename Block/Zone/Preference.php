@@ -5,6 +5,8 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Block\Zone;
 
 use Magento\Framework\View\Element\Template\Context;
@@ -48,7 +50,7 @@ class Preference extends AbstractZone
     /**
      * @inheritdoc
      */
-    public function getCode()
+    public function getCode(): string
     {
         return 'preference';
     }
@@ -56,7 +58,7 @@ class Preference extends AbstractZone
     /**
      * @inheritdoc
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return 'Preference';
     }
@@ -66,7 +68,7 @@ class Preference extends AbstractZone
      *
      * @return array
      */
-    public function getPluginStats()
+    public function getPluginStats(): array
     {
         return $this->helperPreference->getPluginStats();
     }
@@ -76,7 +78,7 @@ class Preference extends AbstractZone
      *
      * @return array
      */
-    public function getPreferenceStats()
+    public function getPreferenceStats(): array
     {
         return $this->helperPreference->getPreferenceStats();
     }
@@ -87,17 +89,19 @@ class Preference extends AbstractZone
      * @param string[] $methods
      * @return string
      */
-    public function buildPluginHtmlInfo($methods)
+    public function buildPluginHtmlInfo(array $methods): string
     {
         $html = "
 <table>
-    <col style='width: 80%' />
-    <col style='width: 20%' />
+    <colgroup>
+        <col style='width: 80%' />
+        <col style='width: 20%' />
+    </colgroup>
     <thead>
         <tr>
             <th>Method</th>
             <th class=\"st-value-center\">Type</th>
-        </tr>    
+        </tr>
     </thead>
     <tbody>";
         foreach ($methods as $method => $type) {

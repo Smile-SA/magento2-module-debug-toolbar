@@ -5,6 +5,8 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Block\Zone;
 
 use Magento\Framework\App\DeploymentConfig;
@@ -57,7 +59,7 @@ class Cache extends AbstractZone
     /**
      * @inheritdoc
      */
-    public function getCode()
+    public function getCode(): string
     {
         return 'cache';
     }
@@ -65,7 +67,7 @@ class Cache extends AbstractZone
     /**
      * @inheritdoc
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return 'Cache';
     }
@@ -75,7 +77,7 @@ class Cache extends AbstractZone
      *
      * @return string
      */
-    public function getCacheMode()
+    public function getCacheMode(): string
     {
         $config = $this->deployConfig->get('cache');
         if (!$config || !is_array($config) || empty($config['frontend']['default']['backend'])) {
@@ -88,7 +90,7 @@ class Cache extends AbstractZone
     /**
      * Get the cache info.
      *
-     * @return string
+     * @return string|array
      */
     public function getCacheInfo()
     {
@@ -105,7 +107,7 @@ class Cache extends AbstractZone
      *
      * @return array
      */
-    public function getCacheTypes()
+    public function getCacheTypes(): array
     {
         return $this->helperCache->getCacheTypes();
     }
@@ -115,7 +117,7 @@ class Cache extends AbstractZone
      *
      * @return array
      */
-    public function getCacheUsage()
+    public function getCacheUsage(): array
     {
         return array_values($this->helperCache->getCacheUsage());
     }
@@ -125,7 +127,7 @@ class Cache extends AbstractZone
      *
      * @return array
      */
-    public function getStatsPerAction()
+    public function getStatsPerAction(): array
     {
         return $this->helperCache->getStatsPerAction();
     }
@@ -136,7 +138,7 @@ class Cache extends AbstractZone
      * @param array $calls
      * @return string
      */
-    public function buildHtmlInfo(array $calls = [])
+    public function buildHtmlInfo(array $calls = []): string
     {
         $html = '<table>';
 

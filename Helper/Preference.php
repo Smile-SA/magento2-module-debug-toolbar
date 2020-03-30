@@ -5,6 +5,8 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
@@ -14,6 +16,8 @@ use Magento\Framework\Interception\ObjectManager\Config\Compiled as ObjectManage
 use Magento\Framework\Interception\ObjectManager\Config\Developer as ObjectManagerConfigDev;
 use Magento\Framework\Interception\PluginListInterface as PluginList;
 use Magento\Framework\ObjectManager\ConfigInterface as ObjectManagerConfig;
+use ReflectionClass;
+use ReflectionException;
 
 /**
  * Helper: Preference
@@ -54,11 +58,12 @@ class Preference extends AbstractHelper
      * Get the plugin stats.
      *
      * @return array
+     * @throws ReflectionException
      */
-    public function getPluginStats()
+    public function getPluginStats(): array
     {
         // Get some properties without rewrite but the properties are private
-        $reflectionClass = new \ReflectionClass($this->pluginList);
+        $reflectionClass = new ReflectionClass($this->pluginList);
 
         /** @var DefinitionInterface $definitions */
         $property = $reflectionClass->getProperty('_definitions');
@@ -78,7 +83,7 @@ class Preference extends AbstractHelper
                 $methods = $definitions->getMethodList($pluginInstance);
 
                 foreach ($methods as $method => $methodType) {
-                    $methods[$method] = $this->getPluginType($methodType);
+                    $methods[$method] = $this->getPluginType((int) $methodType);
                 }
 
                 $plugins[] = [
@@ -101,7 +106,7 @@ class Preference extends AbstractHelper
      * @param int $methodType
      * @return string
      */
-    protected function getPluginType($methodType)
+    protected function getPluginType(int $methodType): string
     {
         switch ($methodType) {
             case DefinitionInterface::LISTENER_AROUND:
@@ -121,13 +126,14 @@ class Preference extends AbstractHelper
      * Get the preference stats.
      *
      * @return array
+     * @throws ReflectionException
      */
-    public function getPreferenceStats()
+    public function getPreferenceStats(): array
     {
         $preferences = [];
 
         $config = $this->objectManagerConfig;
-        $reflectionClass = new \ReflectionClass($config);
+        $reflectionClass = new ReflectionClass($config);
         $property = null;
 
         /**

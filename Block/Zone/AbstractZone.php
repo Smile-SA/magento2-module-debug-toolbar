@@ -5,6 +5,8 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Block\Zone;
 
 use Magento\Framework\View\Element\Template as MagentoTemplateBlock;
@@ -66,7 +68,7 @@ abstract class AbstractZone extends MagentoTemplateBlock
         $this->formatterFactory = $formatterFactory;
 
         $this->setData('cache_lifetime', 0);
-        $this->setTemplate('zone/' . $this->getCode() . '.phtml');
+        $this->setTemplate('Smile_DebugToolbar::zone/' . $this->getCode() . '.phtml');
     }
 
     /**
@@ -74,19 +76,19 @@ abstract class AbstractZone extends MagentoTemplateBlock
      *
      * @return string
      */
-    abstract public function getCode();
+    abstract public function getCode(): string;
 
     /**
      * Get the title.
      *
      * @return string
      */
-    abstract public function getTitle();
+    abstract public function getTitle(): string;
 
     /**
      * @inheritdoc
      */
-    public function toHtml()
+    public function toHtml(): string
     {
         return $this->_toHtml();
     }
@@ -95,9 +97,10 @@ abstract class AbstractZone extends MagentoTemplateBlock
      * Add the summary block.
      *
      * @param Summary $block
+     *
      * @return $this
      */
-    public function setSummaryBlock(Summary $block)
+    public function setSummaryBlock(Summary $block): AbstractZone
     {
         $this->summaryBlock = $block;
 
@@ -111,7 +114,7 @@ abstract class AbstractZone extends MagentoTemplateBlock
      * @param string $key
      * @param mixed $value
      */
-    public function addToSummary($sectionName, $key, $value)
+    public function addToSummary(string $sectionName, string $key, $value): void
     {
         $this->summaryBlock->addToSummary($sectionName, $key, $value);
     }
@@ -121,7 +124,7 @@ abstract class AbstractZone extends MagentoTemplateBlock
      *
      * @return $this
      */
-    public function hasWarning()
+    public function hasWarning(): AbstractZone
     {
         $this->warning = true;
 
@@ -133,7 +136,7 @@ abstract class AbstractZone extends MagentoTemplateBlock
      *
      * @return bool
      */
-    public function isWarning()
+    public function isWarning(): bool
     {
         return $this->warning;
     }
@@ -144,7 +147,7 @@ abstract class AbstractZone extends MagentoTemplateBlock
      * @param array $sections
      * @return string
      */
-    public function displaySections($sections = [])
+    public function displaySections(array $sections = []): string
     {
         $html = '';
 
@@ -153,7 +156,7 @@ abstract class AbstractZone extends MagentoTemplateBlock
 
             $html .= "<table>\n";
             $html .= '<tbody>';
-            if (count($sectionValues) == 0) {
+            if (count($sectionValues) === 0) {
                 $html .= "<tr><td>No Values</td></tr>\n";
             }
 
@@ -174,7 +177,7 @@ abstract class AbstractZone extends MagentoTemplateBlock
      * @param array $sections
      * @return string
      */
-    public function displaySectionsGrouped($sections = [])
+    public function displaySectionsGrouped(array $sections = []): string
     {
         $sectionNames = array_keys($sections);
         $rowNames = array_keys($sections[$sectionNames[0]]);
@@ -186,7 +189,7 @@ abstract class AbstractZone extends MagentoTemplateBlock
             $html .= '<tr>';
             $html .= '<th>' . $rowName . '</th>';
             foreach ($sectionNames as $sectionName) {
-                list($class, $value) = $this->getClassAndValue($sections[$sectionName][$rowName]);
+                [$class, $value] = $this->getClassAndValue($sections[$sectionName][$rowName]);
                 $html .= '<td class="' . $class . '">' . $value . '</td>';
             }
             $html .= '<tr>';
@@ -203,7 +206,7 @@ abstract class AbstractZone extends MagentoTemplateBlock
      * @param mixed $value
      * @return string[]
      */
-    protected function getClassAndValue($value)
+    protected function getClassAndValue($value): array
     {
         if (!is_array($value)
             || !array_key_exists('value', $value)
@@ -218,13 +221,13 @@ abstract class AbstractZone extends MagentoTemplateBlock
     /**
      * Display a row section.
      *
-     * @param string $name
+     * @param string|int $name
      * @param mixed $value
      * @return string
      */
-    protected function displaySectionValue($name, $value)
+    protected function displaySectionValue($name, $value): string
     {
-        list($class, $value) = $this->getClassAndValue($value);
+        [$class, $value] = $this->getClassAndValue($value);
 
         return "    <tr><th>{$name}</th><td class=\"{$class}\">{$value}</td></tr>\n";
     }
@@ -234,7 +237,7 @@ abstract class AbstractZone extends MagentoTemplateBlock
      *
      * @return string
      */
-    public function getToolbarId()
+    public function getToolbarId(): string
     {
         return $this->helperData->getToolbarId();
     }
@@ -245,10 +248,10 @@ abstract class AbstractZone extends MagentoTemplateBlock
      * @param string $title
      * @param array $values
      * @param array $columns
-     * @param string $additional
+     * @param string|null $additional
      * @return string
      */
-    public function displayTable($title, &$values, $columns, $additional = null)
+    public function displayTable(string $title, array &$values, array $columns, ?string $additional = null): string
     {
         $tableId = $this->helperData->getNewTableId();
         $tableTitle = str_replace('-', '_', $tableId) . '_title';
@@ -284,7 +287,7 @@ abstract class AbstractZone extends MagentoTemplateBlock
      *
      * @return array
      */
-    public function getTablesToDisplay()
+    public function getTablesToDisplay(): array
     {
         return $this->tablesToDisplay;
     }
@@ -294,7 +297,7 @@ abstract class AbstractZone extends MagentoTemplateBlock
      *
      * @return HelperData
      */
-    public function getHelperData()
+    public function getHelperData(): HelperData
     {
         return $this->helperData;
     }
@@ -302,12 +305,13 @@ abstract class AbstractZone extends MagentoTemplateBlock
     /**
      * Format a value, using rules, and type.
      *
-     * @param float $value
+     * @param string|float $value
      * @param array $rules
-     * @param string $type
+     * @param string|null $type
+     *
      * @return array
      */
-    public function formatValue($value, $rules = [], $type = null)
+    public function formatValue($value, array $rules = [], ?string $type = null): array
     {
         $formatter = $this->formatterFactory->create(
             [

@@ -5,6 +5,8 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Observer;
 
 use Magento\Framework\Event\Observer;
@@ -73,7 +75,7 @@ class AddZones implements ObserverInterface
     /**
      * @inheritdoc
      */
-    public function execute(Observer $observer)
+    public function execute(Observer $observer): void
     {
         $list = $observer->getEvent()->getData('zones')->getData('list');
 

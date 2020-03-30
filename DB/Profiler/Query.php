@@ -5,8 +5,11 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\DB\Profiler;
 
+use Exception;
 use Zend_Db_Profiler_Query as OriginalProfilerQuery;
 
 /**
@@ -26,7 +29,7 @@ class Query extends OriginalProfilerQuery
     /**
      * @inheritdoc
      */
-    public function start()
+    public function start(): void
     {
         $this->initTrace();
 
@@ -36,9 +39,9 @@ class Query extends OriginalProfilerQuery
     /**
      * Init the trace
      */
-    protected function initTrace()
+    protected function initTrace(): void
     {
-        $exception = new \Exception();
+        $exception = new Exception();
         $trace = $exception->getTraceAsString();
 
         // Clean each lines
@@ -61,7 +64,7 @@ class Query extends OriginalProfilerQuery
      *
      * @return string[]
      */
-    public function getTrace()
+    public function getTrace(): array
     {
         return $this->trace;
     }

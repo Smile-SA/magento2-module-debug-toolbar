@@ -5,9 +5,12 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Formatter;
 
 use Magento\Framework\Escaper;
+use RuntimeException;
 
 /**
  * Formatter.
@@ -32,7 +35,7 @@ class Formatter
     /**
      * @var string
      */
-    protected $formatedValue;
+    protected $formattedValue;
 
     /**
      * @var string
@@ -55,7 +58,7 @@ class Formatter
     protected $warning = false;
 
     /**
-     * @var string
+     * @var array
      */
     protected $cssClasses = [];
 
@@ -84,9 +87,9 @@ class Formatter
      * Prepare the value and type.
      *
      * @param mixed $value
-     * @param string $type
+     * @param string|null $type
      */
-    protected function prepareValueAndType($value, $type)
+    protected function prepareValueAndType($value, ?string $type): void
     {
         if (is_object($value) || is_array($value)) {
             $type = 'printable';
@@ -115,7 +118,7 @@ class Formatter
      *
      * @param string|null $type
      */
-    protected function prepareType($type)
+    protected function prepareType(?string $type): void
     {
         if ($type === null) {
             $type = $this->getTypeFromValue();
@@ -125,7 +128,7 @@ class Formatter
 
         $subType = null;
         if (strpos($type, '_') !== false) {
-            list($type, $subType) = explode('_', $type, 2);
+            [$type, $subType] = explode('_', $type, 2);
         }
 
         if ($type !== 'code' && mb_strlen((string) $this->value) > self::MAX_STRING_LENGTH) {
@@ -141,7 +144,7 @@ class Formatter
      *
      * @return string
      */
-    protected function getTypeFromValue()
+    protected function getTypeFromValue(): string
     {
         $this->value = (string) $this->value;
 
@@ -169,14 +172,14 @@ class Formatter
      *
      * @param array $rules
      * @return bool
-     * @throws \Exception
+     * @throws RuntimeException
      */
-    protected function computeRules($rules)
+    protected function computeRules(array $rules): bool
     {
         $this->rules = $rules;
 
         $this->warning = false;
-        if (count($this->rules) == 0) {
+        if (count($this->rules) === 0) {
             return false;
         }
 
@@ -196,9 +199,9 @@ class Formatter
      * @param string $ruleTest
      * @param mixed $ruleValue
      * @return bool
-     * @throws \Exception
+     * @throws RuntimeException
      */
-    protected function computeRule($ruleTest, $ruleValue)
+    protected function computeRule(string $ruleTest, $ruleValue): bool
     {
         switch ($ruleTest) {
             case 'lt':
@@ -220,13 +223,13 @@ class Formatter
                 return !in_array($this->value, $ruleValue);
         }
 
-        throw new \Exception('Unknown Formatter Rule Test [' . $ruleTest . ']');
+        throw new RuntimeException('Unknown Formatter Rule Test [' . $ruleTest . ']');
     }
 
     /**
      * Compute the formatted value.
      */
-    protected function computeFormattedValue()
+    protected function computeFormattedValue(): void
     {
         $value = $this->escaper->escapeHtml($this->value);
 
@@ -240,11 +243,11 @@ class Formatter
                 break;
 
             case 'size':
-                $value = $this->displayHumanSize($value);
+                $value = $this->displayHumanSize((int) $value);
                 break;
 
             case 'time':
-                $value = $this->displayHumanTime($value);
+                $value = $this->displayHumanTime((float) $value);
                 break;
 
             // text, hour, date, datetime, center, number
@@ -252,7 +255,7 @@ class Formatter
                 break;
         }
 
-        $this->formatedValue = $value;
+        $this->formattedValue = $value;
     }
 
     /**
@@ -261,7 +264,7 @@ class Formatter
      * @param int $value
      * @return string
      */
-    protected function displayHumanSize($value)
+    protected function displayHumanSize(int $value): string
     {
         if ($this->subType === 'ko') {
             $value /= (1024.);
@@ -300,20 +303,20 @@ class Formatter
     /**
      * Display human time (in seconds).
      *
-     * @param int $value
+     * @param float $value
      * @return string
      */
-    protected function displayHumanTime($value)
+    protected function displayHumanTime(float $value): string
     {
-        if ($this->subType == 'ms') {
+        if ($this->subType === 'ms') {
             $value *= (1000.);
         }
 
-        if ($this->subType == 'm') {
+        if ($this->subType === 'm') {
             $value /= (60.);
         }
 
-        if ($this->subType == 'h') {
+        if ($this->subType === 'h') {
             $value /= (3600.);
         }
 
@@ -342,14 +345,14 @@ class Formatter
     /**
      * Compute the css classes.
      */
-    protected function computeCssClasses()
+    protected function computeCssClasses(): void
     {
         $css = 'st-value-' . $this->type;
         if ($this->subType) {
             $css .= '-' . $this->subType;
         }
 
-        if ($this->type == 'code') {
+        if ($this->type === 'code') {
             $css = 'hjs-code';
         }
 
@@ -365,10 +368,10 @@ class Formatter
      *
      * @return array
      */
-    public function getResult()
+    public function getResult(): array
     {
         return [
-            'value' => $this->formatedValue,
+            'value' => $this->formattedValue,
             'css_class' => implode(' ', $this->cssClasses),
             'has_warning' => $this->warning,
         ];
@@ -379,7 +382,7 @@ class Formatter
      *
      * @return bool
      */
-    public function hasWarning()
+    public function hasWarning(): bool
     {
         return $this->warning;
     }

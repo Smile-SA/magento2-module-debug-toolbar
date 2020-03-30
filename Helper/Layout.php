@@ -5,6 +5,8 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
@@ -12,6 +14,8 @@ use Magento\Framework\App\Helper\Context;
 use Magento\Framework\View\Element\AbstractBlock;
 use Magento\Framework\View\Layout\Element;
 use Magento\Framework\View\LayoutInterface as MagentoLayoutInterface;
+use ReflectionClass;
+use ReflectionException;
 use Smile\DebugToolbar\Layout\Builder;
 
 /**
@@ -49,8 +53,9 @@ class Layout extends AbstractHelper
      *
      * @param string $parentNode
      * @return array
+     * @throws ReflectionException
      */
-    protected function buildLayout($parentNode)
+    protected function buildLayout(string $parentNode): array
     {
         $layout = [];
 
@@ -81,11 +86,11 @@ class Layout extends AbstractHelper
                 $block = $this->layout->getBlock($childName);
 
                 if (is_object($block)) {
-                    $reflectionClass = new \ReflectionClass($block);
+                    $reflectionClass = new ReflectionClass($block);
                     $layout[$childName]['scope'] = $block->isScopePrivate();
                     $layout[$childName]['classname'] = $this->cleanClassname(get_class($block));
                     $layout[$childName]['filename'] = $this->cleanFilename($reflectionClass->getFileName());
-                    $layout[$childName]['template'] = $this->cleanFilename($block->getTemplateFile());
+                    $layout[$childName]['template'] = $block->getTemplateFile() ? $this->cleanFilename($block->getTemplateFile()) : '';
                 }
 
                 $layout[$childName]['children'] = $this->buildLayout($childName);
@@ -102,13 +107,13 @@ class Layout extends AbstractHelper
      * @param string $blockName
      * @return bool
      */
-    protected function isBlockCacheable($blockName)
+    protected function isBlockCacheable(string $blockName): bool
     {
         /** @var Element[] $element */
         $element = $this->layout->getXPath('//' . Element::TYPE_BLOCK . '[@name="' . $blockName . '"]');
 
         $cacheable = empty($element) ? null : $element[0]->getAttribute('cacheable');
-        return $cacheable === null ? true : $cacheable == 'true';
+        return $cacheable === null ? true : $cacheable === 'true';
     }
 
     /**
@@ -117,7 +122,7 @@ class Layout extends AbstractHelper
      * @param string $classname
      * @return string
      */
-    protected function cleanClassname($classname)
+    protected function cleanClassname(string $classname): string
     {
         return preg_replace('/\\\\Interceptor$/', '', $classname);
     }
@@ -128,7 +133,7 @@ class Layout extends AbstractHelper
      * @param string $filename
      * @return string
      */
-    protected function cleanFilename($filename)
+    protected function cleanFilename(string $filename): string
     {
 
         return str_replace(BP . '/', '', $filename);
@@ -138,8 +143,9 @@ class Layout extends AbstractHelper
      * Get the event stats.
      *
      * @return array
+     * @throws ReflectionException
      */
-    public function getLayoutBuild()
+    public function getLayoutBuild(): array
     {
         return $this->buildLayout('root');
     }
@@ -149,7 +155,7 @@ class Layout extends AbstractHelper
      *
      * @return array
      */
-    public function getHandles()
+    public function getHandles(): array
     {
         return $this->layout->getUpdate()->getHandles();
     }

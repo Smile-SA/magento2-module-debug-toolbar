@@ -5,6 +5,8 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Plugin\App\Action;
 
 use Magento\Framework\App\Action\AbstractAction as MagentoAction;
@@ -49,7 +51,7 @@ class AbstractAction
      * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function beforeDispatch(MagentoAction $subject, RequestInterface $request)
+    public function beforeDispatch(MagentoAction $subject, RequestInterface $request): array
     {
         if ($this->helperConfig->isEnabled()) {
             $className = get_class($subject);

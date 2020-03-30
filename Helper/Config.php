@@ -5,6 +5,8 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
@@ -30,7 +32,7 @@ class Config extends AbstractHelper
      *
      * @return bool
      */
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         $value = (int) $this->scopeConfig->getValue(self::KEY_CONFIG_ENABLE);
 
@@ -42,7 +44,7 @@ class Config extends AbstractHelper
      *
      * @return int
      */
-    public function getNbExecutionToKeep()
+    public function getNbExecutionToKeep(): int
     {
         $value = (int) $this->scopeConfig->getValue(self::KEY_CONFIG_NB_EXECUTION_TO_KEEP);
 

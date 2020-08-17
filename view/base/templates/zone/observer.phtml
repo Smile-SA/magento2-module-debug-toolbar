@@ -6,23 +6,21 @@
  * to newer versions in the future.
  */
 
-// @codingStandardsIgnoreFile
+use Smile\DebugToolbar\Block\Zone\Observer;
 
-/** @var \Magento\Framework\View\TemplateEngine\Php $this */
-/** @var \Smile\DebugToolbar\Block\Zone\Observer $block */
-
+/** @var Observer $block */
 $stats = $block->getObserverStats();
 
 $sections = [
     'Used Events' => [
-        'Number'  => 0,
-        'Called'  => 0,
-        'Time'    => 0,
+        'Number' => 0,
+        'Called' => 0,
+        'Time' => 0,
     ],
     'Unused Events' => [
-        'Number'  => 0,
-        'Called'  => 0,
-        'Time'    => 0,
+        'Number' => 0,
+        'Called' => 0,
+        'Time' => 0,
     ],
 ];
 
@@ -31,68 +29,71 @@ $unused = [];
 foreach ($stats as $event) {
     $section = &$sections['Unused Events'];
     $list = &$unused;
-    if ($event['nb_observers'] > 0 ) {
+    if ($event['nb_observers'] > 0) {
         $section = &$sections['Used Events'];
         $list = &$used;
         $event['html_info'] = $block->buildHtmlInfo($event['observers']);
     }
 
     $section['Number']++;
-    $section['Called']+= $event['nb_call'];
-    $section['Time']  += $event['time_total'];
+    $section['Called'] += $event['nb_call'];
+    $section['Time'] += $event['time_total'];
 
-    $event['id']           = $block->formatValue(count($list)+1, [], 'number');
-    $event['event_name']   = $block->formatValue($event['event_name'], [], 'text');
-    $event['nb_call']      = $block->formatValue($event['nb_call'], ['gt' => 200], 'number');
-    $event['time_total']   = $block->formatValue($event['time_total'], ['gt' => 0.5], 'time_ms');
-    $event['time_mean']    = $block->formatValue($event['time_mean'], ['gt' => 0.5], 'time_ms');
+    $event['id'] = $block->formatValue(count($list) + 1, [], 'number');
+    $event['event_name'] = $block->formatValue($event['event_name'], [], 'text');
+    $event['nb_call'] = $block->formatValue($event['nb_call'], ['gt' => 200], 'number');
+    $event['time_total'] = $block->formatValue($event['time_total'], ['gt' => 0.5], 'time_ms');
+    $event['time_mean'] = $block->formatValue($event['time_mean'], ['gt' => 0.5], 'time_ms');
     $event['nb_observers'] = $block->formatValue($event['nb_observers'], ['gt' => 20], 'number');
 
     $list[] = $event;
 }
 unset($stats);
+?>
 
-echo $block->displayTable(
+<?php /* @noEscape */$block->displayTable(
     'Used Events',
     $used,
     [
-        'id'           => ['label' => 'Id',          'width' => '60px'],
-        'event_name'   => ['label' => 'Name',        'width' => ''],
-        'nb_call'      => ['label' => 'Nb Call',     'width' => '100px'],
-        'time_total'   => ['label' => 'Total Time',  'width' => '120px'],
-        'time_mean'    => ['label' => 'Mean Time',   'width' => '120px'],
-        'nb_observers' => ['label' => 'Observers',   'width' => '130px'],
+        'id' => ['label' => 'Id', 'width' => '60px'],
+        'event_name' => ['label' => 'Name', 'width' => ''],
+        'nb_call' => ['label' => 'Nb Call', 'width' => '100px'],
+        'time_total' => ['label' => 'Total Time', 'width' => '120px'],
+        'time_mean' => ['label' => 'Mean Time', 'width' => '120px'],
+        'nb_observers' => ['label' => 'Observers', 'width' => '130px'],
     ],
     'html_info'
-);
+) ?>
 
-echo $block->displayTable(
+<?= /* @noEscape */ $block->displayTable(
     'Unused Events',
     $unused,
     [
-        'id'         => ['label' => 'Id',           'width' => '60px'],
-        'event_name' => ['label' => 'Name',         'width' => ''],
-        'nb_call'    => ['label' => 'Nb Call',      'width' => '100px'],
-        'time_total' => ['label' => 'Total Time',   'width' => '120px'],
-        'time_mean'  => ['label' => 'Mean Time',    'width' => '120px'],
+        'id' => ['label' => 'Id', 'width' => '60px'],
+        'event_name' => ['label' => 'Name', 'width' => ''],
+        'nb_call' => ['label' => 'Nb Call', 'width' => '100px'],
+        'time_total' => ['label' => 'Total Time', 'width' => '120px'],
+        'time_mean' => ['label' => 'Mean Time', 'width' => '120px'],
     ]
-);
+)?>
 
+<?php
 $sections = [
     'Used Events' => [
         'Number' => $block->formatValue($sections['Used Events']['Number'], ['gt' => 100], 'number'),
         'Called' => $block->formatValue($sections['Used Events']['Called'], ['gt' => 1000], 'number'),
-        'Time'   => $block->formatValue($sections['Used Events']['Time'], ['gt' => 1.000], 'time'),
+        'Time' => $block->formatValue($sections['Used Events']['Time'], ['gt' => 1.000], 'time'),
     ],
     'Unused Events' => [
         'Number' => $block->formatValue($sections['Unused Events']['Number'], [], 'number'),
         'Called' => $block->formatValue($sections['Unused Events']['Called'], [], 'number'),
-        'Time'   => $block->formatValue($sections['Unused Events']['Time'], ['gt' => 0.5], 'time'),
+        'Time' => $block->formatValue($sections['Unused Events']['Time'], ['gt' => 0.5], 'time'),
     ],
 ];
 
 $block->addToSummary('Observers', 'Used Events', $sections['Used Events']['Number']);
 $block->addToSummary('Observers', 'Called Events', $sections['Used Events']['Called']);
 $block->addToSummary('Observers', 'Time', $sections['Used Events']['Time']);
+?>
 
-echo $block->displaySectionsGrouped($sections);
+<?= /* @noEscape */ $block->displaySectionsGrouped($sections) ?>

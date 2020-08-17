@@ -37,6 +37,7 @@ class Profiler extends AbstractHelper
      *
      * @param Stat $stat
      */
+    // phpcs:ignore Magento2.Functions.StaticFunction.StaticFunction
     public static function setStat(Stat $stat): void
     {
         self::$stat = $stat;
@@ -155,12 +156,14 @@ class Profiler extends AbstractHelper
         $toolbarSum = $toolbarTimer['sum'];
         $toolbarAvg = $toolbarTimer['avg'];
         $keys = explode('->', $toolbarTimer['id']);
+        $numberKeys = count($keys);
 
-        while (count($keys) > 1) {
+        while ($numberKeys > 1) {
             array_pop($keys);
             $key = implode('->', $keys);
             $this->timers[$key]['sum'] -= $toolbarSum;
             $this->timers[$key]['avg'] -= $toolbarAvg;
+            $numberKeys = count($keys);
         }
 
         unset($this->timers[$toolbarTimer['id']]);

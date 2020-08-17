@@ -6,9 +6,9 @@
  * to newer versions in the future.
  */
 
-// @codingStandardsIgnoreFile
+use Smile\DebugToolbar\Block\Zone\Summary;
 
-/** @var \Magento\Framework\View\TemplateEngine\Php $this */
-/** @var \Smile\DebugToolbar\Block\Zone\Summary $block */
+/** @var Summary $block */
+?>
 
-echo $block->displaySections($block->getSummarySections());
+<?= /* @noEscape */ $block->displaySections($block->getSummarySections()) ?>

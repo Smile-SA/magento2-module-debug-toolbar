@@ -6,17 +6,15 @@
  * to newer versions in the future.
  */
 
-// @codingStandardsIgnoreFile
+use Smile\DebugToolbar\Block\Zone\Layout;
 
-/** @var \Magento\Framework\View\TemplateEngine\Php $this */
-/** @var \Smile\DebugToolbar\Block\Zone\Layout $block */
-
+/** @var Layout $block */
 $sections = [
     'Handles' => $block->getHandles()
 ];
-
-echo $block->displaySections($sections);
 ?>
+
+<?php /* @noEscape */ $block->displaySections($sections) ?>
 <table class="st-profiler">
     <colgroup>
         <col style="width: 40%" />
@@ -29,6 +27,6 @@ echo $block->displaySections($sections);
         </tr>
     </thead>
     <tbody>
-<?= $block->displayLayoutTable() ?>
+        <?= /* @noEscape */ $block->displayLayoutTable() ?>
     </tbody>
 </table>

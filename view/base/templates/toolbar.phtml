@@ -6,70 +6,70 @@
  * to newer versions in the future.
  */
 
-// @codingStandardsIgnoreFile
+use Smile\DebugToolbar\Block\Toolbar;
 
-/** @var \Magento\Framework\View\TemplateEngine\Php $this */
-/** @var \Smile\DebugToolbar\Block\Toolbar $block */
-
+/** @var Toolbar $block */
 $zones = $block->getZones();
 
 $toolbarId = $block->getToolbarId();
 ?>
-<div class="smile-toolbar" id="<?= $toolbarId ?>-toolbar">
+<div class="smile-toolbar" id="<?= $block->escapeHtmlAttr($toolbarId) ?>-toolbar">
     <div
         class="st-zones"
-        id="<?= $toolbarId ?>-zones"
+        id="<?= $block->escapeHtmlAttr($toolbarId) ?>-zones"
         onclick="smileToolbarMainToggle();"
     >
-<?php foreach ($zones as $zone): ?>
-<?php   $zoneHtml = $zone->toHtml() ?>
-        <div
-            id="<?= $toolbarId ?>-zone-<?= $zone->getCode() ?>"
-            class="st-zone"
-            onclick="event.stopPropagation();"
-        >
-            <div class="st-title">
-                <div class="st-table-links">
-<?php   foreach ($zone->getTablesToDisplay() as $key => $table): ?>
-                    <?= ($key > 0 ? '|' : '') ?>
-                    <a onclick="<?= $table['onclick'] ?>"><?= $table['label'] ?></a>
-<?php   endforeach ?>
+        <?php foreach ($zones as $zone) : ?>
+            <?php $zoneHtml = $zone->toHtml() ?>
+            <div
+                id="<?= $block->escapeHtmlAttr($toolbarId) ?>-zone-<?= $block->escapeHtmlAttr($zone->getCode()) ?>"
+                class="st-zone"
+                onclick="event.stopPropagation();"
+            >
+                <div class="st-title">
+                    <div class="st-table-links">
+                        <?php foreach ($zone->getTablesToDisplay() as $key => $table) : ?>
+                            <?= ($key > 0 ? '|' : '') ?>
+                            <a onclick="<?= $block->escapeHtmlAttr($table['onclick']) ?>">
+                                <?= $block->escapeHtml($table['label']) ?>
+                            </a>
+                        <?php endforeach ?>
+                    </div>
+                    <h1><?= $block->escapeHtml($zone->getTitle()) ?></h1>
                 </div>
-                <h1><?= $zone->getTitle() ?></h1>
+                <div class="st-content">
+                    <?= /* @noEscape */ $zoneHtml ?>
+                </div>
             </div>
-            <div class="st-content">
-                <?= $zoneHtml ?>
-            </div>
-        </div>
-<?php endforeach ?>
+        <?php endforeach ?>
         <div
             class="st-navigator"
             onclick="event.stopPropagation();"
-            id="<?= $toolbarId ?>-navigator"
+            id="<?= $block->escapeHtmlAttr($toolbarId) ?>-navigator"
         >
             Smile Toolbar Navigator - Loading
         </div>
     </div>
-    <div class="st-titles" id="<?= $toolbarId ?>-titles">
+    <div class="st-titles" id="<?= $block->escapeHtmlAttr($toolbarId) ?>-titles">
         <div
-            id="<?= $toolbarId ?>-close"
+            id="<?= $block->escapeHtmlAttr($toolbarId) ?>-close"
             class="st-close"
             onclick="smileToolbarMainToggle();"
         ></div>
-<?php foreach ($zones as $zone): ?>
-        <span
-                id="<?= $toolbarId ?>-title-<?= $zone->getCode() ?>"
-                class="<?= ($zone->isWarning() ? 'value-warning' : '') ?>"
-                onclick="smileToolbarZoneSelect('<?= $zone->getCode() ?>');"
-        >
-            <?= $zone->getTitle() ?>
-        </span>
-<?php endforeach ?>
+        <?php foreach ($zones as $zone) : ?>
+            <span
+                    id="<?= $block->escapeHtmlAttr($toolbarId) ?>-title-<?= $block->escapeHtmlAttr($zone->getCode()) ?>"
+                    class="<?= ($zone->isWarning() ? 'value-warning' : '') ?>"
+                    onclick="smileToolbarZoneSelect('<?= $block->escapeHtmlAttr($zone->getCode()) ?>');"
+            >
+                <?= $block->escapeHtml($zone->getTitle()) ?>
+            </span>
+        <?php endforeach ?>
     </div>
     <div class="st-logo <?= ($block->isWarning() ? 'box-warning' : '') ?>" onclick="smileToolbarMainToggle();">
         Smile ToolBar
     </div>
 </div>
 <script type="text/javascript">
-    smileToolbarAdd('<?= $toolbarId ?>', <?= ($block->isWarning() ? 'true' : 'false') ?>);
+    smileToolbarAdd('<?= $block->escapeHtmlAttr($toolbarId) ?>', <?= ($block->isWarning() ? 'true' : 'false') ?>);
 </script>

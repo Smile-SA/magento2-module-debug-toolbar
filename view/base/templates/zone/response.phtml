@@ -6,11 +6,9 @@
  * to newer versions in the future.
  */
 
-// @codingStandardsIgnoreFile
+use Smile\DebugToolbar\Block\Zone\Response;
 
-/** @var \Magento\Framework\View\TemplateEngine\Php $this */
-/** @var \Smile\DebugToolbar\Block\Zone\Response $block */
-
+/** @var Response $block */
 $response = $block->getResponse();
 
 $length = mb_strlen($response->getContent());
@@ -31,23 +29,23 @@ $esi = $block->getEsiUrlList();
 
 $sections = [
     'HTTP' => [
-        'Version'       => $block->formatValue($response->getVersion(), [], 'text'),
-        'Cookie'        => $response->getCookie(),
+        'Version' => $block->formatValue($response->getVersion(), [], 'text'),
+        'Cookie' => $response->getCookie(),
         'Response Code' => $block->formatValue($response->getHttpResponseCode(), ['gt' => 399], 'text'),
         'Reason Phrase' => $response->getReasonPhrase(),
-        'Status Code'   => $block->formatValue($response->getStatusCode(), ['gt' => 399], 'text'),
+        'Status Code' => $block->formatValue($response->getStatusCode(), ['gt' => 399], 'text'),
     ],
     'Headers' => $headers,
     'Response' => [
         'Date' => date('Y-m-d H:i:s'),
-        'Size' => $block->formatValue($length, ['gt' => 512*1024], 'size'),
+        'Size' => $block->formatValue($length, ['gt' => 512 * 1024], 'size'),
     ],
     'Full Page Cache' => [
-        'Mode'    => $block->formatValue($block->getFullPageCacheMode(), ['neq' => 'varnish'], 'text'),
+        'Mode' => $block->formatValue($block->getFullPageCacheMode(), ['neq' => 'varnish'], 'text'),
         'Nb Tags' => $block->formatValue(count($tags), ['gt' => 50], 'number'),
-        'Nb ESI'  => $block->formatValue(count($esi), ['gt' => 4], 'number'),
-        'Tags'    => $tags,
-        'ESI'     => $esi,
+        'Nb ESI' => $block->formatValue(count($esi), ['gt' => 4], 'number'),
+        'Tags' => $tags,
+        'ESI' => $esi,
     ],
 ];
 
@@ -56,5 +54,6 @@ $block->addToSummary('Response', 'Size', $sections['Response']['Size']);
 $block->addToSummary('Response', 'FPC Mode', $sections['Full Page Cache']['Mode']);
 $block->addToSummary('Response', 'FPC Tags', $sections['Full Page Cache']['Nb Tags']);
 $block->addToSummary('Response', 'ESI Tags', $sections['Full Page Cache']['Nb ESI']);
+?>
 
-echo $block->displaySections($sections);
+<?= /* @noEscape */ $block->displaySections($sections) ?>

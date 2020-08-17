@@ -86,11 +86,12 @@ class Layout extends AbstractHelper
                 $block = $this->layout->getBlock($childName);
 
                 if (is_object($block)) {
+                    $templateFile = $block->getTemplateFile() ? $this->cleanFilename($block->getTemplateFile()) : '';
                     $reflectionClass = new ReflectionClass($block);
                     $layout[$childName]['scope'] = $block->isScopePrivate();
                     $layout[$childName]['classname'] = $this->cleanClassname(get_class($block));
                     $layout[$childName]['filename'] = $this->cleanFilename($reflectionClass->getFileName());
-                    $layout[$childName]['template'] = $block->getTemplateFile() ? $this->cleanFilename($block->getTemplateFile()) : '';
+                    $layout[$childName]['template'] = $templateFile;
                 }
 
                 $layout[$childName]['children'] = $this->buildLayout($childName);

@@ -17,6 +17,7 @@ use Smile\DebugToolbar\Helper\Layout as HelperLayout;
 /**
  * Zone for Debug Toolbar Block
  *
+ * @api
  * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2019 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)

@@ -6,62 +6,64 @@
  * to newer versions in the future.
  */
 
-// @codingStandardsIgnoreFile
+use Smile\DebugToolbar\Block\Zone\Preference;
 
-/** @var \Magento\Framework\View\TemplateEngine\Php $this */
-/** @var \Smile\DebugToolbar\Block\Zone\Preference $block */
-
+/** @var Preference $block */
 $list = $block->getPreferenceStats();
 $preferences = [];
 foreach ($list as $original => $final) {
     $preferences[] = [
         'original' => $block->formatValue($original, [], 'text'),
-        'final'    => $block->formatValue($final, [], 'text'),
+        'final' => $block->formatValue($final, [], 'text'),
     ];
 }
 unset($list);
+?>
 
-echo $block->displayTable(
+<?= /* @noEscape */ $block->displayTable(
     'Preferences',
     $preferences,
     [
-        'original' => ['label' => 'For',    'width' => ''],
-        'final'    => ['label' => 'Class',  'width' => ''],
+        'original' => ['label' => 'For', 'width' => ''],
+        'final' => ['label' => 'Class', 'width' => ''],
     ]
-);
+) ?>
 
+<?php
 $classesWithPlugins = [];
 $plugins = $block->getPluginStats();
 foreach ($plugins as $key => $row) {
     $classesWithPlugins[$row['main_classname']] = true;
 
-    $row['main_classname']    = $block->formatValue($row['main_classname'], [], 'text');
-    $row['nb_plugins']        = $block->formatValue($row['nb_plugins'], ['gt' => 15], 'center');
-    $row['plugin_name']       = $block->formatValue($row['plugin_name'], [], 'text');
-    $row['plugin_classname']  = $block->formatValue($row['plugin_classname'], [], 'text');
+    $row['main_classname'] = $block->formatValue($row['main_classname'], [], 'text');
+    $row['nb_plugins'] = $block->formatValue($row['nb_plugins'], ['gt' => 15], 'center');
+    $row['plugin_name'] = $block->formatValue($row['plugin_name'], [], 'text');
+    $row['plugin_classname'] = $block->formatValue($row['plugin_classname'], [], 'text');
     $row['plugin_nb_methods'] = $block->formatValue($row['plugin_nb_methods'], ['gt' => 10], 'center');
-    $row['html_info']         = $block->buildPluginHtmlInfo($row['plugin_methods']);
+    $row['html_info'] = $block->buildPluginHtmlInfo($row['plugin_methods']);
 
     $plugins[$key] = $row;
 }
+?>
 
-echo $block->displayTable(
+<?= /* @noEscape */ $block->displayTable(
     'Plugins',
     $plugins,
     [
-        'main_classname'    => ['label' => 'ClassName',         'width' => ''],
-        'nb_plugins'        => ['label' => 'Nb Plugins',        'width' => '100px'],
-        'plugin_name'       => ['label' => 'Plugin Name',       'width' => ''],
-        'plugin_classname'  => ['label' => 'Plugin ClassName',  'width' => ''],
-        'plugin_nb_methods' => ['label' => 'Methods',           'width' => '100px'],
+        'main_classname' => ['label' => 'ClassName', 'width' => ''],
+        'nb_plugins' => ['label' => 'Nb Plugins', 'width' => '100px'],
+        'plugin_name' => ['label' => 'Plugin Name', 'width' => ''],
+        'plugin_classname' => ['label' => 'Plugin ClassName', 'width' => ''],
+        'plugin_nb_methods' => ['label' => 'Methods', 'width' => '100px'],
     ],
     'html_info'
-);
+)?>
 
+<?php
 $sections = [
     'Declared Plugins' => [
         'Classes with plugins' => $block->formatValue(count($classesWithPlugins), [], 'number'),
-        'Nb Plugins'           => $block->formatValue(count($plugins), [], 'number'),
+        'Nb Plugins' => $block->formatValue(count($plugins), [], 'number'),
     ],
     'Preferences' => [
         'Nb Preferences' => $block->formatValue(count($preferences), [], 'number'),
@@ -71,5 +73,6 @@ $sections = [
 $block->addToSummary('Preferences', 'Nb Preferences', $sections['Preferences']['Nb Preferences']);
 $block->addToSummary('Preferences', 'Classes with plugins', $sections['Declared Plugins']['Classes with plugins']);
 $block->addToSummary('Preferences', 'Nb Plugins', $sections['Declared Plugins']['Nb Plugins']);
+?>
 
-echo $block->displaySections($sections);
+<?= /* @noEscape */ $block->displaySections($sections) ?>

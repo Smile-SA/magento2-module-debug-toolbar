@@ -5,10 +5,13 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\Profiler\Driver\Standard\Stat;
+use RuntimeException;
 
 /**
  * Helper: Profiler
@@ -22,7 +25,7 @@ class Profiler extends AbstractHelper
     /**
      * @var Stat
      */
-    static protected $stat;
+    protected static $stat;
 
     /**
      * @var array
@@ -34,7 +37,8 @@ class Profiler extends AbstractHelper
      *
      * @param Stat $stat
      */
-    public static function setStat(Stat $stat)
+    // phpcs:ignore Magento2.Functions.StaticFunction.StaticFunction
+    public static function setStat(Stat $stat): void
     {
         self::$stat = $stat;
     }
@@ -43,12 +47,12 @@ class Profiler extends AbstractHelper
      * Get the profiler stat object.
      *
      * @return Stat
-     * @throws \Exception
+     * @throws RuntimeException
      */
-    public function getStat()
+    public function getStat(): Stat
     {
         if (self::$stat === null) {
-            throw new \Exception('Global Smile Profiler Stat is missing');
+            throw new RuntimeException('Global Smile Profiler Stat is missing');
         }
 
         return self::$stat;
@@ -57,12 +61,12 @@ class Profiler extends AbstractHelper
     /**
      * Compute the stats.
      *
-     * @throws \Exception
+     * @throws RuntimeException
      */
-    public function computeStats()
+    public function computeStats(): void
     {
         if ($this->timers !== null) {
-            throw new \Exception('Profiler Stats are already computed');
+            throw new RuntimeException('Profiler Stats are already computed');
         }
 
         $this->prepareTimers();
@@ -72,9 +76,9 @@ class Profiler extends AbstractHelper
      * Get the stat timers.
      *
      * @return array
-     * @throws \Exception
+     * @throws RuntimeException
      */
-    public function getTimers()
+    public function getTimers(): array
     {
         if ($this->timers === null) {
             $this->prepareTimers();
@@ -86,9 +90,9 @@ class Profiler extends AbstractHelper
     /**
      * Prepare the timers, with sorting.
      *
-     * @throws \Exception
+     * @throws RuntimeException
      */
-    protected function prepareTimers()
+    protected function prepareTimers(): void
     {
         $this->timers = [];
 
@@ -140,7 +144,7 @@ class Profiler extends AbstractHelper
      *
      * @return bool
      */
-    protected function removeToolbarObserverFromTimers()
+    protected function removeToolbarObserverFromTimers(): bool
     {
         $toolbarKey = 'OBSERVER:smile_debugtoolbar_add_toolbar_to_response';
 
@@ -152,12 +156,14 @@ class Profiler extends AbstractHelper
         $toolbarSum = $toolbarTimer['sum'];
         $toolbarAvg = $toolbarTimer['avg'];
         $keys = explode('->', $toolbarTimer['id']);
+        $numberKeys = count($keys);
 
-        while (count($keys) > 1) {
+        while ($numberKeys > 1) {
             array_pop($keys);
             $key = implode('->', $keys);
             $this->timers[$key]['sum'] -= $toolbarSum;
             $this->timers[$key]['avg'] -= $toolbarAvg;
+            $numberKeys = count($keys);
         }
 
         unset($this->timers[$toolbarTimer['id']]);
@@ -168,7 +174,7 @@ class Profiler extends AbstractHelper
     /**
      * Calculate the percents.
      */
-    protected function calculatePercents()
+    protected function calculatePercents(): void
     {
         foreach ($this->timers as &$timer) {
             $percent = 0;

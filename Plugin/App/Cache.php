@@ -5,8 +5,11 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Plugin\App;
 
+use Closure;
 use Magento\Framework\App\CacheInterface;
 use Smile\DebugToolbar\Helper\Cache as HelperCache;
 
@@ -36,18 +39,18 @@ class Cache
      * Add stats on load.
      *
      * @param CacheInterface $subject
-     * @param \Closure $closure
+     * @param Closure $closure
      * @param string $identifier
-     * @return string
+     * @return string|bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundLoad(CacheInterface $subject, \Closure $closure, $identifier)
+    public function aroundLoad(CacheInterface $subject, Closure $closure, string $identifier)
     {
         $startTime = microtime(true);
 
         $result = $closure($identifier);
 
-        $this->helperCache->addStat('load', $identifier, microtime(true) - $startTime, strlen($result));
+        $this->helperCache->addStat('load', $identifier, microtime(true) - $startTime, strlen((string) $result));
 
         return $result;
     }
@@ -56,7 +59,7 @@ class Cache
      * Add stats on save.
      *
      * @param CacheInterface $subject
-     * @param \Closure $closure
+     * @param Closure $closure
      * @param string $data
      * @param string $identifier
      * @param array $tags
@@ -66,12 +69,12 @@ class Cache
      */
     public function aroundSave(
         CacheInterface $subject,
-        \Closure $closure,
-        $data,
-        $identifier,
-        $tags = [],
-        $lifeTime = null
-    ) {
+        Closure $closure,
+        string $data,
+        string $identifier,
+        array $tags = [],
+        ?int $lifeTime = null
+    ): bool {
         $startTime = microtime(true);
 
         $result = $closure($data, $identifier, $tags, $lifeTime);
@@ -85,12 +88,12 @@ class Cache
      * Add stats on remove.
      *
      * @param CacheInterface $subject
-     * @param \Closure $closure
+     * @param Closure $closure
      * @param string $identifier
      * @return bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundRemove(CacheInterface $subject, \Closure $closure, $identifier)
+    public function aroundRemove(CacheInterface $subject, Closure $closure, string $identifier): bool
     {
         $startTime = microtime(true);
 

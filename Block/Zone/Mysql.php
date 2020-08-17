@@ -5,6 +5,8 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Block\Zone;
 
 use Magento\Framework\View\Element\Template\Context;
@@ -15,6 +17,7 @@ use Smile\DebugToolbar\Model\ResourceModel\Info as ResourceModel;
 /**
  * Zone for Debug Toolbar Block
  *
+ * @api
  * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2019 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
@@ -48,7 +51,7 @@ class Mysql extends AbstractZone
     /**
      * @inheritdoc
      */
-    public function getCode()
+    public function getCode(): string
     {
         return 'mysql';
     }
@@ -56,7 +59,7 @@ class Mysql extends AbstractZone
     /**
      * @inheritdoc
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return 'Mysql';
     }
@@ -66,7 +69,7 @@ class Mysql extends AbstractZone
      *
      * @return array
      */
-    public function getQueries()
+    public function getQueries(): array
     {
         return $this->resourceModel->getExecutedQueries();
     }
@@ -76,7 +79,7 @@ class Mysql extends AbstractZone
      *
      * @return array
      */
-    public function getCountPerTypes()
+    public function getCountPerTypes(): array
     {
         return $this->resourceModel->getCountPerTypes();
     }
@@ -86,7 +89,7 @@ class Mysql extends AbstractZone
      *
      * @return array
      */
-    public function getTimePerTypes()
+    public function getTimePerTypes(): array
     {
         return $this->resourceModel->getTimePerTypes();
     }
@@ -96,7 +99,7 @@ class Mysql extends AbstractZone
      *
      * @return string
      */
-    public function getMysqlVersion()
+    public function getMysqlVersion(): string
     {
         return $this->resourceModel->getMysqlVersion();
     }
@@ -108,7 +111,7 @@ class Mysql extends AbstractZone
      * @param array $trace
      * @return string
      */
-    public function buildHtmlInfo(array $params = [], array $trace = [])
+    public function buildHtmlInfo(array $params = [], array $trace = []): string
     {
         $html = '';
 

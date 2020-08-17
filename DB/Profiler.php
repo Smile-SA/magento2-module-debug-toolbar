@@ -5,9 +5,12 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\DB;
 
 use Zend_Db_Profiler as OriginalProfiler;
+use Zend_Db_Profiler_Exception;
 
 /**
  * Smile Db Profiler
@@ -57,7 +60,7 @@ class Profiler extends OriginalProfiler
      * @param string $host
      * @return $this
      */
-    public function setHost($host)
+    public function setHost(string $host): Profiler
     {
         $this->host = $host;
 
@@ -70,7 +73,7 @@ class Profiler extends OriginalProfiler
      * @param string $type
      * @return $this
      */
-    public function setType($type)
+    public function setType(string $type): Profiler
     {
         $this->type = $type;
 
@@ -84,7 +87,7 @@ class Profiler extends OriginalProfiler
      * @param int|null $queryType
      * @return int|null
      */
-    public function queryStart($queryText, $queryType = null)
+    public function queryStart($queryText, $queryType = null): ?int
     {
         if (!$this->_enabled) {
             return null;
@@ -110,7 +113,7 @@ class Profiler extends OriginalProfiler
      * @param string $queryText
      * @return int
      */
-    protected function getTypeFromQuery($queryText)
+    protected function getTypeFromQuery(string $queryText): int
     {
         $queryText = ltrim($queryText);
 
@@ -147,7 +150,7 @@ class Profiler extends OriginalProfiler
      * @param int $typeId
      * @return string
      */
-    protected function getTypeText($typeId)
+    protected function getTypeText(int $typeId): string
     {
         $type = 'query';
 
@@ -163,8 +166,9 @@ class Profiler extends OriginalProfiler
      *
      * @param int $queryId
      * @return string
+     * @throws Zend_Db_Profiler_Exception
      */
-    public function queryEnd($queryId)
+    public function queryEnd($queryId): string
     {
         $this->lastQueryId = null;
 
@@ -172,25 +176,11 @@ class Profiler extends OriginalProfiler
     }
 
     /**
-     * Ends the last query if exists. Used for finalize broken queries.
-     *
-     * @return string
-     */
-    public function queryEndLast()
-    {
-        if ($this->lastQueryId !== null) {
-            return $this->queryEnd($this->lastQueryId);
-        }
-
-        return self::IGNORED;
-    }
-
-    /**
      * Get the queries as array.
      *
      * @return array
      */
-    public function getQueryProfilesAsArray()
+    public function getQueryProfilesAsArray(): array
     {
         if ($this->queries === null) {
             $this->queries = [];
@@ -215,7 +205,7 @@ class Profiler extends OriginalProfiler
      * @param Profiler\Query $queryProfile
      * @return array
      */
-    protected function convertQueryProfileToArray(Profiler\Query $queryProfile)
+    protected function convertQueryProfileToArray(Profiler\Query $queryProfile): array
     {
         return [
             'id' => null,
@@ -233,7 +223,7 @@ class Profiler extends OriginalProfiler
      *
      * @return string[]
      */
-    public function getTypes()
+    public function getTypes(): array
     {
         return $this->types;
     }
@@ -243,7 +233,7 @@ class Profiler extends OriginalProfiler
      *
      * @return array
      */
-    public function getCountPerTypes()
+    public function getCountPerTypes(): array
     {
         $list = [
             'total' => 0,
@@ -266,7 +256,7 @@ class Profiler extends OriginalProfiler
      *
      * @return array
      */
-    public function getTimePerTypes()
+    public function getTimePerTypes(): array
     {
         $list = [
             'total' => 0,

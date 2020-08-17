@@ -5,6 +5,8 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Helper;
 
 use Magento\Framework\App\Cache\TypeListInterface;
@@ -81,7 +83,7 @@ class Cache extends AbstractHelper
      * @param float $deltaTime
      * @param int $size
      */
-    public function addStat($action, $identifier, $deltaTime = 0., $size = 0)
+    public function addStat(string $action, string $identifier, float $deltaTime = 0., int $size = 0): void
     {
         if (!array_key_exists($identifier, $this->cacheUsage)) {
             $this->cacheUsage[$identifier] = [
@@ -126,7 +128,7 @@ class Cache extends AbstractHelper
      *
      * @return array
      */
-    public function getCacheUsage()
+    public function getCacheUsage(): array
     {
         return $this->cacheUsage;
     }
@@ -136,7 +138,7 @@ class Cache extends AbstractHelper
      *
      * @return array
      */
-    public function getStatsPerAction()
+    public function getStatsPerAction(): array
     {
         return $this->cacheStats;
     }
@@ -146,7 +148,7 @@ class Cache extends AbstractHelper
      *
      * @return array
      */
-    public function getCacheTypes()
+    public function getCacheTypes(): array
     {
         if ($this->cacheTypes === null) {
             $this->cacheTypes = [];

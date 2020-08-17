@@ -5,13 +5,17 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Block\Zone;
 
 use Magento\Framework\App\Request\Http as MagentoRequest;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * Zone for Debug Toolbar Block
  *
+ * @api
  * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2019 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
@@ -26,7 +30,7 @@ class Request extends AbstractZone
     /**
      * @inheritdoc
      */
-    public function getCode()
+    public function getCode(): string
     {
         return 'request';
     }
@@ -34,7 +38,7 @@ class Request extends AbstractZone
     /**
      * @inheritdoc
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return 'Request';
     }
@@ -45,7 +49,7 @@ class Request extends AbstractZone
      * @param MagentoRequest $request
      * @return $this
      */
-    public function setRequest(MagentoRequest $request)
+    public function setRequest(MagentoRequest $request): Request
     {
         $this->request = $request;
 
@@ -55,7 +59,7 @@ class Request extends AbstractZone
     /**
      * @inheritdoc
      */
-    public function getRequest()
+    public function getRequest(): RequestInterface
     {
         return $this->request;
     }
@@ -65,8 +69,8 @@ class Request extends AbstractZone
      *
      * @return string
      */
-    public function getControllerClassName()
+    public function getControllerClassName(): string
     {
-        return $this->helperData->getValue('controller_classname');
+        return (string) $this->helperData->getValue('controller_classname');
     }
 }

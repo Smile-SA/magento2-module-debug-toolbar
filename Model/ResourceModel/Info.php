@@ -5,10 +5,17 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Model\ResourceModel;
 
+use Exception;
 use Magento\Framework\App\ResourceConnection;
+use Magento\Framework\DB\Adapter\AdapterInterface;
+use Magento\Framework\DB\Adapter\Pdo\Mysql;
+use RuntimeException;
 use Smile\DebugToolbar\DB\Profiler;
+use Zend_Db_Statement_Exception;
 
 /**
  * Main Debug Toolbar Resource Model
@@ -40,9 +47,9 @@ class Info
     /**
      * Get the connection.
      *
-     * @return \Magento\Framework\DB\Adapter\AdapterInterface
+     * @return AdapterInterface
      */
-    public function getConnection()
+    public function getConnection(): AdapterInterface
     {
         return $this->resourceConnection->getConnection('read');
     }
@@ -51,8 +58,9 @@ class Info
      * Get Mysql versions.
      *
      * @return string[]
+     * @throws Zend_Db_Statement_Exception
      */
-    public function getMysqlVersions()
+    public function getMysqlVersions(): array
     {
         if ($this->version === null) {
             $this->version = [];
@@ -72,8 +80,9 @@ class Info
      *
      * @param string $key
      * @return string
+     * @throws Zend_Db_Statement_Exception
      */
-    public function getMysqlVersion($key = 'version')
+    public function getMysqlVersion(string $key = 'version'): string
     {
         $values = $this->getMysqlVersions();
 
@@ -88,8 +97,9 @@ class Info
      * Get the executed queries.
      *
      * @return array
+     * @throws Exception
      */
-    public function getExecutedQueries()
+    public function getExecutedQueries(): array
     {
         return $this->getProfiler()->getQueryProfilesAsArray();
     }
@@ -98,8 +108,9 @@ class Info
      * Get the count per types.
      *
      * @return array
+     * @throws Exception
      */
-    public function getCountPerTypes()
+    public function getCountPerTypes(): array
     {
         return $this->getProfiler()->getCountPerTypes();
     }
@@ -108,8 +119,9 @@ class Info
      * Get the time per types.
      *
      * @return array
+     * @throws Exception
      */
-    public function getTimePerTypes()
+    public function getTimePerTypes(): array
     {
         return $this->getProfiler()->getTimePerTypes();
     }
@@ -117,19 +129,19 @@ class Info
     /**
      * Get the profiler.
      *
-     * @return \Smile\DebugToolbar\DB\Profiler
-     * @throws \Exception
+     * @return Profiler
+     * @throws RuntimeException
      */
-    protected function getProfiler()
+    protected function getProfiler(): Profiler
     {
-        /** @var \Magento\Framework\DB\Adapter\Pdo\Mysql $connection */
+        /** @var Mysql $connection */
         $connection = $this->resourceConnection->getConnection();
 
         /** @var Profiler $profiler */
         $profiler = $connection->getProfiler();
 
         if (!($profiler instanceof Profiler)) {
-            throw new \Exception(
+            throw new RuntimeException(
                 'DB Profiler is not set to \Smile\DebugToolbar\DB\Profiler. Please disable and enable the ToolBar'
             );
         }

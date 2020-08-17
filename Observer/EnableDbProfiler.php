@@ -5,6 +5,8 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Observer;
 
 use Magento\Framework\App\DeploymentConfig\Reader as DeploymentConfigReader;
@@ -12,6 +14,8 @@ use Magento\Framework\App\DeploymentConfig\Writer as DeploymentConfigWriter;
 use Magento\Framework\Config\File\ConfigFilePool;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Exception\FileSystemException;
+use Magento\Framework\Exception\RuntimeException;
 use Smile\DebugToolbar\DB\Profiler as DbProfiler;
 use Smile\DebugToolbar\Helper\Config as HelperConfig;
 
@@ -56,8 +60,10 @@ class EnableDbProfiler implements ObserverInterface
 
     /**
      * @inheritdoc
+     * @throws FileSystemException
+     * @throws RuntimeException
      */
-    public function execute(Observer $observer)
+    public function execute(Observer $observer): void
     {
         $env = $this->deploymentConfigReader->load(ConfigFilePool::APP_ENV);
 

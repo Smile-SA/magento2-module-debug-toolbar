@@ -6,33 +6,32 @@
  * to newer versions in the future.
  */
 
-// @codingStandardsIgnoreFile
+use Smile\DebugToolbar\Block\Zone\Generic;
 
-/** @var \Magento\Framework\View\TemplateEngine\Php $this */
-/** @var \Smile\DebugToolbar\Block\Zone\Generic $block */
-
+/** @var Generic $block */
 $sections = [
     'Product' => [
         'Product' => $block->getProductName(),
         'Edition' => $block->getProductEdition(),
-        //'Version' => $block->getProductVersion(), // disabled because it takes 300ms?!
+        'Version' => $block->getProductVersion(),
         'Area' => $block->getMagentoArea(),
         'Mode' => $block->getMagentoMode(),
     ],
     'Server' => [
-        'PHP Version'            => $block->getPhpVersion(),
-        'PHP Memory Limit'       => $block->formatValue($block->getPhpMemoryLimit(), ['lt' => 256*1024*1024], 'size'),
-        'PHP Memory Used'        => $block->formatValue($block->getPhpMemoryUsed(), ['gt' => 128*1024*1024], 'size'),
+        'PHP Version' => $block->getPhpVersion(),
+        'PHP Memory Limit' => $block->formatValue($block->getPhpMemoryLimit(), ['lt' => 256 * 1024 * 1024], 'size'),
+        'PHP Memory Used' => $block->formatValue($block->getPhpMemoryUsed(), ['gt' => 128 * 1024 * 1024], 'size'),
         'PHP Max Execution Time' => $block->formatValue($block->getPhpMaxExecutionTime(), ['lt' => 60], 'time'),
-        'PHP Execution Time'     => $block->formatValue($block->getPhpExecutionTime(), ['gt' => 5], 'time'),
+        'PHP Execution Time' => $block->formatValue($block->getPhpExecutionTime(), ['gt' => 5], 'time'),
     ],
     'Session' => [
-        'Mode'   => $block->formatValue($block->getSessionMode(), ['neq' => 'redis'], 'text'),
+        'Mode' => $block->formatValue($block->getSessionMode(), ['neq' => 'redis'], 'text'),
         'Config' => $block->getSessionInfo(),
     ],
 ];
 
 $block->addToSummary('Server', 'PHP Memory Used', $sections['Server']['PHP Memory Used']);
 $block->addToSummary('Server', 'PHP Execution Time', $sections['Server']['PHP Execution Time']);
+?>
 
-echo $block->displaySections($sections);
+<?= /* @noEscape */ $block->displaySections($sections) ?>

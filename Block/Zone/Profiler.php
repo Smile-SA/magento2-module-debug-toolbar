@@ -5,9 +5,12 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Block\Zone;
 
 use Magento\Framework\View\Element\Template\Context;
+use RuntimeException;
 use Smile\DebugToolbar\Formatter\FormatterFactory;
 use Smile\DebugToolbar\Helper\Data as HelperData;
 use Smile\DebugToolbar\Helper\Profiler as HelperProfiler;
@@ -15,6 +18,7 @@ use Smile\DebugToolbar\Helper\Profiler as HelperProfiler;
 /**
  * Zone for Debug Toolbar Block
  *
+ * @api
  * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2019 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
@@ -48,7 +52,7 @@ class Profiler extends AbstractZone
     /**
      * @inheritdoc
      */
-    public function getCode()
+    public function getCode(): string
     {
         return 'profiler';
     }
@@ -56,7 +60,7 @@ class Profiler extends AbstractZone
     /**
      * @inheritdoc
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return 'Profiler';
     }
@@ -65,8 +69,9 @@ class Profiler extends AbstractZone
      * Get the profiler timers.
      *
      * @return array
+     * @throws RuntimeException
      */
-    public function getTimers()
+    public function getTimers(): array
     {
         return $this->helperProfiler->getTimers();
     }

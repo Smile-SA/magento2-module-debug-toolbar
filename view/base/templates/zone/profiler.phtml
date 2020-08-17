@@ -6,77 +6,79 @@
  * to newer versions in the future.
  */
 
-// @codingStandardsIgnoreFile
+use Magento\Framework\Escaper;
+use Smile\DebugToolbar\Block\Zone\Profiler;
 
-/** @var \Magento\Framework\View\TemplateEngine\Php $this */
-/** @var \Smile\DebugToolbar\Block\Zone\Profiler $block */
-
+/** @var Profiler $block */
+/** @var Escaper $escaper */
 $timers = $block->getTimers();
 ?>
 <table class="st-profiler">
     <colgroup>
-        <col style="width: 50%" />
-        <col style="width: 14%" />
-        <col style="width: 14%" />
-        <col style="width:  8%" />
-        <col style="width: 14%" />
+        <col style="width: 50%"/>
+        <col style="width: 14%"/>
+        <col style="width: 14%"/>
+        <col style="width: 8%"/>
+        <col style="width: 14%"/>
     </colgroup>
     <thead>
-        <tr>
-            <th>Timer</th>
-            <td>Total</td>
-            <td>AVG</td>
-            <td>NB</td>
-            <td>Mem</td>
-        </tr>
+    <tr>
+        <th>Timer</th>
+        <td>Total</td>
+        <td>AVG</td>
+        <td>NB</td>
+        <td>Mem</td>
+    </tr>
     </thead>
     <tbody>
-<?php
-    foreach ($timers as $timer):
+    <?php
+    foreach ($timers as $timer) :
         $row = [
-            'sum'   => $block->formatValue($timer['sum'], [], 'time'),
-            'avg'   => $block->formatValue($timer['avg'], ['gt' => 3], 'time'),
+            'sum' => $block->formatValue($timer['sum'], [], 'time'),
+            'avg' => $block->formatValue($timer['avg'], ['gt' => 3], 'time'),
             'count' => $block->formatValue($timer['count'], [], 'number'),
-            'mem'   => $block->formatValue($timer['mem'], [], 'size_mo'),
+            'mem' => $block->formatValue($timer['mem'], [], 'size_mo'),
         ];
-?>
+        ?>
         <tr
-            id="<?= $block->getToolbarId() ?>-pf-<?= $timer['uid'] ?>"
-            class="<?= ($timer['parent'] ? $block->getToolbarId().'-pf-'.$timer['parent'] : '') ?>"
+            id="<?= $escaper->escapeHtmlAttr($block->getToolbarId()) ?>-pf-<?= $escaper->escapeHtmlAttr($timer['uid']) ?>"
+            class="<?= ($timer['parent'] ? $escaper->escapeHtmlAttr($block->getToolbarId()) . '-pf-' . $escaper->escapeHtmlAttr($timer['parent']) : '') ?>"
             style="<?= ($timer['parent'] ? 'display: none' : '') ?>"
         >
             <td
-                style="padding-left: <?= (10*$timer['level']) ?>px"
-                class="<?= (($timer['children']>0) ? 'st-with-children' : '') ?>"
+                style="padding-left: <?= (10 * $timer['level']) ?>px"
+                class="<?= (($timer['children'] > 0) ? 'st-with-children' : '') ?>"
             >
-<?php if ($timer['children']>0): ?>
-                <span
-                    class="st-expand"
-                    id="<?= $block->getToolbarId() ?>-pf-<?= $timer['uid'] ?>-span"
-                    onclick="smileToolbarTreeGrid(this)"
-                >+</span>
-<?php else: ?>
-                <span
-                    class="st-expand"
-                >&nbsp;</span>
-<?php endif ?>
-                <?= $timer['label'] ?>
+                <?php if ($timer['children'] > 0) : ?>
+                    <span
+                        class="st-expand"
+                        id="<?= $escaper->escapeHtmlAttr($block->getToolbarId()) ?>-pf-<?= $escaper->escapeHtmlAttr($timer['uid']) ?>-span"
+                        onclick="smileToolbarTreeGrid(this)"
+                    >+</span>
+                <?php else : ?>
+                    <span
+                        class="st-expand"
+                    >&nbsp;</span>
+                <?php endif ?>
+                <?= $escaper->escapeHtml($timer['label']) ?>
             </td>
-            <td class="<?= $row['sum']['css_class'] ?>">
-                <div class="st-percent" style="width: <?= $timer['percent'] ?>%"></div>
-                <?= $row['sum']['value'] ?>
+            <td class="<?= $escaper->escapeHtmlAttr($row['sum']['css_class']) ?>">
+                <div class="st-percent" style="width: <?= $escaper->escapeCss($timer['percent']) ?>%"></div>
+                <?= $escaper->escapeHtml($row['sum']['value']) ?>
             </td>
-            <td class="<?= $row['avg']['css_class'] ?>"><?= $row['avg']['value'] ?></td>
-            <td class="<?= $row['count']['css_class'] ?>"><?= $row['count']['value'] ?></td>
-            <td class="<?= $row['mem']['css_class'] ?>"><?= $row['mem']['value'] ?></td>
+            <td class="<?= $escaper->escapeHtmlAttr($row['avg']['css_class']) ?>"><?= $escaper->escapeHtml($row['avg']['value']) ?></td>
+            <td class="<?= $escaper->escapeHtmlAttr($row['count']['css_class']) ?>"><?= $escaper->escapeHtml($row['count']['value']) ?></td>
+            <td class="<?= $escaper->escapeHtmlAttr($row['mem']['css_class']) ?>"><?= $escaper->escapeHtml($row['mem']['value']) ?></td>
         </tr>
-<?php endforeach ?>
+    <?php endforeach ?>
     </tbody>
 </table>
 <?php
-    $buildIn = $block->formatValue($block->getHelperData()->getTimer('profiler_build'), ['gt' => 3], 'time');
+$buildIn = $block->formatValue($block->getHelperData()->getTimer('profiler_build'), ['gt' => 3], 'time');
 ?>
 <div class="st-footer">
     <?= count($timers) ?> timers builded in
-    <span class="<?= $buildIn['css_class'] ?>"><?= $buildIn['value'] ?></span>
+    <span class="<?= $escaper->escapeHtmlAttr($buildIn['css_class']) ?>">
+        <?= $escaper->escapeHtml($buildIn['value']) ?>
+    </span>
 </div>

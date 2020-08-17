@@ -5,13 +5,19 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Helper;
 
+use DateTime;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\App\State as AppState;
+use Magento\Framework\Exception\FileSystemException;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\PageCache\Model\Config as PageCacheConfig;
+use RuntimeException;
 use Smile\DebugToolbar\Block\Toolbar;
 
 /**
@@ -72,7 +78,7 @@ class Data extends AbstractHelper
      * @param string $code
      * @return $this
      */
-    public function startTimer($code)
+    public function startTimer(string $code): Data
     {
         $this->timers[$code] = [
             'start' => microtime(true),
@@ -89,7 +95,7 @@ class Data extends AbstractHelper
      * @param string $code
      * @return $this
      */
-    public function stopTimer($code)
+    public function stopTimer(string $code): Data
     {
         if (!array_key_exists($code, $this->timers)) {
             $this->startTimer($code);
@@ -109,21 +115,11 @@ class Data extends AbstractHelper
      * @param string $code
      * @return float
      */
-    public function getTimer($code)
+    public function getTimer(string $code): float
     {
         $this->stopTimer($code);
 
         return $this->timers[$code]['delta'];
-    }
-
-    /**
-     * Get the timers.
-     *
-     * @return array
-     */
-    public function getTimers()
-    {
-        return $this->timers;
     }
 
     /**
@@ -133,7 +129,7 @@ class Data extends AbstractHelper
      * @param mixed $value
      * @return $this
      */
-    public function setValue($key, $value)
+    public function setValue(string $key, $value): Data
     {
         $this->values[$key] = $value;
 
@@ -146,9 +142,8 @@ class Data extends AbstractHelper
      * @param string $key
      * @param mixed $default
      * @return mixed
-     * @throws \Exception
      */
-    public function getValue($key, $default = null)
+    public function getValue(string $key, $default = null)
     {
         if (!array_key_exists($key, $this->values)) {
             return $default;
@@ -162,16 +157,17 @@ class Data extends AbstractHelper
      *
      * @param string $actionName
      * @return string
-     * @throws \Exception
+     * @throws RuntimeException
+     * @throws LocalizedException
      * @SuppressWarnings(PMD.StaticAccess)
      */
-    public function initToolbarId($actionName)
+    public function initToolbarId(string $actionName): string
     {
         if ($this->toolbarId !== null) {
-            throw new \Exception('The toolbar id has already been set');
+            throw new RuntimeException('The toolbar id has already been set');
         }
 
-        $date = \DateTime::createFromFormat('U.u', microtime(true));
+        $date = DateTime::createFromFormat('U.u', (string) microtime(true));
 
         $values = [
             'st',
@@ -191,12 +187,12 @@ class Data extends AbstractHelper
      * Get toolbar id.
      *
      * @return string
-     * @throws \Exception
+     * @throws RuntimeException
      */
-    public function getToolbarId()
+    public function getToolbarId(): string
     {
         if ($this->toolbarId === null) {
-            throw new \Exception('The toolbar id has not been set');
+            throw new RuntimeException('The toolbar id has not been set');
         }
 
         return $this->toolbarId;
@@ -207,7 +203,7 @@ class Data extends AbstractHelper
      *
      * @return string
      */
-    public function getNewTableId()
+    public function getNewTableId(): string
     {
         $this->tableCount++;
 
@@ -218,8 +214,10 @@ class Data extends AbstractHelper
      * Get the toolbar storage folder.
      *
      * @return string
+     * @throws FileSystemException
+     * @throws RuntimeException
      */
-    public function getToolbarFolder()
+    public function getToolbarFolder(): string
     {
         $folder = $this->directoryList->getPath('var') . DIRECTORY_SEPARATOR . 'smile_toolbar' . DIRECTORY_SEPARATOR;
 
@@ -234,8 +232,10 @@ class Data extends AbstractHelper
      * Save the current toolbar.
      *
      * @param Toolbar $toolbarBlock
+     * @throws FileSystemException
+     * @throws RuntimeException
      */
-    public function saveToolbar(Toolbar $toolbarBlock)
+    public function saveToolbar(Toolbar $toolbarBlock): void
     {
         $filename = $this->getToolbarFolder() . $toolbarBlock->getToolbarId() . '.html';
 
@@ -246,8 +246,10 @@ class Data extends AbstractHelper
      * Clean the old toolbars.
      *
      * @param int $nbToKeep
+     * @throws FileSystemException
+     * @throws RuntimeException
      */
-    public function cleanOldToolbars($nbToKeep)
+    public function cleanOldToolbars(int $nbToKeep): void
     {
         $list = $this->getListToolbars();
 
@@ -267,8 +269,10 @@ class Data extends AbstractHelper
      * Get the list of all the stored toolbars.
      *
      * @return string[]
+     * @throws FileSystemException
+     * @throws RuntimeException
      */
-    public function getListToolbars()
+    public function getListToolbars(): array
     {
         $folder = $this->getToolbarFolder();
 
@@ -289,8 +293,10 @@ class Data extends AbstractHelper
      * Get the content of all the stored toolbars.
      *
      * @return string[]
+     * @throws FileSystemException
+     * @throws RuntimeException
      */
-    public function getContentToolbars()
+    public function getContentToolbars(): array
     {
         $list = $this->getListToolbars();
 
@@ -310,10 +316,10 @@ class Data extends AbstractHelper
      *
      * @return string
      */
-    public function getFullPageCacheMode()
+    public function getFullPageCacheMode(): string
     {
         $key = 'system/full_page_cache/caching_application';
 
-        return $this->scopeConfig->getValue($key) == PageCacheConfig::VARNISH ? 'varnish' : 'build-in';
+        return $this->scopeConfig->getValue($key) === PageCacheConfig::VARNISH ? 'varnish' : 'build-in';
     }
 }

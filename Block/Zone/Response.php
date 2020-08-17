@@ -5,6 +5,8 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Block\Zone;
 
 use Magento\Framework\HTTP\PhpEnvironment\Response as MagentoResponse;
@@ -12,6 +14,7 @@ use Magento\Framework\HTTP\PhpEnvironment\Response as MagentoResponse;
 /**
  * Zone for Debug Toolbar Block
  *
+ * @api
  * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2019 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
@@ -26,7 +29,7 @@ class Response extends AbstractZone
     /**
      * @inheritdoc
      */
-    public function getCode()
+    public function getCode(): string
     {
         return 'response';
     }
@@ -34,7 +37,7 @@ class Response extends AbstractZone
     /**
      * @inheritdoc
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return 'Response';
     }
@@ -45,7 +48,7 @@ class Response extends AbstractZone
      * @param MagentoResponse $response
      * @return $this
      */
-    public function setResponse(MagentoResponse $response)
+    public function setResponse(MagentoResponse $response): Response
     {
         $this->response = $response;
 
@@ -57,7 +60,7 @@ class Response extends AbstractZone
      *
      * @return MagentoResponse
      */
-    public function getResponse()
+    public function getResponse(): MagentoResponse
     {
         return $this->response;
     }
@@ -67,7 +70,7 @@ class Response extends AbstractZone
      *
      * @return string
      */
-    public function getFullPageCacheMode()
+    public function getFullPageCacheMode(): string
     {
         return $this->helperData->getFullPageCacheMode();
     }
@@ -77,7 +80,7 @@ class Response extends AbstractZone
      *
      * @return string[]
      */
-    public function getEsiUrlList()
+    public function getEsiUrlList(): array
     {
         $list = [];
 

@@ -5,6 +5,8 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Block\Zone;
 
 use Magento\Framework\View\Element\Template\Context;
@@ -15,6 +17,7 @@ use Smile\DebugToolbar\Helper\Observer as HelperObserver;
 /**
  * Zone for Debug Toolbar Block
  *
+ * @api
  * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2019 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
@@ -48,7 +51,7 @@ class Observer extends AbstractZone
     /**
      * @inheritdoc
      */
-    public function getCode()
+    public function getCode(): string
     {
         return 'observer';
     }
@@ -56,7 +59,7 @@ class Observer extends AbstractZone
     /**
      * @inheritdoc
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return 'Observer';
     }
@@ -66,7 +69,7 @@ class Observer extends AbstractZone
      *
      * @return array
      */
-    public function getObserverStats()
+    public function getObserverStats(): array
     {
         return $this->helperObserver->getEventStats();
     }
@@ -77,7 +80,7 @@ class Observer extends AbstractZone
      * @param array $observers
      * @return string
      */
-    public function buildHtmlInfo(array $observers = [])
+    public function buildHtmlInfo(array $observers = []): string
     {
         $html = '<table>';
 

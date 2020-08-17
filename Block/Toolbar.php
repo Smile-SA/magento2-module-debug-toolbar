@@ -5,6 +5,8 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Block;
 
 use Magento\Framework\App\Request\Http as MagentoRequest;
@@ -12,6 +14,7 @@ use Magento\Framework\DataObject;
 use Magento\Framework\HTTP\PhpEnvironment\Response as MagentoResponse;
 use Magento\Framework\View\Element\Template as MagentoTemplateBlock;
 use Magento\Framework\View\Element\Template\Context;
+use RuntimeException;
 use Smile\DebugToolbar\Block\Zone\Summary;
 use Smile\DebugToolbar\Block\Zone\SummaryFactory;
 use Smile\DebugToolbar\Helper\Data as HelperData;
@@ -58,7 +61,7 @@ class Toolbar extends MagentoTemplateBlock
         $this->blockSummaryFactory = $blockSummaryFactory;
 
         $this->setData('cache_lifetime', 0);
-        $this->setTemplate('toolbar.phtml');
+        $this->setTemplate('Smile_DebugToolbar::toolbar.phtml');
     }
 
     /**
@@ -67,7 +70,7 @@ class Toolbar extends MagentoTemplateBlock
      * @param MagentoRequest $request
      * @param MagentoResponse $response
      */
-    public function loadZones(MagentoRequest $request, MagentoResponse $response)
+    public function loadZones(MagentoRequest $request, MagentoResponse $response): void
     {
         /** @var Summary $summaryBlock */
         $summaryBlock = $this->blockSummaryFactory->create();
@@ -96,7 +99,7 @@ class Toolbar extends MagentoTemplateBlock
      *
      * @return Zone\AbstractZone[]
      */
-    public function getZones()
+    public function getZones(): array
     {
         return $this->zones;
     }
@@ -106,7 +109,7 @@ class Toolbar extends MagentoTemplateBlock
      *
      * @return bool
      */
-    public function isWarning()
+    public function isWarning(): bool
     {
         $warning = false;
 
@@ -123,26 +126,17 @@ class Toolbar extends MagentoTemplateBlock
      * Get the toolbar id.
      *
      * @return string
+     * @throws RuntimeException
      */
-    public function getToolbarId()
+    public function getToolbarId(): string
     {
         return $this->helperData->getToolbarId();
     }
 
     /**
-     * Get the data helper.
-     *
-     * @return HelperData
-     */
-    public function getHelperData()
-    {
-        return $this->helperData;
-    }
-
-    /**
      * @inheritdoc
      */
-    public function toHtml()
+    public function toHtml(): string
     {
         return $this->_toHtml();
     }

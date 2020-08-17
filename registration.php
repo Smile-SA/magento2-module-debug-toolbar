@@ -7,6 +7,9 @@
  */
 
 use Magento\Framework\Component\ComponentRegistrar;
+use Magento\Framework\Profiler;
+use Magento\Framework\Profiler\Driver\Standard\Stat;
+use Smile\DebugToolbar\Helper\Profiler as SmileProfiler;
 
 if (PHP_SAPI !== 'cli') {
     // We need to declare the stat profiler manually, to use it after
@@ -14,13 +17,13 @@ if (PHP_SAPI !== 'cli') {
         'drivers' => [
             [
                 'output' => false,
-                'stat' => new \Magento\Framework\Profiler\Driver\Standard\Stat(),
+                'stat' => new Stat(),
             ],
         ],
     ];
 
-    \Magento\Framework\Profiler::applyConfig($options, BP, false);
-    \Smile\DebugToolbar\Helper\Profiler::setStat($options['drivers'][0]['stat']);
+    Profiler::applyConfig($options, BP, false);
+    SmileProfiler::setStat($options['drivers'][0]['stat']);
 }
 
 ComponentRegistrar::register(ComponentRegistrar::MODULE, 'Smile_DebugToolbar', __DIR__);

@@ -5,6 +5,8 @@
  * Do not edit or add to this file if you wish to upgrade this module
  * to newer versions in the future.
  */
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Block\Zone;
 
 use Magento\Framework\View\Element\Template\Context;
@@ -15,6 +17,7 @@ use Smile\DebugToolbar\Helper\Layout as HelperLayout;
 /**
  * Zone for Debug Toolbar Block
  *
+ * @api
  * @author    Laurent Minguet <dirtech@smile.fr>
  * @copyright 2019 Smile
  * @license   Eclipse Public License 2.0 (EPL-2.0)
@@ -48,7 +51,7 @@ class Layout extends AbstractZone
     /**
      * @inheritdoc
      */
-    public function getCode()
+    public function getCode(): string
     {
         return 'layout';
     }
@@ -56,7 +59,7 @@ class Layout extends AbstractZone
     /**
      * @inheritdoc
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return 'Layout';
     }
@@ -66,7 +69,7 @@ class Layout extends AbstractZone
      *
      * @return array
      */
-    public function getLayoutBuild()
+    public function getLayoutBuild(): array
     {
         return $this->helperLayout->getLayoutBuild();
     }
@@ -76,7 +79,7 @@ class Layout extends AbstractZone
      *
      * @return array
      */
-    public function getHandles()
+    public function getHandles(): array
     {
         return $this->helperLayout->getHandles();
     }
@@ -86,7 +89,7 @@ class Layout extends AbstractZone
      *
      * @return string
      */
-    public function displayLayoutTable()
+    public function displayLayoutTable(): string
     {
         return $this->displayLayoutRecursive($this->getLayoutBuild(), 0);
     }
@@ -98,7 +101,7 @@ class Layout extends AbstractZone
      * @param int $level
      * @return string
      */
-    protected function displayLayoutRecursive($list, $level)
+    protected function displayLayoutRecursive(array $list, int $level): string
     {
         $html = '';
         foreach ($list as $row) {
@@ -116,7 +119,7 @@ class Layout extends AbstractZone
      * @param int $level
      * @return string
      */
-    protected function displayLayoutRecursiveRow($row, $level)
+    protected function displayLayoutRecursiveRow(array $row, int $level): string
     {
         $prefix = $this->getToolbarId() . '-lt-';
 

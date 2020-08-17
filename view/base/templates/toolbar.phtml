@@ -6,23 +6,25 @@
  * to newer versions in the future.
  */
 
+use Magento\Framework\Escaper;
 use Smile\DebugToolbar\Block\Toolbar;
 
 /** @var Toolbar $block */
+/** @var Escaper $escaper */
 $zones = $block->getZones();
 
 $toolbarId = $block->getToolbarId();
 ?>
-<div class="smile-toolbar" id="<?= $block->escapeHtmlAttr($toolbarId) ?>-toolbar">
+<div class="smile-toolbar" id="<?= $escaper->escapeHtmlAttr($toolbarId) ?>-toolbar">
     <div
         class="st-zones"
-        id="<?= $block->escapeHtmlAttr($toolbarId) ?>-zones"
+        id="<?= $escaper->escapeHtmlAttr($toolbarId) ?>-zones"
         onclick="smileToolbarMainToggle();"
     >
         <?php foreach ($zones as $zone) : ?>
             <?php $zoneHtml = $zone->toHtml() ?>
             <div
-                id="<?= $block->escapeHtmlAttr($toolbarId) ?>-zone-<?= $block->escapeHtmlAttr($zone->getCode()) ?>"
+                id="<?= $escaper->escapeHtmlAttr($toolbarId) ?>-zone-<?= $escaper->escapeHtmlAttr($zone->getCode()) ?>"
                 class="st-zone"
                 onclick="event.stopPropagation();"
             >
@@ -30,12 +32,12 @@ $toolbarId = $block->getToolbarId();
                     <div class="st-table-links">
                         <?php foreach ($zone->getTablesToDisplay() as $key => $table) : ?>
                             <?= ($key > 0 ? '|' : '') ?>
-                            <a onclick="<?= $block->escapeHtmlAttr($table['onclick']) ?>">
-                                <?= $block->escapeHtml($table['label']) ?>
+                            <a onclick="<?= $escaper->escapeHtmlAttr($table['onclick']) ?>">
+                                <?= $escaper->escapeHtml($table['label']) ?>
                             </a>
                         <?php endforeach ?>
                     </div>
-                    <h1><?= $block->escapeHtml($zone->getTitle()) ?></h1>
+                    <h1><?= $escaper->escapeHtml($zone->getTitle()) ?></h1>
                 </div>
                 <div class="st-content">
                     <?= /* @noEscape */ $zoneHtml ?>
@@ -45,24 +47,24 @@ $toolbarId = $block->getToolbarId();
         <div
             class="st-navigator"
             onclick="event.stopPropagation();"
-            id="<?= $block->escapeHtmlAttr($toolbarId) ?>-navigator"
+            id="<?= $escaper->escapeHtmlAttr($toolbarId) ?>-navigator"
         >
             Smile Toolbar Navigator - Loading
         </div>
     </div>
-    <div class="st-titles" id="<?= $block->escapeHtmlAttr($toolbarId) ?>-titles">
+    <div class="st-titles" id="<?= $escaper->escapeHtmlAttr($toolbarId) ?>-titles">
         <div
-            id="<?= $block->escapeHtmlAttr($toolbarId) ?>-close"
+            id="<?= $escaper->escapeHtmlAttr($toolbarId) ?>-close"
             class="st-close"
             onclick="smileToolbarMainToggle();"
         ></div>
         <?php foreach ($zones as $zone) : ?>
             <span
-                    id="<?= $block->escapeHtmlAttr($toolbarId) ?>-title-<?= $block->escapeHtmlAttr($zone->getCode()) ?>"
+                    id="<?= $escaper->escapeHtmlAttr($toolbarId) ?>-title-<?= $escaper->escapeHtmlAttr($zone->getCode()) ?>"
                     class="<?= ($zone->isWarning() ? 'value-warning' : '') ?>"
-                    onclick="smileToolbarZoneSelect('<?= $block->escapeHtmlAttr($zone->getCode()) ?>');"
+                    onclick="smileToolbarZoneSelect('<?= $escaper->escapeHtmlAttr($zone->getCode()) ?>');"
             >
-                <?= $block->escapeHtml($zone->getTitle()) ?>
+                <?= $escaper->escapeHtml($zone->getTitle()) ?>
             </span>
         <?php endforeach ?>
     </div>
@@ -71,5 +73,5 @@ $toolbarId = $block->getToolbarId();
     </div>
 </div>
 <script type="text/javascript">
-    smileToolbarAdd('<?= $block->escapeHtmlAttr($toolbarId) ?>', <?= ($block->isWarning() ? 'true' : 'false') ?>);
+    smileToolbarAdd('<?= $escaper->escapeHtmlAttr($toolbarId) ?>', <?= ($block->isWarning() ? 'true' : 'false') ?>);
 </script>

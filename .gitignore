@@ -1,7 +1,3 @@
-# Eclipse
-.buildpath
-.project
-.settings
-
-# PhpStorm
-.idea
+/.idea
+/vendor
+/composer.lock

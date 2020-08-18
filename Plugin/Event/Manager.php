@@ -46,9 +46,10 @@ class Manager
     public function aroundDispatch(
         MagentoManager $subject,
         Closure $closure,
-        string $eventName,
+        $eventName,
         array $data = []
     ) {
+        $eventName = (string) $eventName;
         $this->helperObserver->initEventStat($eventName);
 
         $startTime = microtime(true);

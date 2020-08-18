@@ -84,7 +84,7 @@ class AddToolbar implements ObserverInterface
      * @inheritdoc
      * @SuppressWarnings(PHPMD.ExitExpression)
      */
-    public function execute(Observer $observer): void
+    public function execute(Observer $observer)
     {
         if (!$this->helperConfig->isEnabled()) {
             return;

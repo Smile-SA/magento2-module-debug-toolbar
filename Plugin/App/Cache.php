@@ -44,13 +44,18 @@ class Cache
      * @return string|bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundLoad(CacheInterface $subject, Closure $closure, string $identifier)
+    public function aroundLoad(CacheInterface $subject, Closure $closure, $identifier)
     {
         $startTime = microtime(true);
 
         $result = $closure($identifier);
 
-        $this->helperCache->addStat('load', $identifier, microtime(true) - $startTime, strlen((string) $result));
+        $this->helperCache->addStat(
+            'load',
+            (string) $identifier,
+            microtime(true) - $startTime,
+            strlen((string) $result)
+        );
 
         return $result;
     }
@@ -63,23 +68,28 @@ class Cache
      * @param string $data
      * @param string $identifier
      * @param array $tags
-     * @param int $lifeTime
+     * @param int|null $lifeTime
      * @return bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundSave(
         CacheInterface $subject,
         Closure $closure,
-        string $data,
-        string $identifier,
-        array $tags = [],
-        ?int $lifeTime = null
-    ): bool {
+        $data,
+        $identifier,
+        $tags = [],
+        $lifeTime = null
+    ) {
         $startTime = microtime(true);
 
         $result = $closure($data, $identifier, $tags, $lifeTime);
 
-        $this->helperCache->addStat('save', $identifier, microtime(true) - $startTime, strlen($data));
+        $this->helperCache->addStat(
+            'save',
+            (string) $identifier,
+            microtime(true) - $startTime,
+            strlen($data)
+        );
 
         return $result;
     }
@@ -93,13 +103,17 @@ class Cache
      * @return bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundRemove(CacheInterface $subject, Closure $closure, string $identifier): bool
+    public function aroundRemove(CacheInterface $subject, Closure $closure, $identifier)
     {
         $startTime = microtime(true);
 
         $result = $closure($identifier);
 
-        $this->helperCache->addStat('remove', $identifier, microtime(true) - $startTime);
+        $this->helperCache->addStat(
+            'remove',
+            (string) $identifier,
+            microtime(true) - $startTime
+        );
 
         return $result;
     }

@@ -49,14 +49,13 @@ class Manager
         $eventName,
         array $data = []
     ) {
-        $eventName = (string) $eventName;
-        $this->helperObserver->initEventStat($eventName);
+        $this->helperObserver->initEventStat((string) $eventName);
 
         $startTime = microtime(true);
         $result = $closure($eventName, $data);
         $deltaTime = microtime(true) - $startTime;
 
-        $this->helperObserver->addEventStat($eventName, $deltaTime);
+        $this->helperObserver->addEventStat((string) $eventName, $deltaTime);
 
         return $result;
     }

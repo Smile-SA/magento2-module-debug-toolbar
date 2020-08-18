@@ -2,8 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
-## WIP
+## [5.0.1] - 2020-08-18
+[5.0.1]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/5.0.0...5.0.1
 
+- Fix event list not displayed in toolbar
 - Remove type hinting from core methods and plugins
 
 ## [5.0.0] - 2020-08-17

@@ -88,7 +88,7 @@ class Cache
             'save',
             (string) $identifier,
             microtime(true) - $startTime,
-            strlen($data)
+            strlen((string) $data)
         );
 
         return $result;

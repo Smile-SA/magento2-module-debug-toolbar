@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## WIP
+
+- Remove type hinting from core methods and plugins
+
 ## [5.0.0] - 2020-08-17
 [5.0.0]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/4.0.3...5.0.0
 

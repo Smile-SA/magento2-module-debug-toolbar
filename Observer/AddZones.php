@@ -75,7 +75,7 @@ class AddZones implements ObserverInterface
     /**
      * @inheritdoc
      */
-    public function execute(Observer $observer): void
+    public function execute(Observer $observer)
     {
         $list = $observer->getEvent()->getData('zones')->getData('list');
 

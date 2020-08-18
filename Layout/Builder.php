@@ -37,7 +37,7 @@ class Builder implements BuilderInterface
     /**
      * @inheritdoc
      */
-    public function build(): LayoutInterface
+    public function build()
     {
         return $this->layout;
     }

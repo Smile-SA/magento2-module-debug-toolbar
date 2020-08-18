@@ -87,7 +87,7 @@ abstract class AbstractZone extends MagentoTemplateBlock
     /**
      * @inheritdoc
      */
-    public function toHtml(): string
+    public function toHtml()
     {
         return $this->_toHtml();
     }

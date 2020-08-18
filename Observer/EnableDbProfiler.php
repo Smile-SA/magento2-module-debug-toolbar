@@ -63,7 +63,7 @@ class EnableDbProfiler implements ObserverInterface
      * @throws FileSystemException
      * @throws RuntimeException
      */
-    public function execute(Observer $observer): void
+    public function execute(Observer $observer)
     {
         $env = $this->deploymentConfigReader->load(ConfigFilePool::APP_ENV);
 

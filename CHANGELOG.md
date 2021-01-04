@@ -2,7 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
-## WIP
+## [5.0.2] - 2021-01-04
+[5.0.2]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/5.0.1...5.0.2
 
 - Set minimum PHP version to 7.3
 - Remove copyright/licence annotations from DocBlocks

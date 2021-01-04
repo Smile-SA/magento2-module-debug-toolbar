@@ -12,11 +12,7 @@ namespace Smile\DebugToolbar\Helper;
 use Magento\Framework\App\Helper\AbstractHelper;
 
 /**
- * Helper: Config
- *
- * @author    Laurent Minguet <dirtech@smile.fr>
- * @copyright 2019 Smile
- * @license   Eclipse Public License 2.0 (EPL-2.0)
+ * Config helper.
  */
 class Config extends AbstractHelper
 {

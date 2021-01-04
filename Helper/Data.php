@@ -21,11 +21,7 @@ use RuntimeException;
 use Smile\DebugToolbar\Block\Toolbar;
 
 /**
- * Helper: Data
- *
- * @author    Laurent Minguet <dirtech@smile.fr>
- * @copyright 2019 Smile
- * @license   Eclipse Public License 2.0 (EPL-2.0)
+ * Data helper.
  */
 class Data extends AbstractHelper
 {

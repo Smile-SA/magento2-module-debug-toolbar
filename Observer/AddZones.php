@@ -26,11 +26,7 @@ use Smile\DebugToolbar\Block\Zone\ResponseFactory;
 use Smile\DebugToolbar\Block\Zone\Summary;
 
 /**
- * Observer Add the Zones
- *
- * @author    Laurent Minguet <dirtech@smile.fr>
- * @copyright 2019 Smile
- * @license   Eclipse Public License 2.0 (EPL-2.0)
+ * Add the zones.
  */
 class AddZones implements ObserverInterface
 {

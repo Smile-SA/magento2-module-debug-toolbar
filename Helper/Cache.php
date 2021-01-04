@@ -15,11 +15,7 @@ use Magento\Framework\App\Helper\Context;
 use Magento\Framework\DataObject;
 
 /**
- * Helper: Cache
- *
- * @author    Laurent Minguet <dirtech@smile.fr>
- * @copyright 2019 Smile
- * @license   Eclipse Public License 2.0 (EPL-2.0)
+ * Cache helper.
  */
 class Cache extends AbstractHelper
 {

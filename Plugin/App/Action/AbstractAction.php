@@ -15,11 +15,7 @@ use Smile\DebugToolbar\Helper\Config as HelperConfig;
 use Smile\DebugToolbar\Helper\Data as HelperData;
 
 /**
- * Plugin on App
- *
- * @author    Laurent Minguet <dirtech@smile.fr>
- * @copyright 2019 Smile
- * @license   Eclipse Public License 2.0 (EPL-2.0)
+ * Register the action name.
  */
 class AbstractAction
 {

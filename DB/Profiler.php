@@ -13,11 +13,7 @@ use Zend_Db_Profiler as OriginalProfiler;
 use Zend_Db_Profiler_Exception;
 
 /**
- * Smile Db Profiler
- *
- * @author    Laurent Minguet <dirtech@smile.fr>
- * @copyright 2019 Smile
- * @license   Eclipse Public License 2.0 (EPL-2.0)
+ * DB profiler.
  */
 class Profiler extends OriginalProfiler
 {

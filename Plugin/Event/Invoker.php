@@ -15,11 +15,7 @@ use Magento\Framework\Event\Observer as MagentoObserver;
 use Smile\DebugToolbar\Helper\Observer as HelperObserver;
 
 /**
- * Plugin on Event Invoker
- *
- * @author    Laurent Minguet <dirtech@smile.fr>
- * @copyright 2019 Smile
- * @license   Eclipse Public License 2.0 (EPL-2.0)
+ * Fetch observer data.
  */
 class Invoker
 {

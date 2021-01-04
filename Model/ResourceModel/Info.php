@@ -18,11 +18,7 @@ use Smile\DebugToolbar\DB\Profiler;
 use Zend_Db_Statement_Exception;
 
 /**
- * Main Debug Toolbar Resource Model
- *
- * @author    Laurent Minguet <dirtech@smile.fr>
- * @copyright 2019 Smile
- * @license   Eclipse Public License 2.0 (EPL-2.0)
+ * Main debug toolbar resource model.
  */
 class Info
 {

@@ -10,12 +10,7 @@ declare(strict_types=1);
 namespace Smile\DebugToolbar\Block\Zone;
 
 /**
- * Summary Zone for Debug Toolbar Block
- *
- * @api
- * @author    Laurent Minguet <dirtech@smile.fr>
- * @copyright 2019 Smile
- * @license   Eclipse Public License 2.0 (EPL-2.0)
+ * Summary section.
  */
 class Summary extends AbstractZone
 {

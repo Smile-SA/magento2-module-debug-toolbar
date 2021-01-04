@@ -20,11 +20,7 @@ use ReflectionClass;
 use ReflectionException;
 
 /**
- * Helper: Preference
- *
- * @author    Laurent Minguet <dirtech@smile.fr>
- * @copyright 2019 Smile
- * @license   Eclipse Public License 2.0 (EPL-2.0)
+ * Preference helper.
  */
 class Preference extends AbstractHelper
 {

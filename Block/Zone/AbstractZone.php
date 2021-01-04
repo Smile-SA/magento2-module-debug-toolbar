@@ -15,11 +15,8 @@ use Smile\DebugToolbar\Formatter\FormatterFactory;
 use Smile\DebugToolbar\Helper\Data as HelperData;
 
 /**
- * Zone for Debug Toolbar Block
+ * Abstract zone block.
  *
- * @author    Laurent Minguet <dirtech@smile.fr>
- * @copyright 2019 Smile
- * @license   Eclipse Public License 2.0 (EPL-2.0)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 abstract class AbstractZone extends MagentoTemplateBlock

@@ -19,11 +19,7 @@ use ReflectionException;
 use Smile\DebugToolbar\Layout\Builder;
 
 /**
- * Helper: Layout
- *
- * @author    Laurent Minguet <dirtech@smile.fr>
- * @copyright 2019 Smile
- * @license   Eclipse Public License 2.0 (EPL-2.0)
+ * Layout helper.
  */
 class Layout extends AbstractHelper
 {

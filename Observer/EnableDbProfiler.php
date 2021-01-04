@@ -20,11 +20,7 @@ use Smile\DebugToolbar\DB\Profiler as DbProfiler;
 use Smile\DebugToolbar\Helper\Config as HelperConfig;
 
 /**
- * Observer Enable the DbProfiler
- *
- * @author    Laurent Minguet <dirtech@smile.fr>
- * @copyright 2019 Smile
- * @license   Eclipse Public License 2.0 (EPL-2.0)
+ * Enable the DB profiler.
  */
 class EnableDbProfiler implements ObserverInterface
 {

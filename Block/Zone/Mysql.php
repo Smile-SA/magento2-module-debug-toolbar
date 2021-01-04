@@ -15,12 +15,7 @@ use Smile\DebugToolbar\Helper\Data as HelperData;
 use Smile\DebugToolbar\Model\ResourceModel\Info as ResourceModel;
 
 /**
- * Zone for Debug Toolbar Block
- *
- * @api
- * @author    Laurent Minguet <dirtech@smile.fr>
- * @copyright 2019 Smile
- * @license   Eclipse Public License 2.0 (EPL-2.0)
+ * MySQL section.
  */
 class Mysql extends AbstractZone
 {

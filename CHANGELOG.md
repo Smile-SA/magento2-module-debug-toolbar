@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## WIP
+
+- Remove copyright/licence annotations from DocBlocks
+
 ## [5.0.1] - 2020-08-18
 [5.0.1]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/5.0.0...5.0.1
 

@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## WIP
 
+- Set minimum PHP version to 7.3
 - Remove copyright/licence annotations from DocBlocks
 
 ## [5.0.1] - 2020-08-18

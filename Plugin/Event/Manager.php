@@ -45,6 +45,7 @@ class Manager
         $eventName,
         array $data = []
     ) {
+        // Note: we can't check if the module is enabled, it could create an infinite loop when fetching cache data
         $this->helperObserver->initEventStat((string) $eventName);
 
         $startTime = microtime(true);

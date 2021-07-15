@@ -52,7 +52,6 @@ class AbstractAction
         if ($this->helperConfig->isEnabled()) {
             $className = get_class($subject);
             $className = preg_replace('!\\\\Interceptor$!', '', $className);
-
             $this->helperData->setValue('controller_classname', $className);
         }
 

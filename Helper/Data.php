@@ -63,7 +63,6 @@ class Data extends AbstractHelper
     public function __construct(Context $context, DirectoryList $directoryList, AppState $appState)
     {
         parent::__construct($context);
-
         $this->directoryList = $directoryList;
         $this->appState = $appState;
     }

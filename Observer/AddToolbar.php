@@ -10,7 +10,9 @@ declare(strict_types=1);
 namespace Smile\DebugToolbar\Observer;
 
 use Exception;
+use Magento\Framework\App\Area;
 use Magento\Framework\App\Request\Http as MagentoRequest;
+use Magento\Framework\App\State as AppState;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\FileSystemException;
@@ -57,24 +59,32 @@ class AddToolbar implements ObserverInterface
     protected $helperProfiler;
 
     /**
+     * @var AppState
+     */
+    protected $appState;
+
+    /**
      * @param ToolbarFactory $blockToolbarFactory
      * @param ToolbarsFactory $blockToolbarsFactory
      * @param HelperData $helperData
      * @param HelperConfig $helperConfig
      * @param HelperProfiler $helperProfiler
+     * @param AppState $appState
      */
     public function __construct(
         ToolbarFactory $blockToolbarFactory,
         ToolbarsFactory $blockToolbarsFactory,
         HelperData $helperData,
         HelperConfig $helperConfig,
-        HelperProfiler $helperProfiler
+        HelperProfiler $helperProfiler,
+        AppState $appState
     ) {
         $this->blockToolbarFactory = $blockToolbarFactory;
         $this->blockToolbarsFactory = $blockToolbarsFactory;
         $this->helperData = $helperData;
         $this->helperConfig = $helperConfig;
         $this->helperProfiler = $helperProfiler;
+        $this->appState = $appState;
     }
 
     /**
@@ -87,7 +97,7 @@ class AddToolbar implements ObserverInterface
             return;
         }
 
-        // We do not want that the toolbar has a impact on stats => stop the main timer
+        // We do not want the toolbar to have an impact on stats => stop the main timer
         $this->helperData->stopTimer('app_http');
 
         // We do not want that the toolbar has a impact on stats => compute the stat in first
@@ -136,13 +146,17 @@ class AddToolbar implements ObserverInterface
         // Keep only the last X executions
         $this->helperData->cleanOldToolbars($this->helperConfig->getNbExecutionToKeep());
 
-        // Add all the last toolbars to the content
-        $content = $response->getContent();
-        $endTag = '</body';
-        if (strpos($content, $endTag) !== false) {
-            $toolbarsContent = $this->getToolbarsBlock()->toHtml();
-            $content = str_replace($endTag, $toolbarsContent . $endTag, $content);
-            $response->setContent($content);
+        $area = $this->appState->getAreaCode();
+
+        // Add the last toolbars to the content
+        if ($area === Area::AREA_FRONTEND || $area === Area::AREA_ADMINHTML && $this->helperConfig->isEnabledAdmin()) {
+            $content = $response->getContent();
+            $endTag = '</body';
+            if (strpos($content, $endTag) !== false) {
+                $toolbarsContent = $this->getToolbarsBlock()->toHtml();
+                $content = str_replace($endTag, $toolbarsContent . $endTag, $content);
+                $response->setContent($content);
+            }
         }
     }
 

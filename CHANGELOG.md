@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## WIP
+
+- Add setting to toggle toolbar on admin area
+
 ## [5.0.2] - 2021-01-04
 [5.0.2]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/5.0.1...5.0.2
 

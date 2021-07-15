@@ -22,7 +22,8 @@ A new configuration section **Smile > Smile DebugToolbar** was added.
 
 You can:
 
-- Enable / Disable the Debug Toolbar
-- Choose the number of last executions to save and display in the toolbar
+- Enable / disable the debug toolbar (default: disabled)
+- Show / hide the debug toolbar in the admin area (default: hidden)
+- Choose the number of last executions to save and display in the toolbar (default: 5)
 
 [Back](../README.md)

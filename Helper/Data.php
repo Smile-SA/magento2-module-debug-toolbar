@@ -26,6 +26,11 @@ use Smile\DebugToolbar\Block\Toolbar;
 class Data extends AbstractHelper
 {
     /**
+     * @var Config
+     */
+    protected $helperConfig;
+
+    /**
      * @var DirectoryList
      */
     protected $directoryList;
@@ -57,13 +62,20 @@ class Data extends AbstractHelper
 
     /**
      * @param Context $context
+     * @param Config $helperConfig
      * @param DirectoryList $directoryList
      * @param AppState $appState
+     *
      */
-    public function __construct(Context $context, DirectoryList $directoryList, AppState $appState)
-    {
+    public function __construct(
+        Context $context,
+        Config $helperConfig,
+        DirectoryList $directoryList,
+        AppState $appState
+    ) {
         parent::__construct($context);
 
+        $this->helperConfig = $helperConfig;
         $this->directoryList = $directoryList;
         $this->appState = $appState;
     }

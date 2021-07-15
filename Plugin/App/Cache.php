@@ -12,6 +12,7 @@ namespace Smile\DebugToolbar\Plugin\App;
 use Closure;
 use Magento\Framework\App\CacheInterface;
 use Smile\DebugToolbar\Helper\Cache as HelperCache;
+use Smile\DebugToolbar\Helper\Config as HelperConfig;
 
 /**
  * Fetch cache info.
@@ -19,15 +20,22 @@ use Smile\DebugToolbar\Helper\Cache as HelperCache;
 class Cache
 {
     /**
+     * @var HelperConfig
+     */
+    protected $helperConfig;
+
+    /**
      * @var HelperCache
      */
     protected $helperCache;
 
     /**
+     * @param HelperConfig $helperConfig
      * @param HelperCache $helperCache
      */
-    public function __construct(HelperCache $helperCache)
+    public function __construct(HelperConfig $helperConfig, HelperCache $helperCache)
     {
+        $this->helperConfig = $helperConfig;
         $this->helperCache = $helperCache;
     }
 
@@ -42,10 +50,12 @@ class Cache
      */
     public function aroundLoad(CacheInterface $subject, Closure $closure, $identifier)
     {
+        if (!$this->helperConfig->isEnabled()) {
+            return $closure($identifier);
+        }
+
         $startTime = microtime(true);
-
         $result = $closure($identifier);
-
         $this->helperCache->addStat(
             'load',
             (string) $identifier,
@@ -76,10 +86,12 @@ class Cache
         $tags = [],
         $lifeTime = null
     ) {
+        if (!$this->helperConfig->isEnabled()) {
+            return $closure($data, $identifier, $tags, $lifeTime);
+        }
+
         $startTime = microtime(true);
-
         $result = $closure($data, $identifier, $tags, $lifeTime);
-
         $this->helperCache->addStat(
             'save',
             (string) $identifier,
@@ -101,10 +113,12 @@ class Cache
      */
     public function aroundRemove(CacheInterface $subject, Closure $closure, $identifier)
     {
+        if (!$this->helperConfig->isEnabled()) {
+            return $closure($identifier);
+        }
+
         $startTime = microtime(true);
-
         $result = $closure($identifier);
-
         $this->helperCache->addStat(
             'remove',
             (string) $identifier,

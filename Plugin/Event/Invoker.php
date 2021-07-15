@@ -12,6 +12,7 @@ namespace Smile\DebugToolbar\Plugin\Event;
 use Closure;
 use Magento\Framework\Event\InvokerInterface as MagentoInvoker;
 use Magento\Framework\Event\Observer as MagentoObserver;
+use Smile\DebugToolbar\Helper\Config as HelperConfig;
 use Smile\DebugToolbar\Helper\Observer as HelperObserver;
 
 /**
@@ -20,15 +21,22 @@ use Smile\DebugToolbar\Helper\Observer as HelperObserver;
 class Invoker
 {
     /**
+     * @var HelperConfig
+     */
+    protected $helperConfig;
+
+    /**
      * @var HelperObserver
      */
     protected $helperObserver;
 
     /**
+     * @param HelperConfig $helperConfig
      * @param HelperObserver $helperObserver
      */
-    public function __construct(HelperObserver $helperObserver)
+    public function __construct(HelperConfig $helperConfig, HelperObserver $helperObserver)
     {
+        $this->helperConfig = $helperConfig;
         $this->helperObserver = $helperObserver;
     }
 
@@ -48,7 +56,9 @@ class Invoker
         array $configuration,
         MagentoObserver $observer
     ) {
-        if (array_key_exists('disabled', $configuration) && $configuration['disabled'] === true) {
+        if (!$this->helperConfig->isEnabled()
+            || array_key_exists('disabled', $configuration) && $configuration['disabled'] === true
+        ) {
             return $closure($configuration, $observer);
         }
 

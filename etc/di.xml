@@ -1,52 +1,27 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <!-- PLUGIN - Start the global timer-->
+    <!-- Start the global timer-->
     <type name="Magento\Framework\App\Http">
-        <plugin
-            name="smile-debugtoolbar-app-http-plugin"
-            type="Smile\DebugToolbar\Plugin\App\Http"
-            sortOrder="1"
-            disabled="false"
-        />
+        <plugin name="smile-debugtoolbar-app-http-plugin" type="Smile\DebugToolbar\Plugin\App\Http" sortOrder="1" disabled="false"/>
     </type>
 
-    <!-- PLUGIN - Get the classname of the current action -->
+    <!-- Get the classname of the current action -->
     <type name="Magento\Framework\App\Action\AbstractAction">
-        <plugin
-            name="smile-debugtoolbar-app-action-plugin"
-            type="Smile\DebugToolbar\Plugin\App\Action\AbstractAction"
-            sortOrder="1"
-            disabled="false"
-        />
+        <plugin name="smile-debugtoolbar-app-action-plugin" type="Smile\DebugToolbar\Plugin\App\Action\AbstractAction" sortOrder="1" disabled="false"/>
     </type>
 
-    <!-- PLUGIN - Stats on cache usage -->
+    <!-- Stats on cache usage -->
     <type name="Magento\Framework\App\CacheInterface">
-        <plugin
-            name="smile-debugtoolbar-app-cache-plugin"
-            type="Smile\DebugToolbar\Plugin\App\Cache"
-            sortOrder="1"
-            disabled="false"
-        />
+        <plugin name="smile-debugtoolbar-app-cache-plugin" type="Smile\DebugToolbar\Plugin\App\Cache" sortOrder="1" disabled="false"/>
     </type>
 
-    <!-- PLUGIN - Stats on event manager -->
+    <!-- Stats on event manager (unused events) -->
     <type name="Magento\Framework\Event\ManagerInterface">
-        <plugin
-            name="smile-debugtoolbar-event-manager-plugin"
-            type="Smile\DebugToolbar\Plugin\Event\Manager"
-            sortOrder="1"
-            disabled="false"
-        />
+        <plugin name="smile-debugtoolbar-event-manager-plugin" type="Smile\DebugToolbar\Plugin\Event\Manager" sortOrder="1" disabled="false"/>
     </type>
 
-    <!-- PLUGIN - Stats on event invoker -->
+    <!-- Stats on event invoker (used events) -->
     <type name="Magento\Framework\Event\InvokerInterface">
-        <plugin
-            name="smile-debugtoolbar-event-invoker-plugin"
-            type="Smile\DebugToolbar\Plugin\Event\Invoker"
-            sortOrder="1"
-            disabled="false"
-        />
+        <plugin name="smile-debugtoolbar-event-invoker-plugin" type="Smile\DebugToolbar\Plugin\Event\Invoker" sortOrder="1" disabled="false"/>
     </type>
 </config>

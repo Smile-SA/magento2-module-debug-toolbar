@@ -20,19 +20,28 @@ class Config extends AbstractHelper
      * Config paths.
      */
     const KEY_CONFIG_ENABLE = 'smile_debugtoolbar/configuration/enabled';
+    const KEY_CONFIG_ENABLE_ADMIN = 'smile_debugtoolbar/configuration/enabled_admin';
     const KEY_CONFIG_NB_EXECUTION_TO_KEEP = 'smile_debugtoolbar/configuration/keep_last_execution';
     /**#@-*/
 
     /**
-     * Is enabled?
+     * Check whether the module is enabled.
      *
      * @return bool
      */
     public function isEnabled(): bool
     {
-        $value = (int) $this->scopeConfig->getValue(self::KEY_CONFIG_ENABLE);
+        return (bool) $this->scopeConfig->getValue(self::KEY_CONFIG_ENABLE);
+    }
 
-        return $value ? true : false;
+    /**
+     * Check whether the toolbar can be shown in the admin area.
+     *
+     * @return bool
+     */
+    public function isEnabledAdmin(): bool
+    {
+        return (bool) $this->scopeConfig->getValue(self::KEY_CONFIG_ENABLE_ADMIN);
     }
 
     /**

@@ -47,7 +47,9 @@ class Http
      */
     public function beforeLaunch(MagentoHttp $subject): array
     {
-        if ($this->helperConfig->isEnabled()) {
+        // Note: we can't use the function "canDisplay"
+        // because it would result in an exception "Area code is not set"
+        if ($this->helperConfig->isEnabled() && $this->helperConfig->isAllowedIp()) {
             $this->helperData->startTimer('app_http');
         }
 

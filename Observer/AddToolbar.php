@@ -83,11 +83,11 @@ class AddToolbar implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
-        if (!$this->helperConfig->isEnabled()) {
+        if (!$this->helperConfig->canDisplay()) {
             return;
         }
 
-        // We do not want that the toolbar has a impact on stats => stop the main timer
+        // We do not want the toolbar to have an impact on stats => stop the main timer
         $this->helperData->stopTimer('app_http');
 
         // We do not want that the toolbar has a impact on stats => compute the stat in first

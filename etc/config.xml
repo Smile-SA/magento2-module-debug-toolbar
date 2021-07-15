@@ -4,6 +4,7 @@
         <smile_debugtoolbar>
             <configuration>
                 <enabled>0</enabled>
+                <enabled_admin>0</enabled_admin>
                 <keep_last_execution>5</keep_last_execution>
             </configuration>
         </smile_debugtoolbar>

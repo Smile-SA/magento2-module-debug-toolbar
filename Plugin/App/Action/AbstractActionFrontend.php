@@ -10,19 +10,19 @@ declare(strict_types=1);
 namespace Smile\DebugToolbar\Plugin\App\Action;
 
 use Magento\Framework\App\Action\AbstractAction as MagentoAction;
+use Magento\Framework\App\Http\Context as HttpContext;
 use Magento\Framework\App\RequestInterface;
 use Smile\DebugToolbar\Helper\Config as HelperConfig;
-use Smile\DebugToolbar\Helper\Data as HelperData;
 
 /**
- * Register the action name.
+ * Add profiler status to the HTTP context on frontend area when IP restriction is enabled.
  */
-class AbstractAction
+class AbstractActionFrontend
 {
     /**
-     * @var HelperData
+     * @var HttpContext
      */
-    protected $helperData;
+    protected $httpContext;
 
     /**
      * @var HelperConfig
@@ -30,12 +30,12 @@ class AbstractAction
     protected $helperConfig;
 
     /**
-     * @param HelperData $helperData
+     * @param HttpContext $httpContext
      * @param HelperConfig $helperConfig
      */
-    public function __construct(HelperData $helperData, HelperConfig $helperConfig)
+    public function __construct(HttpContext $httpContext, HelperConfig $helperConfig)
     {
-        $this->helperData = $helperData;
+        $this->httpContext = $httpContext;
         $this->helperConfig = $helperConfig;
     }
 
@@ -49,11 +49,17 @@ class AbstractAction
      */
     public function beforeDispatch(MagentoAction $subject, RequestInterface $request): array
     {
-        if ($this->helperConfig->canDisplay()) {
-            $className = get_class($subject);
-            $className = preg_replace('!\\\\Interceptor$!', '', $className);
-            $this->helperData->setValue('controller_classname', $className);
+        if (!$this->helperConfig->isEnabled()) {
+            return [$request];
         }
+
+        $allowedIps = $this->helperConfig->getAllowedIps();
+        if (empty($allowedIps)) {
+            return [$request];
+        }
+
+        // IP restriction is enabled: add the toolbar display status to the HTTP context
+        $this->httpContext->setValue('debug_toolbar', (int) $this->helperConfig->isAllowedIp(), 0);
 
         return [$request];
     }

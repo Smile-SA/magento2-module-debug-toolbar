@@ -102,7 +102,6 @@ class Cache
     public function aroundRemove(CacheInterface $subject, Closure $closure, $identifier)
     {
         $startTime = microtime(true);
-
         $result = $closure($identifier);
 
         $this->helperCache->addStat(

@@ -2,7 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
-## WIP
+## [5.1.0] - 2021-08-02
+[5.1.0]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/5.0.2...5.1.0
 
 - Add setting to toggle toolbar on admin area
 - Add uninstallation procedure in the documentation

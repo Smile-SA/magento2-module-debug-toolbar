@@ -22,9 +22,9 @@ use Smile\DebugToolbar\Block\Toolbar;
 use Smile\DebugToolbar\Block\ToolbarFactory;
 use Smile\DebugToolbar\Block\Toolbars;
 use Smile\DebugToolbar\Block\ToolbarsFactory;
-use Smile\DebugToolbar\Helper\Config as HelperConfig;
-use Smile\DebugToolbar\Helper\Data as HelperData;
-use Smile\DebugToolbar\Helper\Profiler as HelperProfiler;
+use Smile\DebugToolbar\Helper\Config as ConfigHelper;
+use Smile\DebugToolbar\Helper\Data as DataHelper;
+use Smile\DebugToolbar\Helper\Profiler as ProfilerHelper;
 
 /**
  * Display the toolbar.
@@ -44,19 +44,19 @@ class AddToolbar implements ObserverInterface
     protected $blockToolbarsFactory;
 
     /**
-     * @var HelperData
+     * @var DataHelper
      */
-    protected $helperData;
+    protected $dataHelper;
 
     /**
-     * @var HelperConfig
+     * @var ConfigHelper
      */
-    protected $helperConfig;
+    protected $configHelper;
 
     /**
-     * @var HelperProfiler
+     * @var ProfilerHelper
      */
-    protected $helperProfiler;
+    protected $profilerHelper;
 
     /**
      * @var AppState
@@ -66,24 +66,24 @@ class AddToolbar implements ObserverInterface
     /**
      * @param ToolbarFactory $blockToolbarFactory
      * @param ToolbarsFactory $blockToolbarsFactory
-     * @param HelperData $helperData
-     * @param HelperConfig $helperConfig
-     * @param HelperProfiler $helperProfiler
+     * @param DataHelper $dataHelper
+     * @param ConfigHelper $configHelper
+     * @param ProfilerHelper $profilerHelper
      * @param AppState $appState
      */
     public function __construct(
         ToolbarFactory $blockToolbarFactory,
         ToolbarsFactory $blockToolbarsFactory,
-        HelperData $helperData,
-        HelperConfig $helperConfig,
-        HelperProfiler $helperProfiler,
+        DataHelper $dataHelper,
+        ConfigHelper $configHelper,
+        ProfilerHelper $profilerHelper,
         AppState $appState
     ) {
         $this->blockToolbarFactory = $blockToolbarFactory;
         $this->blockToolbarsFactory = $blockToolbarsFactory;
-        $this->helperData = $helperData;
-        $this->helperConfig = $helperConfig;
-        $this->helperProfiler = $helperProfiler;
+        $this->dataHelper = $dataHelper;
+        $this->configHelper = $configHelper;
+        $this->profilerHelper = $profilerHelper;
         $this->appState = $appState;
     }
 
@@ -93,17 +93,17 @@ class AddToolbar implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
-        if (!$this->helperConfig->isEnabled()) {
+        if (!$this->configHelper->isEnabled()) {
             return;
         }
 
         // We do not want the toolbar to have an impact on stats => stop the main timer
-        $this->helperData->stopTimer('app_http');
+        $this->dataHelper->stopTimer('app_http');
 
         // We do not want that the toolbar has a impact on stats => compute the stat in first
-        $this->helperData->startTimer('profiler_build');
-        $this->helperProfiler->computeStats();
-        $this->helperData->stopTimer('profiler_build');
+        $this->dataHelper->startTimer('profiler_build');
+        $this->profilerHelper->computeStats();
+        $this->dataHelper->stopTimer('profiler_build');
 
         /** @var MagentoRequest $request */
         $request = $observer->getEvent()->getData('request');
@@ -135,21 +135,21 @@ class AddToolbar implements ObserverInterface
         MagentoResponse $response
     ): void {
         // Init the toolbar id
-        $this->helperData->initToolbarId($request->getFullActionName());
+        $this->dataHelper->initToolbarId($request->getFullActionName());
 
         // Build the toolbar
         $block = $this->getCurrentExecutionToolbarBlock($request, $response);
 
         // Save it
-        $this->helperData->saveToolbar($block);
+        $this->dataHelper->saveToolbar($block);
 
         // Keep only the last X executions
-        $this->helperData->cleanOldToolbars($this->helperConfig->getNbExecutionToKeep());
+        $this->dataHelper->cleanOldToolbars($this->configHelper->getNbExecutionToKeep());
 
         $area = $this->appState->getAreaCode();
 
         // Add the last toolbars to the content
-        if ($area === Area::AREA_FRONTEND || $area === Area::AREA_ADMINHTML && $this->helperConfig->isEnabledAdmin()) {
+        if ($area === Area::AREA_FRONTEND || $area === Area::AREA_ADMINHTML && $this->configHelper->isEnabledAdmin()) {
             $content = $response->getContent();
             $endTag = '</body';
             if (strpos($content, $endTag) !== false) {

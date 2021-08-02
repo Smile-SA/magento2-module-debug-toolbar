@@ -12,8 +12,8 @@ namespace Smile\DebugToolbar\Block\Zone;
 use Magento\Framework\App\DeploymentConfig;
 use Magento\Framework\View\Element\Template\Context;
 use Smile\DebugToolbar\Formatter\FormatterFactory;
-use Smile\DebugToolbar\Helper\Cache as HelperCache;
-use Smile\DebugToolbar\Helper\Data as HelperData;
+use Smile\DebugToolbar\Helper\Cache as CacheHelper;
+use Smile\DebugToolbar\Helper\Data as DataHelper;
 
 /**
  * Cache section.
@@ -26,30 +26,29 @@ class Cache extends AbstractZone
     protected $deployConfig;
 
     /**
-     * @var HelperCache
+     * @var CacheHelper
      */
-    protected $helperCache;
+    protected $cacheHelper;
 
     /**
      * @param Context $context
-     * @param HelperData $helperData
+     * @param DataHelper $dataHelper
      * @param FormatterFactory $formatterFactory
      * @param DeploymentConfig $deployConfig
-     * @param HelperCache $helperCache
+     * @param CacheHelper $cacheHelper
      * @param array $data
      */
     public function __construct(
         Context $context,
-        HelperData $helperData,
+        DataHelper $dataHelper,
         FormatterFactory $formatterFactory,
         DeploymentConfig $deployConfig,
-        HelperCache $helperCache,
+        CacheHelper $cacheHelper,
         array $data = []
     ) {
-        parent::__construct($context, $helperData, $formatterFactory, $data);
-
+        parent::__construct($context, $dataHelper, $formatterFactory, $data);
         $this->deployConfig = $deployConfig;
-        $this->helperCache = $helperCache;
+        $this->cacheHelper = $cacheHelper;
     }
 
     /**
@@ -105,7 +104,7 @@ class Cache extends AbstractZone
      */
     public function getCacheTypes(): array
     {
-        return $this->helperCache->getCacheTypes();
+        return $this->cacheHelper->getCacheTypes();
     }
 
     /**
@@ -115,7 +114,7 @@ class Cache extends AbstractZone
      */
     public function getCacheUsage(): array
     {
-        return array_values($this->helperCache->getCacheUsage());
+        return array_values($this->cacheHelper->getCacheUsage());
     }
 
     /**
@@ -125,7 +124,7 @@ class Cache extends AbstractZone
      */
     public function getStatsPerAction(): array
     {
-        return $this->helperCache->getStatsPerAction();
+        return $this->cacheHelper->getStatsPerAction();
     }
 
     /**

@@ -15,7 +15,7 @@ use Magento\Framework\App\State as AppState;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\View\Element\Template\Context;
 use Smile\DebugToolbar\Formatter\FormatterFactory;
-use Smile\DebugToolbar\Helper\Data as HelperData;
+use Smile\DebugToolbar\Helper\Data as DataHelper;
 
 /**
  * Generic section.
@@ -39,7 +39,7 @@ class Generic extends AbstractZone
 
     /**
      * @param Context $context
-     * @param HelperData $helperData
+     * @param DataHelper $dataHelper
      * @param FormatterFactory $formatterFactory
      * @param ProductMetadataInterface $productMetadata
      * @param AppState $appState
@@ -48,15 +48,14 @@ class Generic extends AbstractZone
      */
     public function __construct(
         Context $context,
-        HelperData $helperData,
+        DataHelper $dataHelper,
         FormatterFactory $formatterFactory,
         ProductMetadataInterface $productMetadata,
         AppState $appState,
         DeploymentConfig $deployConfig,
         array $data = []
     ) {
-        parent::__construct($context, $helperData, $formatterFactory, $data);
-
+        parent::__construct($context, $dataHelper, $formatterFactory, $data);
         $this->productMetadata = $productMetadata;
         $this->appState = $appState;
         $this->deployConfig = $deployConfig;
@@ -205,7 +204,7 @@ class Generic extends AbstractZone
      */
     public function getPhpMemoryUsed(): int
     {
-        return (int) memory_get_peak_usage(true);
+        return memory_get_peak_usage(true);
     }
 
     /**
@@ -225,6 +224,6 @@ class Generic extends AbstractZone
      */
     public function getPhpExecutionTime(): float
     {
-        return $this->helperData->getTimer('app_http');
+        return $this->dataHelper->getTimer('app_http');
     }
 }

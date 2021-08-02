@@ -11,8 +11,8 @@ namespace Smile\DebugToolbar\Block\Zone;
 
 use Magento\Framework\View\Element\Template\Context;
 use Smile\DebugToolbar\Formatter\FormatterFactory;
-use Smile\DebugToolbar\Helper\Data as HelperData;
-use Smile\DebugToolbar\Helper\Layout as HelperLayout;
+use Smile\DebugToolbar\Helper\Data as DataHelper;
+use Smile\DebugToolbar\Helper\Layout as LayoutHelper;
 
 /**
  * Layout section.
@@ -20,27 +20,26 @@ use Smile\DebugToolbar\Helper\Layout as HelperLayout;
 class Layout extends AbstractZone
 {
     /**
-     * @var HelperLayout
+     * @var LayoutHelper
      */
-    protected $helperLayout;
+    protected $layoutHelper;
 
     /**
      * @param Context $context
-     * @param HelperData $helperData
+     * @param DataHelper $dataHelper
      * @param FormatterFactory $formatterFactory
-     * @param HelperLayout $helperLayout
+     * @param LayoutHelper $layoutHelper
      * @param array $data
      */
     public function __construct(
         Context $context,
-        HelperData $helperData,
+        DataHelper $dataHelper,
         FormatterFactory $formatterFactory,
-        HelperLayout $helperLayout,
+        LayoutHelper $layoutHelper,
         array $data = []
     ) {
-        parent::__construct($context, $helperData, $formatterFactory, $data);
-
-        $this->helperLayout = $helperLayout;
+        parent::__construct($context, $dataHelper, $formatterFactory, $data);
+        $this->layoutHelper = $layoutHelper;
     }
 
     /**
@@ -66,7 +65,7 @@ class Layout extends AbstractZone
      */
     public function getLayoutBuild(): array
     {
-        return $this->helperLayout->getLayoutBuild();
+        return $this->layoutHelper->getLayoutBuild();
     }
 
     /**
@@ -76,7 +75,7 @@ class Layout extends AbstractZone
      */
     public function getHandles(): array
     {
-        return $this->helperLayout->getHandles();
+        return $this->layoutHelper->getHandles();
     }
 
     /**

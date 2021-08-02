@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace Smile\DebugToolbar\Plugin\App;
 
 use Magento\Framework\App\Http as MagentoHttp;
-use Smile\DebugToolbar\Helper\Config as HelperConfig;
-use Smile\DebugToolbar\Helper\Data as HelperData;
+use Smile\DebugToolbar\Helper\Config as ConfigHelper;
+use Smile\DebugToolbar\Helper\Data as DataHelper;
 
 /**
  * Start the app_http timer.
@@ -19,23 +19,23 @@ use Smile\DebugToolbar\Helper\Data as HelperData;
 class Http
 {
     /**
-     * @var HelperData
+     * @var DataHelper
      */
-    protected $helperData;
+    protected $dataHelper;
 
     /**
-     * @var HelperConfig
+     * @var ConfigHelper
      */
-    protected $helperConfig;
+    protected $configHelper;
 
     /**
-     * @param HelperData $helperData
-     * @param HelperConfig $helperConfig
+     * @param DataHelper $dataHelper
+     * @param ConfigHelper $configHelper
      */
-    public function __construct(HelperData $helperData, HelperConfig $helperConfig)
+    public function __construct(DataHelper $dataHelper, ConfigHelper $configHelper)
     {
-        $this->helperData = $helperData;
-        $this->helperConfig = $helperConfig;
+        $this->dataHelper = $dataHelper;
+        $this->configHelper = $configHelper;
     }
 
     /**
@@ -47,8 +47,8 @@ class Http
      */
     public function beforeLaunch(MagentoHttp $subject): array
     {
-        if ($this->helperConfig->isEnabled()) {
-            $this->helperData->startTimer('app_http');
+        if ($this->configHelper->isEnabled()) {
+            $this->dataHelper->startTimer('app_http');
         }
 
         return [];

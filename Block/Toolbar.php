@@ -17,7 +17,7 @@ use Magento\Framework\View\Element\Template\Context;
 use RuntimeException;
 use Smile\DebugToolbar\Block\Zone\Summary;
 use Smile\DebugToolbar\Block\Zone\SummaryFactory;
-use Smile\DebugToolbar\Helper\Data as HelperData;
+use Smile\DebugToolbar\Helper\Data as DataHelper;
 
 /**
  * Main Debug Toolbar Block
@@ -25,9 +25,9 @@ use Smile\DebugToolbar\Helper\Data as HelperData;
 class Toolbar extends MagentoTemplateBlock
 {
     /**
-     * @var HelperData
+     * @var DataHelper
      */
-    protected $helperData;
+    protected $dataHelper;
 
     /**
      * @var Zone\AbstractZone[]
@@ -41,19 +41,18 @@ class Toolbar extends MagentoTemplateBlock
 
     /**
      * @param Context $context
-     * @param HelperData $helperData
+     * @param DataHelper $dataHelper
      * @param SummaryFactory $blockSummaryFactory
      * @param array $data
      */
     public function __construct(
         Context $context,
-        HelperData $helperData,
+        DataHelper $dataHelper,
         SummaryFactory $blockSummaryFactory,
         array $data = []
     ) {
         parent::__construct($context, $data);
-
-        $this->helperData = $helperData;
+        $this->dataHelper = $dataHelper;
         $this->blockSummaryFactory = $blockSummaryFactory;
 
         $this->setData('cache_lifetime', 0);
@@ -126,7 +125,7 @@ class Toolbar extends MagentoTemplateBlock
      */
     public function getToolbarId(): string
     {
-        return $this->helperData->getToolbarId();
+        return $this->dataHelper->getToolbarId();
     }
 
     /**

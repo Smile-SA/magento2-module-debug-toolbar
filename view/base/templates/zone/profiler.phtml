@@ -32,7 +32,7 @@ $timers = $block->getTimers();
     </thead>
     <tbody>
     <?php
-    foreach ($timers as $timer) :
+    foreach ($timers as $timer):
         $row = [
             'sum' => $block->formatValue($timer['sum'], [], 'time'),
             'avg' => $block->formatValue($timer['avg'], ['gt' => 3], 'time'),
@@ -49,13 +49,13 @@ $timers = $block->getTimers();
                 style="padding-left: <?= (10 * $timer['level']) ?>px"
                 class="<?= (($timer['children'] > 0) ? 'st-with-children' : '') ?>"
             >
-                <?php if ($timer['children'] > 0) : ?>
+                <?php if ($timer['children'] > 0): ?>
                     <span
                         class="st-expand"
                         id="<?= $escaper->escapeHtmlAttr($block->getToolbarId()) ?>-pf-<?= $escaper->escapeHtmlAttr($timer['uid']) ?>-span"
                         onclick="smileToolbarTreeGrid(this)"
                     >+</span>
-                <?php else : ?>
+                <?php else: ?>
                     <span
                         class="st-expand"
                     >&nbsp;</span>
@@ -73,9 +73,7 @@ $timers = $block->getTimers();
     <?php endforeach ?>
     </tbody>
 </table>
-<?php
-$buildIn = $block->formatValue($block->getHelperData()->getTimer('profiler_build'), ['gt' => 3], 'time');
-?>
+<?php $buildIn = $block->formatValue($block->getTimer('profiler_build'), ['gt' => 3], 'time') ?>
 <div class="st-footer">
     <?= count($timers) ?> timers builded in
     <span class="<?= $escaper->escapeHtmlAttr($buildIn['css_class']) ?>">

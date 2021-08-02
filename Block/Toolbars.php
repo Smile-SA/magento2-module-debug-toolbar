@@ -12,7 +12,7 @@ namespace Smile\DebugToolbar\Block;
 use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\View\Element\Template as MagentoTemplateBlock;
 use Magento\Framework\View\Element\Template\Context;
-use Smile\DebugToolbar\Helper\Data as HelperData;
+use Smile\DebugToolbar\Helper\Data as DataHelper;
 
 /**
  * Main Debug Toolbar Block
@@ -20,23 +20,19 @@ use Smile\DebugToolbar\Helper\Data as HelperData;
 class Toolbars extends MagentoTemplateBlock
 {
     /**
-     * @var HelperData
+     * @var DataHelper
      */
-    protected $helperData;
+    protected $dataHelper;
 
     /**
      * @param Context $context
-     * @param HelperData $helperData
+     * @param DataHelper $dataHelper
      * @param array $data
      */
-    public function __construct(
-        Context $context,
-        HelperData $helperData,
-        array $data = []
-    ) {
+    public function __construct(Context $context, DataHelper $dataHelper, array $data = [])
+    {
         parent::__construct($context, $data);
-
-        $this->helperData = $helperData;
+        $this->dataHelper = $dataHelper;
 
         $this->setData('cache_lifetime', 0);
         $this->setTemplate('toolbars.phtml');
@@ -50,7 +46,7 @@ class Toolbars extends MagentoTemplateBlock
      */
     public function getToolbarList(): array
     {
-        return $this->helperData->getContentToolbars();
+        return $this->dataHelper->getContentToolbars();
     }
 
     /**

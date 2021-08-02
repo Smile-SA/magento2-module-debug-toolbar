@@ -10,9 +10,9 @@ use Smile\DebugToolbar\Block\Toolbars;
 
 /** @var Toolbars $block */
 $toolbars = $block->getToolbarList();
-foreach ($toolbars as $toolbarContent) : ?>
+foreach ($toolbars as $toolbarContent): ?>
     <?= /* @noEscape */ $toolbarContent . "\n" ?>
-<?php endforeach; ?>
+<?php endforeach ?>
 <div class="smile-toolbar" id="st-modal-display">
     <div class="st-main" id="st-modal-main" onclick="event.stopPropagation();">
         <div class="st-title">

@@ -12,8 +12,8 @@ namespace Smile\DebugToolbar\Block\Zone;
 use Magento\Framework\View\Element\Template\Context;
 use RuntimeException;
 use Smile\DebugToolbar\Formatter\FormatterFactory;
-use Smile\DebugToolbar\Helper\Data as HelperData;
-use Smile\DebugToolbar\Helper\Profiler as HelperProfiler;
+use Smile\DebugToolbar\Helper\Data as DataHelper;
+use Smile\DebugToolbar\Helper\Profiler as ProfilerHelper;
 
 /**
  * Profiler section.
@@ -21,27 +21,26 @@ use Smile\DebugToolbar\Helper\Profiler as HelperProfiler;
 class Profiler extends AbstractZone
 {
     /**
-     * @var HelperProfiler
+     * @var ProfilerHelper
      */
-    protected $helperProfiler;
+    protected $profilerHelper;
 
     /**
      * @param Context $context
-     * @param HelperData $helperData
+     * @param DataHelper $dataHelper
      * @param FormatterFactory $formatterFactory
-     * @param HelperProfiler $helperProfiler
+     * @param ProfilerHelper $profilerHelper
      * @param array $data
      */
     public function __construct(
         Context $context,
-        HelperData $helperData,
+        DataHelper $dataHelper,
         FormatterFactory $formatterFactory,
-        HelperProfiler $helperProfiler,
+        ProfilerHelper $profilerHelper,
         array $data = []
     ) {
-        parent::__construct($context, $helperData, $formatterFactory, $data);
-
-        $this->helperProfiler = $helperProfiler;
+        parent::__construct($context, $dataHelper, $formatterFactory, $data);
+        $this->profilerHelper = $profilerHelper;
     }
 
     /**
@@ -68,6 +67,6 @@ class Profiler extends AbstractZone
      */
     public function getTimers(): array
     {
-        return $this->helperProfiler->getTimers();
+        return $this->profilerHelper->getTimers();
     }
 }

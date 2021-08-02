@@ -11,8 +11,8 @@ namespace Smile\DebugToolbar\Block\Zone;
 
 use Magento\Framework\View\Element\Template\Context;
 use Smile\DebugToolbar\Formatter\FormatterFactory;
-use Smile\DebugToolbar\Helper\Data as HelperData;
-use Smile\DebugToolbar\Helper\Preference as HelperPreference;
+use Smile\DebugToolbar\Helper\Data as DataHelper;
+use Smile\DebugToolbar\Helper\Preference as PreferenceHelper;
 
 /**
  * Preference section.
@@ -20,27 +20,26 @@ use Smile\DebugToolbar\Helper\Preference as HelperPreference;
 class Preference extends AbstractZone
 {
     /**
-     * @var HelperPreference
+     * @var PreferenceHelper
      */
-    protected $helperPreference;
+    protected $preferenceHelper;
 
     /**
      * @param Context $context
-     * @param HelperData $helperData
+     * @param DataHelper $dataHelper
      * @param FormatterFactory $formatterFactory
-     * @param HelperPreference $helperPreference
+     * @param PreferenceHelper $preferenceHelper
      * @param array $data
      */
     public function __construct(
         Context $context,
-        HelperData $helperData,
+        DataHelper $dataHelper,
         FormatterFactory $formatterFactory,
-        HelperPreference $helperPreference,
+        PreferenceHelper $preferenceHelper,
         array $data = []
     ) {
-        parent::__construct($context, $helperData, $formatterFactory, $data);
-
-        $this->helperPreference = $helperPreference;
+        parent::__construct($context, $dataHelper, $formatterFactory, $data);
+        $this->preferenceHelper = $preferenceHelper;
     }
 
     /**
@@ -66,7 +65,7 @@ class Preference extends AbstractZone
      */
     public function getPluginStats(): array
     {
-        return $this->helperPreference->getPluginStats();
+        return $this->preferenceHelper->getPluginStats();
     }
 
     /**
@@ -76,7 +75,7 @@ class Preference extends AbstractZone
      */
     public function getPreferenceStats(): array
     {
-        return $this->helperPreference->getPreferenceStats();
+        return $this->preferenceHelper->getPreferenceStats();
     }
 
     /**

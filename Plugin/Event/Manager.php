@@ -9,7 +9,7 @@ namespace Smile\DebugToolbar\Plugin\Event;
 
 use Closure;
 use Magento\Framework\Event\ManagerInterface as MagentoManager;
-use Smile\DebugToolbar\Helper\Observer as HelperObserver;
+use Smile\DebugToolbar\Helper\Observer as ObserverHelper;
 
 /**
  * Fetch event data.
@@ -17,16 +17,16 @@ use Smile\DebugToolbar\Helper\Observer as HelperObserver;
 class Manager
 {
     /**
-     * @var HelperObserver
+     * @var ObserverHelper
      */
-    protected $helperObserver;
+    protected $observerHelper;
 
     /**
-     * @param HelperObserver $helperObserver
+     * @param ObserverHelper $observerHelper
      */
-    public function __construct(HelperObserver $helperObserver)
+    public function __construct(ObserverHelper $observerHelper)
     {
-        $this->helperObserver = $helperObserver;
+        $this->observerHelper = $observerHelper;
     }
 
     /**
@@ -46,13 +46,13 @@ class Manager
         array $data = []
     ) {
         // Note: we can't check if the module is enabled, it could create an infinite loop when fetching cache data
-        $this->helperObserver->initEventStat((string) $eventName);
+        $this->observerHelper->initEventStat((string) $eventName);
 
         $startTime = microtime(true);
         $result = $closure($eventName, $data);
         $deltaTime = microtime(true) - $startTime;
 
-        $this->helperObserver->addEventStat((string) $eventName, $deltaTime);
+        $this->observerHelper->addEventStat((string) $eventName, $deltaTime);
 
         return $result;
     }

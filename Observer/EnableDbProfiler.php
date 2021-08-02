@@ -17,7 +17,7 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Exception\RuntimeException;
 use Smile\DebugToolbar\DB\Profiler as DbProfiler;
-use Smile\DebugToolbar\Helper\Config as HelperConfig;
+use Smile\DebugToolbar\Helper\Config as ConfigHelper;
 
 /**
  * Enable the DB profiler.
@@ -35,23 +35,23 @@ class EnableDbProfiler implements ObserverInterface
     protected $deploymentConfigReader;
 
     /**
-     * @var HelperConfig
+     * @var ConfigHelper
      */
-    protected $helperConfig;
+    protected $configHelper;
 
     /**
      * @param DeploymentConfigWriter $deploymentConfigWriter
      * @param DeploymentConfigReader $deploymentConfigReader
-     * @param HelperConfig $helperConfig
+     * @param ConfigHelper $configHelper
      */
     public function __construct(
         DeploymentConfigWriter $deploymentConfigWriter,
         DeploymentConfigReader $deploymentConfigReader,
-        HelperConfig $helperConfig
+        ConfigHelper $configHelper
     ) {
         $this->deploymentConfigWriter = $deploymentConfigWriter;
         $this->deploymentConfigReader = $deploymentConfigReader;
-        $this->helperConfig = $helperConfig;
+        $this->configHelper = $configHelper;
     }
 
     /**
@@ -65,7 +65,7 @@ class EnableDbProfiler implements ObserverInterface
 
         unset($env['db']['connection']['default']['profiler']);
 
-        if ($this->helperConfig->isEnabled()) {
+        if ($this->configHelper->isEnabled()) {
             $env['db']['connection']['default']['profiler'] = [
                 'class' => DbProfiler::class,
                 'enabled' => true,

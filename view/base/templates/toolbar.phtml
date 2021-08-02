@@ -21,7 +21,7 @@ $toolbarId = $block->getToolbarId();
         id="<?= $escaper->escapeHtmlAttr($toolbarId) ?>-zones"
         onclick="smileToolbarMainToggle();"
     >
-        <?php foreach ($zones as $zone) : ?>
+        <?php foreach ($zones as $zone): ?>
             <?php $zoneHtml = $zone->toHtml() ?>
             <div
                 id="<?= $escaper->escapeHtmlAttr($toolbarId) ?>-zone-<?= $escaper->escapeHtmlAttr($zone->getCode()) ?>"
@@ -30,7 +30,7 @@ $toolbarId = $block->getToolbarId();
             >
                 <div class="st-title">
                     <div class="st-table-links">
-                        <?php foreach ($zone->getTablesToDisplay() as $key => $table) : ?>
+                        <?php foreach ($zone->getTablesToDisplay() as $key => $table): ?>
                             <?= ($key > 0 ? '|' : '') ?>
                             <a onclick="<?= $escaper->escapeHtmlAttr($table['onclick']) ?>">
                                 <?= $escaper->escapeHtml($table['label']) ?>
@@ -58,7 +58,7 @@ $toolbarId = $block->getToolbarId();
             class="st-close"
             onclick="smileToolbarMainToggle();"
         ></div>
-        <?php foreach ($zones as $zone) : ?>
+        <?php foreach ($zones as $zone): ?>
             <span
                     id="<?= $escaper->escapeHtmlAttr($toolbarId) ?>-title-<?= $escaper->escapeHtmlAttr($zone->getCode()) ?>"
                     class="<?= ($zone->isWarning() ? 'value-warning' : '') ?>"

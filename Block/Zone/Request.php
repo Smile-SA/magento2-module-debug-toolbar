@@ -66,6 +66,6 @@ class Request extends AbstractZone
      */
     public function getControllerClassName(): string
     {
-        return (string) $this->helperData->getValue('controller_classname');
+        return (string) $this->dataHelper->getValue('controller_classname');
     }
 }

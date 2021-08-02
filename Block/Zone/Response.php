@@ -67,7 +67,7 @@ class Response extends AbstractZone
      */
     public function getFullPageCacheMode(): string
     {
-        return $this->helperData->getFullPageCacheMode();
+        return $this->dataHelper->getFullPageCacheMode();
     }
 
     /**

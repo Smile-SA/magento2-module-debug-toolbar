@@ -11,8 +11,8 @@ namespace Smile\DebugToolbar\Plugin\App;
 
 use Closure;
 use Magento\Framework\App\CacheInterface;
-use Smile\DebugToolbar\Helper\Cache as HelperCache;
-use Smile\DebugToolbar\Helper\Config as HelperConfig;
+use Smile\DebugToolbar\Helper\Cache as CacheHelper;
+use Smile\DebugToolbar\Helper\Config as ConfigHelper;
 
 /**
  * Fetch cache info.
@@ -20,23 +20,23 @@ use Smile\DebugToolbar\Helper\Config as HelperConfig;
 class Cache
 {
     /**
-     * @var HelperConfig
+     * @var ConfigHelper
      */
-    protected $helperConfig;
+    protected $configHelper;
 
     /**
-     * @var HelperCache
+     * @var CacheHelper
      */
-    protected $helperCache;
+    protected $cacheHelper;
 
     /**
-     * @param HelperConfig $helperConfig
-     * @param HelperCache $helperCache
+     * @param ConfigHelper $configHelper
+     * @param CacheHelper $cacheHelper
      */
-    public function __construct(HelperConfig $helperConfig, HelperCache $helperCache)
+    public function __construct(ConfigHelper $configHelper, CacheHelper $cacheHelper)
     {
-        $this->helperConfig = $helperConfig;
-        $this->helperCache = $helperCache;
+        $this->configHelper = $configHelper;
+        $this->cacheHelper = $cacheHelper;
     }
 
     /**
@@ -50,13 +50,13 @@ class Cache
      */
     public function aroundLoad(CacheInterface $subject, Closure $closure, $identifier)
     {
-        if (!$this->helperConfig->isEnabled()) {
+        if (!$this->configHelper->isEnabled()) {
             return $closure($identifier);
         }
 
         $startTime = microtime(true);
         $result = $closure($identifier);
-        $this->helperCache->addStat(
+        $this->cacheHelper->addStat(
             'load',
             (string) $identifier,
             microtime(true) - $startTime,
@@ -86,13 +86,13 @@ class Cache
         $tags = [],
         $lifeTime = null
     ) {
-        if (!$this->helperConfig->isEnabled()) {
+        if (!$this->configHelper->isEnabled()) {
             return $closure($data, $identifier, $tags, $lifeTime);
         }
 
         $startTime = microtime(true);
         $result = $closure($data, $identifier, $tags, $lifeTime);
-        $this->helperCache->addStat(
+        $this->cacheHelper->addStat(
             'save',
             (string) $identifier,
             microtime(true) - $startTime,
@@ -113,13 +113,13 @@ class Cache
      */
     public function aroundRemove(CacheInterface $subject, Closure $closure, $identifier)
     {
-        if (!$this->helperConfig->isEnabled()) {
+        if (!$this->configHelper->isEnabled()) {
             return $closure($identifier);
         }
 
         $startTime = microtime(true);
         $result = $closure($identifier);
-        $this->helperCache->addStat(
+        $this->cacheHelper->addStat(
             'remove',
             (string) $identifier,
             microtime(true) - $startTime

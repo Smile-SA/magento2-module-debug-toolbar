@@ -13,7 +13,7 @@ use Magento\Framework\Escaper;
 use RuntimeException;
 
 /**
- * Formatter.
+ * Value formatter.
  *
  * @SuppressWarnings(PMD.ExcessiveClassComplexity)
  */
@@ -25,7 +25,7 @@ class Formatter
     const MAX_STRING_LENGTH = 200;
 
     /**
-     * @var string
+     * @var mixed
      */
     protected $value;
 
@@ -70,10 +70,9 @@ class Formatter
      * @param string|null $type
      * @param array $rules
      */
-    public function __construct(Escaper $escaper, $value, $type = null, $rules = [])
+    public function __construct(Escaper $escaper, $value, ?string $type = null, array $rules = [])
     {
         $this->escaper = $escaper;
-
         $this->prepareValueAndType($value, $type);
         $this->computeRules($rules);
         $this->computeFormattedValue();

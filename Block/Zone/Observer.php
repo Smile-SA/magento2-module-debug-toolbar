@@ -11,8 +11,8 @@ namespace Smile\DebugToolbar\Block\Zone;
 
 use Magento\Framework\View\Element\Template\Context;
 use Smile\DebugToolbar\Formatter\FormatterFactory;
-use Smile\DebugToolbar\Helper\Data as HelperData;
-use Smile\DebugToolbar\Helper\Observer as HelperObserver;
+use Smile\DebugToolbar\Helper\Data as DataHelper;
+use Smile\DebugToolbar\Helper\Observer as ObserverHelper;
 
 /**
  * Observer section.
@@ -20,27 +20,26 @@ use Smile\DebugToolbar\Helper\Observer as HelperObserver;
 class Observer extends AbstractZone
 {
     /**
-     * @var HelperObserver
+     * @var ObserverHelper
      */
-    protected $helperObserver;
+    protected $observerHelper;
 
     /**
      * @param Context $context
-     * @param HelperData $helperData
+     * @param DataHelper $dataHelper
      * @param FormatterFactory $formatterFactory
-     * @param HelperObserver $helperObserver
+     * @param ObserverHelper $observerHelper
      * @param array $data
      */
     public function __construct(
         Context $context,
-        HelperData $helperData,
+        DataHelper $dataHelper,
         FormatterFactory $formatterFactory,
-        HelperObserver $helperObserver,
+        ObserverHelper   $observerHelper,
         array $data = []
     ) {
-        parent::__construct($context, $helperData, $formatterFactory, $data);
-
-        $this->helperObserver = $helperObserver;
+        parent::__construct($context, $dataHelper, $formatterFactory, $data);
+        $this->observerHelper = $observerHelper;
     }
 
     /**
@@ -66,7 +65,7 @@ class Observer extends AbstractZone
      */
     public function getObserverStats(): array
     {
-        return $this->helperObserver->getEventStats();
+        return $this->observerHelper->getEventStats();
     }
 
     /**

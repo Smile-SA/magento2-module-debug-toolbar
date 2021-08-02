@@ -11,7 +11,7 @@ namespace Smile\DebugToolbar\Block\Zone;
 
 use Magento\Framework\View\Element\Template\Context;
 use Smile\DebugToolbar\Formatter\FormatterFactory;
-use Smile\DebugToolbar\Helper\Data as HelperData;
+use Smile\DebugToolbar\Helper\Data as DataHelper;
 use Smile\DebugToolbar\Model\ResourceModel\Info as ResourceModel;
 
 /**
@@ -26,20 +26,19 @@ class Mysql extends AbstractZone
 
     /**
      * @param Context $context
-     * @param HelperData $helperData
+     * @param DataHelper $dataHelper
      * @param FormatterFactory $formatterFactory
      * @param ResourceModel $resourceModel
      * @param array $data
      */
     public function __construct(
         Context $context,
-        HelperData $helperData,
+        DataHelper $dataHelper,
         FormatterFactory $formatterFactory,
         ResourceModel $resourceModel,
         array $data = []
     ) {
-        parent::__construct($context, $helperData, $formatterFactory, $data);
-
+        parent::__construct($context, $dataHelper, $formatterFactory, $data);
         $this->resourceModel = $resourceModel;
     }
 

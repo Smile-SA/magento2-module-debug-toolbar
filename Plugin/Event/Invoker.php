@@ -12,7 +12,7 @@ namespace Smile\DebugToolbar\Plugin\Event;
 use Closure;
 use Magento\Framework\Event\InvokerInterface as MagentoInvoker;
 use Magento\Framework\Event\Observer as MagentoObserver;
-use Smile\DebugToolbar\Helper\Observer as HelperObserver;
+use Smile\DebugToolbar\Helper\Observer as ObserverHelper;
 
 /**
  * Fetch observer data.
@@ -20,16 +20,16 @@ use Smile\DebugToolbar\Helper\Observer as HelperObserver;
 class Invoker
 {
     /**
-     * @var HelperObserver
+     * @var ObserverHelper
      */
-    protected $helperObserver;
+    protected $observerHelper;
 
     /**
-     * @param HelperObserver $helperObserver
+     * @param ObserverHelper $observerHelper
      */
-    public function __construct(HelperObserver $helperObserver)
+    public function __construct(ObserverHelper $observerHelper)
     {
-        $this->helperObserver = $helperObserver;
+        $this->observerHelper = $observerHelper;
     }
 
     /**
@@ -58,13 +58,13 @@ class Invoker
         $observerName = array_key_exists('name', $configuration) ? $configuration['name'] : $observerInstance;
         $observerDisabled = array_key_exists('disabled', $configuration) ? $configuration['disabled'] : false;
 
-        $this->helperObserver->initObserverStat($eventName, $observerName, $observerInstance, $observerDisabled);
+        $this->observerHelper->initObserverStat($eventName, $observerName, $observerInstance, $observerDisabled);
 
         $startTime = microtime(true);
         $result = $closure($configuration, $observer);
         $deltaTime = microtime(true) - $startTime;
 
-        $this->helperObserver->addObserverStat($eventName, $observerName, $deltaTime);
+        $this->observerHelper->addObserverStat($eventName, $observerName, $deltaTime);
 
         return $result;
     }

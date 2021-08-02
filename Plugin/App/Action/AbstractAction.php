@@ -11,8 +11,8 @@ namespace Smile\DebugToolbar\Plugin\App\Action;
 
 use Magento\Framework\App\Action\AbstractAction as MagentoAction;
 use Magento\Framework\App\RequestInterface;
-use Smile\DebugToolbar\Helper\Config as HelperConfig;
-use Smile\DebugToolbar\Helper\Data as HelperData;
+use Smile\DebugToolbar\Helper\Config as ConfigHelper;
+use Smile\DebugToolbar\Helper\Data as DataHelper;
 
 /**
  * Register the action name.
@@ -20,23 +20,23 @@ use Smile\DebugToolbar\Helper\Data as HelperData;
 class AbstractAction
 {
     /**
-     * @var HelperData
+     * @var DataHelper
      */
-    protected $helperData;
+    protected $dataHelper;
 
     /**
-     * @var HelperConfig
+     * @var ConfigHelper
      */
-    protected $helperConfig;
+    protected $configHelper;
 
     /**
-     * @param HelperData $helperData
-     * @param HelperConfig $helperConfig
+     * @param DataHelper $dataHelper
+     * @param ConfigHelper $configHelper
      */
-    public function __construct(HelperData $helperData, HelperConfig $helperConfig)
+    public function __construct(DataHelper $dataHelper, ConfigHelper $configHelper)
     {
-        $this->helperData = $helperData;
-        $this->helperConfig = $helperConfig;
+        $this->dataHelper = $dataHelper;
+        $this->configHelper = $configHelper;
     }
 
     /**
@@ -49,10 +49,10 @@ class AbstractAction
      */
     public function beforeDispatch(MagentoAction $subject, RequestInterface $request): array
     {
-        if ($this->helperConfig->isEnabled()) {
+        if ($this->configHelper->isEnabled()) {
             $className = get_class($subject);
             $className = preg_replace('!\\\\Interceptor$!', '', $className);
-            $this->helperData->setValue('controller_classname', $className);
+            $this->dataHelper->setValue('controller_classname', $className);
         }
 
         return [$request];

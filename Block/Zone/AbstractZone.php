@@ -12,7 +12,7 @@ namespace Smile\DebugToolbar\Block\Zone;
 use Magento\Framework\View\Element\Template as MagentoTemplateBlock;
 use Magento\Framework\View\Element\Template\Context;
 use Smile\DebugToolbar\Formatter\FormatterFactory;
-use Smile\DebugToolbar\Helper\Data as HelperData;
+use Smile\DebugToolbar\Helper\Data as DataHelper;
 
 /**
  * Abstract zone block.
@@ -27,9 +27,9 @@ abstract class AbstractZone extends MagentoTemplateBlock
     protected $warning = false;
 
     /**
-     * @var HelperData
+     * @var DataHelper
      */
-    protected $helperData;
+    protected $dataHelper;
 
     /**
      * @var FormatterFactory
@@ -48,19 +48,18 @@ abstract class AbstractZone extends MagentoTemplateBlock
 
     /**
      * @param Context $context
-     * @param HelperData $helperData
+     * @param DataHelper $dataHelper
      * @param FormatterFactory $formatterFactory
      * @param array $data
      */
     public function __construct(
         Context $context,
-        HelperData $helperData,
+        DataHelper $dataHelper,
         FormatterFactory $formatterFactory,
         array $data = []
     ) {
         parent::__construct($context, $data);
-
-        $this->helperData = $helperData;
+        $this->dataHelper = $dataHelper;
         $this->formatterFactory = $formatterFactory;
 
         $this->setData('cache_lifetime', 0);
@@ -148,7 +147,7 @@ abstract class AbstractZone extends MagentoTemplateBlock
         $html = '';
 
         foreach ($sections as $sectionName => $sectionValues) {
-            $html .= "<h2>{$sectionName}</h2>\n";
+            $html .= "<h2>$sectionName</h2>\n";
 
             $html .= "<table>\n";
             $html .= '<tbody>';
@@ -225,7 +224,7 @@ abstract class AbstractZone extends MagentoTemplateBlock
     {
         [$class, $value] = $this->getClassAndValue($value);
 
-        return "    <tr><th>{$name}</th><td class=\"{$class}\">{$value}</td></tr>\n";
+        return "    <tr><th>$name</th><td class=\"$class\">$value</td></tr>\n";
     }
 
     /**
@@ -235,7 +234,7 @@ abstract class AbstractZone extends MagentoTemplateBlock
      */
     public function getToolbarId(): string
     {
-        return $this->helperData->getToolbarId();
+        return $this->dataHelper->getToolbarId();
     }
 
     /**
@@ -249,7 +248,7 @@ abstract class AbstractZone extends MagentoTemplateBlock
      */
     public function displayTable(string $title, array &$values, array $columns, ?string $additional = null): string
     {
-        $tableId = $this->helperData->getNewTableId();
+        $tableId = $this->dataHelper->getNewTableId();
         $tableTitle = str_replace('-', '_', $tableId) . '_title';
         $tableValues = str_replace('-', '_', $tableId) . '_values';
         $tableColumns = str_replace('-', '_', $tableId) . '_columns';
@@ -289,13 +288,14 @@ abstract class AbstractZone extends MagentoTemplateBlock
     }
 
     /**
-     * Get the data helper.
+     * Get a timer.
      *
-     * @return HelperData
+     * @param string $code
+     * @return float
      */
-    public function getHelperData(): HelperData
+    public function getTimer(string $code): float
     {
-        return $this->helperData;
+        return $this->dataHelper->getTimer($code);
     }
 
     /**

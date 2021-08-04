@@ -60,9 +60,9 @@ $toolbarId = $block->getToolbarId();
         ></div>
         <?php foreach ($zones as $zone): ?>
             <span
-                    id="<?= $escaper->escapeHtmlAttr($toolbarId) ?>-title-<?= $escaper->escapeHtmlAttr($zone->getCode()) ?>"
-                    class="<?= ($zone->isWarning() ? 'value-warning' : '') ?>"
-                    onclick="smileToolbarZoneSelect('<?= $escaper->escapeHtmlAttr($zone->getCode()) ?>');"
+                id="<?= $escaper->escapeHtmlAttr($toolbarId) ?>-title-<?= $escaper->escapeHtmlAttr($zone->getCode()) ?>"
+                class="<?= ($zone->isWarning() ? 'value-warning' : '') ?>"
+                onclick="smileToolbarZoneSelect('<?= $escaper->escapeHtmlAttr($zone->getCode()) ?>');"
             >
                 <?= $escaper->escapeHtml($zone->getTitle()) ?>
             </span>

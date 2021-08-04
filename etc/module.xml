@@ -3,7 +3,6 @@
     <module name="Smile_DebugToolbar">
         <sequence>
             <module name="Magento_Config"/>
-            <module name="Magento_Backend"/>
         </sequence>
     </module>
 </config>

@@ -20,6 +20,8 @@ use Magento\PageCache\Model\Config as PageCacheConfig;
 use RuntimeException;
 use Smile\DebugToolbar\Block\Toolbar;
 
+// phpcs:disable Magento2.Functions.DiscouragedFunction.DiscouragedWithAlternative
+
 /**
  * Data helper.
  */
@@ -315,6 +317,6 @@ class Data extends AbstractHelper
     {
         $key = 'system/full_page_cache/caching_application';
 
-        return $this->scopeConfig->getValue($key) === PageCacheConfig::VARNISH ? 'varnish' : 'build-in';
+        return $this->scopeConfig->getValue($key) === PageCacheConfig::VARNISH ? 'varnish' : 'built-in';
     }
 }

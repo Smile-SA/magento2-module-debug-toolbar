@@ -3,4 +3,6 @@
 /.gitignore export-ignore
 /CHANGELOG.md export-ignore
 /CONTRIBUTING.md export-ignore
+/phpcs.xml.dist export-ignore
+/phpmd.xml.dist export-ignore
 /README.md export-ignore

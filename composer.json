@@ -13,7 +13,12 @@
     "license": "EPL-2.0",
     "require": {
         "php": ">=7.3.0",
-        "magento/framework": ">=103.0.0"
+        "magento/framework": ">=103.0.0",
+        "magento/module-config": ">=101.2.0"
+    },
+    "require-dev": {
+        "magento/magento-coding-standard": "^6.0",
+        "phpmd/phpmd": "^2.10"
     },
     "autoload": {
         "files": [
@@ -22,5 +27,19 @@
         "psr-4": {
             "Smile\\DebugToolbar\\": ""
         }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://repo.magento.com/"
+        }
+    ],
+    "scripts": {
+        "post-install-cmd": [
+            "[ $COMPOSER_DEV_MODE -eq 0 ] || vendor/bin/phpcs --config-set installed_paths ../../magento/magento-coding-standard"
+        ],
+        "post-update-cmd": [
+            "[ $COMPOSER_DEV_MODE -eq 0 ] || vendor/bin/phpcs --config-set installed_paths ../../magento/magento-coding-standard"
+        ]
     }
 }

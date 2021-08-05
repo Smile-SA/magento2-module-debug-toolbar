@@ -2,7 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
-## WIP
+## [5.1.1] - 2021-08-05
+[5.1.1]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/5.1.0...5.1.1
 
 - Add Magento module dependencies in composer.json
 - Code cleanup (CI pipelines integration)

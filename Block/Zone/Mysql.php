@@ -118,8 +118,8 @@ class Mysql extends AbstractZone
             $html .= "<tbody>";
             foreach ($params as $key => $value) {
                 $html .= "<tr>";
-                $html .= "<th style=\"width: 30%\">" . $this->escapeHtml($key) . "</th>";
-                $html .= "<td>" . $this->escapeHtml($value) . "</td>";
+                $html .= "<th style=\"width: 30%\">" . $this->_escaper->escapeHtml($key) . "</th>";
+                $html .= "<td>" . $this->_escaper->escapeHtml($value) . "</td>";
                 $html .= "</tr>";
             }
             $html .= "</tbody>";
@@ -145,9 +145,9 @@ class Mysql extends AbstractZone
             }
             $file = str_replace(BP . '/', '', $file);
             $html .= "<tr>";
-            $html .= "<td>" . $this->escapeHtml($file) . "</td>";
-            $html .= "<td>" . $this->escapeHtml($line) . "</td>";
-            $html .= "<td>" . $this->escapeHtml($code) . "</td>";
+            $html .= "<td>" . $this->_escaper->escapeHtml($file) . "</td>";
+            $html .= "<td>" . $this->_escaper->escapeHtml($line) . "</td>";
+            $html .= "<td>" . $this->_escaper->escapeHtml($code) . "</td>";
             $html .= "</tr>";
         }
         $html .= "</table>";

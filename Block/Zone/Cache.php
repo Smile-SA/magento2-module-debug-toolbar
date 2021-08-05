@@ -153,8 +153,8 @@ class Cache extends AbstractZone
             $time = $this->formatValue($call['time'], [], 'time_ms');
 
             $html .= '<tr>';
-            $html .= '<td>' . $this->escapeHtml($callId) . '</td>';
-            $html .= '<td>' . $this->escapeHtml($call['action']) . '</td>';
+            $html .= '<td>' . $this->_escaper->escapeHtml($callId) . '</td>';
+            $html .= '<td>' . $this->_escaper->escapeHtml($call['action']) . '</td>';
             $html .= '<td class="' . $size['css_class'] . '">' . $size['value'] . '</td>';
             $html .= '<td class="' . $time['css_class'] . '">' . $time['value'] . '</td>';
             $html .= '</tr>';

@@ -62,10 +62,17 @@ class EnableDbProfiler implements ObserverInterface
     public function execute(Observer $observer)
     {
         $env = $this->deploymentConfigReader->load(ConfigFilePool::APP_ENV);
+        $enabled = $this->configHelper->isEnabled();
+
+        // We still have the old value before the config was saved, so if it was modified, we reverse it
+        $changedPaths = $observer->getEvent()->getData('changed_paths');
+        if (in_array(ConfigHelper::KEY_CONFIG_ENABLE, $changedPaths, true)) {
+            $enabled = !$enabled;
+        }
 
         unset($env['db']['connection']['default']['profiler']);
 
-        if ($this->configHelper->isEnabled()) {
+        if ($enabled) {
             $env['db']['connection']['default']['profiler'] = [
                 'class' => DbProfiler::class,
                 'enabled' => true,

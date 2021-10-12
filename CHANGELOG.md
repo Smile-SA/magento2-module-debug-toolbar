@@ -35,6 +35,8 @@ All notable changes to this project will be documented in this file.
 ## [5.0.0] - 2020-08-17
 [5.0.0]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/4.0.3...5.0.0
 
+WARNING: Compatibility break with Magento 2.3
+
 - Add type hinting and strict types
 - Add escaping in templates
 - Set minimum requirements to Magento 2.4

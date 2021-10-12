@@ -2,7 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
-## WIP
+## [5.1.2] - 2021-10-12
+[5.1.2]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/5.1.1...5.1.2
 
 - Enabling/disabling the module will now properly update the profiler config in app/etc/env.php
 - Fix fatal error on URL path page_cache/block/render

@@ -121,7 +121,7 @@ class Profiler extends AbstractHelper
                 $timer['mem'] = 0;
             }
 
-            if ($parent !== '') {
+            if ($parent !== '' && isset($this->timers[$parent])) {
                 $timer['parent'] = $this->timers[$parent]['uid'];
                 $this->timers[$parent]['children']++;
             }

@@ -19,6 +19,7 @@ class Stat extends BaseStat
 {
     /**
      * @inheritdoc
+     * @SuppressWarnings(PHPMD.CountInLoopExpression)
      */
     protected function _getOrderedTimerIds()
     {

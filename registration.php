@@ -8,8 +8,8 @@
 
 use Magento\Framework\Component\ComponentRegistrar;
 use Magento\Framework\Profiler;
-use Magento\Framework\Profiler\Driver\Standard\Stat;
 use Smile\DebugToolbar\Helper\Profiler as SmileProfiler;
+use Smile\DebugToolbar\Model\Profiler\Driver\Standard\Stat;
 
 if (PHP_SAPI !== 'cli') {
     // We need to declare the stat profiler manually, to use it after

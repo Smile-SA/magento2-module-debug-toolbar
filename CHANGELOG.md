@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.2.0] - 2022-04-15
+[5.2.0]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/5.1.2...5.2.0
+
+- Compatibility with Magento 2.4.4
+
 ## [5.1.2] - 2021-10-12
 [5.1.2]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/5.1.1...5.1.2
 

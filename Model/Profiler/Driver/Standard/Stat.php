@@ -22,6 +22,7 @@ class Stat extends BaseStat
      */
     protected function _getOrderedTimerIds()
     {
+        // phpcs:disable Generic.CodeAnalysis.ForLoopWithTestFunctionCall.NotAllowed
         $timerIds = array_keys($this->_timers);
         if (count($timerIds) <= 2) {
             /* No sorting needed */

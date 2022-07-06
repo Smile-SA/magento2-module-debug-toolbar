@@ -28,9 +28,11 @@ bin/magento setup:upgrade
 
 ## Step 3 - Enable the toolbar
 
-You have to enable the toolbar in the admin area to use it.
+Execute the following command:
 
-Look at the [Back-Office](backoffice.md) documentation.
+```
+bin/magento config:set smile_debugtoolbar/configuration/enabled 1
+```
 
 # Uninstallation
 

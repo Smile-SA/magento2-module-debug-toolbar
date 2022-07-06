@@ -2,9 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
-## WIP
+## [5.2.1] - 2022-07-06
+[5.2.1]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/5.2.0...5.2.1
 
-- Fix env.php sync issue when enabling/disabling the profiler on Magento 2.4.4
+- Fix env.php sync issue when enabling/disabling the profiler
 
 ## [5.2.0] - 2022-04-15
 [5.2.0]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/5.1.2...5.2.0

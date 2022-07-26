@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.2.2] - 2022-07-26
+[5.2.2]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/5.2.1...5.2.2
+
+- Update php constraint in composer.json
+
 ## [5.2.1] - 2022-07-06
 [5.2.1]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/5.2.0...5.2.1
 

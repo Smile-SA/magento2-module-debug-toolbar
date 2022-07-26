@@ -11,14 +11,21 @@
         }
     ],
     "license": "EPL-2.0",
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "sort-packages": true
+    },
     "require": {
-        "php": ">=7.3.0",
+        "php": "^7.3 || ^8.1",
         "magento/framework": ">=103.0.0",
         "magento/module-config": ">=101.2.0"
     },
     "require-dev": {
         "magento/magento-coding-standard": "^6.0",
-        "phpmd/phpmd": "^2.10"
+        "phpmd/phpmd": "^2.10",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2"
     },
     "autoload": {
         "files": [
@@ -33,13 +40,5 @@
             "type": "composer",
             "url": "https://repo.magento.com/"
         }
-    ],
-    "scripts": {
-        "post-install-cmd": [
-            "[ $COMPOSER_DEV_MODE -eq 0 ] || vendor/bin/phpcs --config-set installed_paths ../../magento/magento-coding-standard"
-        ],
-        "post-update-cmd": [
-            "[ $COMPOSER_DEV_MODE -eq 0 ] || vendor/bin/phpcs --config-set installed_paths ../../magento/magento-coding-standard"
-        ]
-    }
+    ]
 }

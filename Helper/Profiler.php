@@ -32,8 +32,8 @@ class Profiler extends AbstractHelper
      * Set the profiler stat.
      *
      * @param Stat $stat
+     * phpcs:disable Magento2.Functions.StaticFunction.StaticFunction
      */
-    // phpcs:ignore Magento2.Functions.StaticFunction.StaticFunction
     public static function setStat(Stat $stat): void
     {
         self::$stat = $stat;

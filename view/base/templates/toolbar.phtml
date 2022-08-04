@@ -72,6 +72,6 @@ $toolbarId = $block->getToolbarId();
         Smile ToolBar
     </div>
 </div>
-<script type="text/javascript">
+<script>
     smileToolbarAdd('<?= $escaper->escapeHtmlAttr($toolbarId) ?>', <?= ($block->isWarning() ? 'true' : 'false') ?>);
 </script>

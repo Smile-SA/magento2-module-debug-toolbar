@@ -13,7 +13,8 @@
     "license": "EPL-2.0",
     "config": {
         "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "magento/composer-dependency-version-audit-plugin": true
         },
         "sort-packages": true
     },
@@ -23,9 +24,9 @@
         "magento/module-config": ">=101.2.0"
     },
     "require-dev": {
-        "magento/magento-coding-standard": "^6.0",
-        "phpmd/phpmd": "^2.10",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2"
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
+        "magento/magento-coding-standard": "^25.0",
+        "phpmd/phpmd": "^2.10"
     },
     "autoload": {
         "files": [

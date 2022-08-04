@@ -16,14 +16,6 @@ use Magento\Framework\App\Helper\AbstractHelper;
  */
 class Config extends AbstractHelper
 {
-    /**#@+
-     * Config paths.
-     */
-    const KEY_CONFIG_ENABLE = 'smile_debugtoolbar/configuration/enabled';
-    const KEY_CONFIG_ENABLE_ADMIN = 'smile_debugtoolbar/configuration/enabled_admin';
-    const KEY_CONFIG_NB_EXECUTION_TO_KEEP = 'smile_debugtoolbar/configuration/keep_last_execution';
-    /**#@-*/
-
     /**
      * Check whether the module is enabled.
      *
@@ -31,7 +23,7 @@ class Config extends AbstractHelper
      */
     public function isEnabled(): bool
     {
-        return (bool) $this->scopeConfig->getValue(self::KEY_CONFIG_ENABLE);
+        return (bool) $this->scopeConfig->getValue('smile_debugtoolbar/configuration/enabled');
     }
 
     /**
@@ -41,7 +33,7 @@ class Config extends AbstractHelper
      */
     public function isEnabledAdmin(): bool
     {
-        return (bool) $this->scopeConfig->getValue(self::KEY_CONFIG_ENABLE_ADMIN);
+        return (bool) $this->scopeConfig->getValue('smile_debugtoolbar/configuration/enabled_admin');
     }
 
     /**
@@ -51,7 +43,7 @@ class Config extends AbstractHelper
      */
     public function getNbExecutionToKeep(): int
     {
-        $value = (int) $this->scopeConfig->getValue(self::KEY_CONFIG_NB_EXECUTION_TO_KEEP);
+        $value = (int) $this->scopeConfig->getValue('smile_debugtoolbar/configuration/keep_last_execution');
 
         if ($value < 1) {
             $value = 1;

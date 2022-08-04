@@ -22,7 +22,7 @@ class Formatter
     /**
      * Max string length for values.
      */
-    const MAX_STRING_LENGTH = 200;
+    private const MAX_STRING_LENGTH = 200;
 
     /**
      * @var mixed

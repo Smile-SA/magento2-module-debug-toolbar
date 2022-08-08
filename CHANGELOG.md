@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.2.3] - 2022-08-08
+[5.2.3]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/5.2.2...5.2.3
+
+- Fix fatal error due to invalid type in layout helper
+
 ## [5.2.2] - 2022-07-26
 [5.2.2]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/5.2.1...5.2.2
 

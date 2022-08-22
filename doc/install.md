@@ -7,7 +7,7 @@ If the module is installed but left disabled, it will still have a small impact 
 ## Step 1 - Disable the native Magento Profiler
 
 If you have already enabled the native **Magento profiler**, you must disable it.
-Remove the `MAGE_PROFILER` environment var.
+Remove the `MAGE_PROFILER` environment variable if it is defined.
 
 ## Step 2 - Install the module through composer
 
@@ -28,7 +28,7 @@ bin/magento setup:upgrade
 
 ## Step 3 - Enable the toolbar
 
-Execute the following command:
+Run the following command:
 
 ```
 bin/magento config:set smile_debugtoolbar/configuration/enabled 1
@@ -36,16 +36,17 @@ bin/magento config:set smile_debugtoolbar/configuration/enabled 1
 
 # Uninstallation
 
-## Step 1 - Remove the module
+Unfortunately, the module cannot be automatically uninstalled, because Magento doesn't support uninstallation of dev packages out of the box.
 
-Use the Magento command line to uninstall the module:
+To uninstall the module, follow these steps:
 
-```
-bin/magento module:uninstall Smile_DebugToolbar
-```
-
-## Step 2 - Clean up the configuration
-
-In app/etc/env.php, remove any reference to this module (Smile_DebugToolbar).
+1. In app/etc/env.php, remove the key `db.default.profiler` from the array if it is defined.
+2. Run the following commands:
+    ```
+    bin/magento module:disable Smile_DebugToolbar
+    composer remove --dev smile/module-debug-toolbar
+    bin/magento setup:upgrade
+    ```
+3. [Optional] Remove the directory "var/smile_toolbar".
 
 [Back](../README.md)

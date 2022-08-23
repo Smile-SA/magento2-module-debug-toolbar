@@ -1,10 +1,3 @@
-/**
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade this module
- * to newer versions in the future.
- */
-
 var smileTableValues        = [];
 var smileTableColumns       = [];
 var smileTableAdditional    = null;

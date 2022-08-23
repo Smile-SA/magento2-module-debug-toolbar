@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Magento\Framework\Component\ComponentRegistrar;
 use Magento\Framework\Profiler;
 use Smile\DebugToolbar\Helper\Profiler as SmileProfiler;

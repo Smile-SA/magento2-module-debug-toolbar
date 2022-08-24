@@ -12,14 +12,8 @@ use Magento\Framework\View\LayoutInterface;
  */
 class Builder implements BuilderInterface
 {
-    /**
-     * @var LayoutInterface
-     */
-    protected $layout;
+    protected LayoutInterface $layout;
 
-    /**
-     * @param LayoutInterface $layout
-     */
     public function __construct(LayoutInterface $layout)
     {
         $this->layout = $layout;

@@ -9,10 +9,7 @@ namespace Smile\DebugToolbar\Block\Zone;
  */
 class Summary extends AbstractZone
 {
-    /**
-     * @var array
-     */
-    protected $summary = [];
+    protected array $summary = [];
 
     /**
      * @inheritdoc
@@ -32,8 +29,6 @@ class Summary extends AbstractZone
 
     /**
      * Get the summary sections.
-     *
-     * @return array
      */
     public function getSummarySections(): array
     {

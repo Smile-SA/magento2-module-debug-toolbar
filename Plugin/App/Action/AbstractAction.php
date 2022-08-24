@@ -14,20 +14,9 @@ use Smile\DebugToolbar\Helper\Data as DataHelper;
  */
 class AbstractAction
 {
-    /**
-     * @var DataHelper
-     */
-    protected $dataHelper;
+    protected DataHelper $dataHelper;
+    protected ConfigHelper $configHelper;
 
-    /**
-     * @var ConfigHelper
-     */
-    protected $configHelper;
-
-    /**
-     * @param DataHelper $dataHelper
-     * @param ConfigHelper $configHelper
-     */
     public function __construct(DataHelper $dataHelper, ConfigHelper $configHelper)
     {
         $this->dataHelper = $dataHelper;
@@ -37,9 +26,6 @@ class AbstractAction
     /**
      * Plugin on dispatch action.
      *
-     * @param MagentoAction $subject
-     * @param RequestInterface $request
-     * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function beforeDispatch(MagentoAction $subject, RequestInterface $request): array

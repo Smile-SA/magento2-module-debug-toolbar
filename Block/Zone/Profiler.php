@@ -15,18 +15,8 @@ use Smile\DebugToolbar\Helper\Profiler as ProfilerHelper;
  */
 class Profiler extends AbstractZone
 {
-    /**
-     * @var ProfilerHelper
-     */
-    protected $profilerHelper;
+    protected ProfilerHelper $profilerHelper;
 
-    /**
-     * @param Context $context
-     * @param DataHelper $dataHelper
-     * @param FormatterFactory $formatterFactory
-     * @param ProfilerHelper $profilerHelper
-     * @param array $data
-     */
     public function __construct(
         Context $context,
         DataHelper $dataHelper,
@@ -57,7 +47,6 @@ class Profiler extends AbstractZone
     /**
      * Get the profiler timers.
      *
-     * @return array
      * @throws RuntimeException
      */
     public function getTimers(): array

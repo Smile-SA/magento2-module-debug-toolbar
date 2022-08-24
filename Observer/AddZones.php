@@ -25,22 +25,8 @@ use Smile\DebugToolbar\Block\Zone\Summary;
  */
 class AddZones implements ObserverInterface
 {
-    /**
-     * @var array
-     */
-    protected $blockFactories = [];
+    protected array $blockFactories = [];
 
-    /**
-     * @param CacheFactory $cacheBlockFactory
-     * @param GenericFactory $genericBlockFactory
-     * @param LayoutFactory $layoutBlockFactory
-     * @param MysqlFactory $mysqlBlockFactory
-     * @param ObserverFactory $observerBlockFactory
-     * @param PreferenceFactory $preferenceBlockFactory
-     * @param ProfilerFactory $profilerBlockFactory
-     * @param RequestFactory $requestBlockFactory
-     * @param ResponseFactory $responseBlockFactory
-     */
     public function __construct(
         CacheFactory $cacheBlockFactory,
         GenericFactory $genericBlockFactory,

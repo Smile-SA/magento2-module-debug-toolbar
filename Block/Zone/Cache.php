@@ -15,24 +15,9 @@ use Smile\DebugToolbar\Helper\Data as DataHelper;
  */
 class Cache extends AbstractZone
 {
-    /**
-     * @var DeploymentConfig
-     */
-    protected $deployConfig;
+    protected DeploymentConfig $deployConfig;
+    protected CacheHelper $cacheHelper;
 
-    /**
-     * @var CacheHelper
-     */
-    protected $cacheHelper;
-
-    /**
-     * @param Context $context
-     * @param DataHelper $dataHelper
-     * @param FormatterFactory $formatterFactory
-     * @param DeploymentConfig $deployConfig
-     * @param CacheHelper $cacheHelper
-     * @param array $data
-     */
     public function __construct(
         Context $context,
         DataHelper $dataHelper,
@@ -64,8 +49,6 @@ class Cache extends AbstractZone
 
     /**
      * Get the cache mode.
-     *
-     * @return string
      */
     public function getCacheMode(): string
     {
@@ -94,8 +77,6 @@ class Cache extends AbstractZone
 
     /**
      * Get the cache types.
-     *
-     * @return array
      */
     public function getCacheTypes(): array
     {
@@ -104,8 +85,6 @@ class Cache extends AbstractZone
 
     /**
      * Get the cache usage.
-     *
-     * @return array
      */
     public function getCacheUsage(): array
     {
@@ -114,8 +93,6 @@ class Cache extends AbstractZone
 
     /**
      * Get the usage per action.
-     *
-     * @return array
      */
     public function getStatsPerAction(): array
     {
@@ -124,9 +101,6 @@ class Cache extends AbstractZone
 
     /**
      * Prepare calls for display in the table.
-     *
-     * @param array $calls
-     * @return string
      */
     public function buildHtmlInfo(array $calls = []): string
     {

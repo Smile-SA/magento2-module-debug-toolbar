@@ -12,10 +12,7 @@ use Magento\Framework\App\RequestInterface;
  */
 class Request extends AbstractZone
 {
-    /**
-     * @var MagentoRequest
-     */
-    protected $request;
+    protected MagentoRequest $request;
 
     /**
      * @inheritdoc
@@ -35,11 +32,8 @@ class Request extends AbstractZone
 
     /**
      * Set the request.
-     *
-     * @param MagentoRequest $request
-     * @return $this
      */
-    public function setRequest(MagentoRequest $request): Request
+    public function setRequest(MagentoRequest $request): self
     {
         $this->request = $request;
 
@@ -56,8 +50,6 @@ class Request extends AbstractZone
 
     /**
      * Get the controller class name.
-     *
-     * @return string
      */
     public function getControllerClassName(): string
     {

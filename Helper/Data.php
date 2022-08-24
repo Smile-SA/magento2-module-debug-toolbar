@@ -22,41 +22,13 @@ use Smile\DebugToolbar\Block\Toolbar;
  */
 class Data extends AbstractHelper
 {
-    /**
-     * @var DirectoryList
-     */
-    protected $directoryList;
+    protected DirectoryList $directoryList;
+    protected AppState $appState;
+    protected array $timers = [];
+    protected ?string $toolbarId = null;
+    protected array $values = [];
+    protected int $tableCount = 0;
 
-    /**
-     * @var AppState
-     */
-    protected $appState;
-
-    /**
-     * @var float[]
-     */
-    protected $timers = [];
-
-    /**
-     * @var string
-     */
-    protected $toolbarId;
-
-    /**
-     * @var array
-     */
-    protected $values = [];
-
-    /**
-     * @var int
-     */
-    protected $tableCount = 0;
-
-    /**
-     * @param Context $context
-     * @param DirectoryList $directoryList
-     * @param AppState $appState
-     */
     public function __construct(Context $context, DirectoryList $directoryList, AppState $appState)
     {
         parent::__construct($context);
@@ -66,11 +38,8 @@ class Data extends AbstractHelper
 
     /**
      * Start a timer.
-     *
-     * @param string $code
-     * @return $this
      */
-    public function startTimer(string $code): Data
+    public function startTimer(string $code): self
     {
         $this->timers[$code] = [
             'start' => microtime(true),
@@ -83,11 +52,8 @@ class Data extends AbstractHelper
 
     /**
      * Stop a timer.
-     *
-     * @param string $code
-     * @return $this
      */
-    public function stopTimer(string $code): Data
+    public function stopTimer(string $code): self
     {
         if (!array_key_exists($code, $this->timers)) {
             $this->startTimer($code);
@@ -103,9 +69,6 @@ class Data extends AbstractHelper
 
     /**
      * Get a timer.
-     *
-     * @param string $code
-     * @return float
      */
     public function getTimer(string $code): float
     {
@@ -117,11 +80,9 @@ class Data extends AbstractHelper
     /**
      * Set a value.
      *
-     * @param string $key
      * @param mixed $value
-     * @return $this
      */
-    public function setValue(string $key, $value): Data
+    public function setValue(string $key, $value): self
     {
         $this->values[$key] = $value;
 
@@ -131,7 +92,6 @@ class Data extends AbstractHelper
     /**
      * Get a value.
      *
-     * @param string $key
      * @param mixed $default
      * @return mixed
      */
@@ -147,8 +107,6 @@ class Data extends AbstractHelper
     /**
      * Init the toolbar id.
      *
-     * @param string $actionName
-     * @return string
      * @throws RuntimeException
      * @throws LocalizedException
      * @SuppressWarnings(PMD.StaticAccess)
@@ -178,7 +136,6 @@ class Data extends AbstractHelper
     /**
      * Get toolbar id.
      *
-     * @return string
      * @throws RuntimeException
      */
     public function getToolbarId(): string
@@ -192,8 +149,6 @@ class Data extends AbstractHelper
 
     /**
      * Get a new table id.
-     *
-     * @return string
      */
     public function getNewTableId(): string
     {
@@ -205,7 +160,6 @@ class Data extends AbstractHelper
     /**
      * Get the toolbar storage folder.
      *
-     * @return string
      * @throws FileSystemException
      * @throws RuntimeException
      */
@@ -223,7 +177,6 @@ class Data extends AbstractHelper
     /**
      * Save the current toolbar.
      *
-     * @param Toolbar $toolbarBlock
      * @throws FileSystemException
      * @throws RuntimeException
      */
@@ -237,7 +190,6 @@ class Data extends AbstractHelper
     /**
      * Clean the old toolbars.
      *
-     * @param int $nbToKeep
      * @throws FileSystemException
      * @throws RuntimeException
      */
@@ -305,8 +257,6 @@ class Data extends AbstractHelper
 
     /**
      * Get the Full Page Cache mode.
-     *
-     * @return string
      */
     public function getFullPageCacheMode(): string
     {

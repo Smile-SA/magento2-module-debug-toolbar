@@ -14,14 +14,8 @@ use Smile\DebugToolbar\Helper\Observer as ObserverHelper;
  */
 class Invoker
 {
-    /**
-     * @var ObserverHelper
-     */
-    protected $observerHelper;
+    protected ObserverHelper $observerHelper;
 
-    /**
-     * @param ObserverHelper $observerHelper
-     */
     public function __construct(ObserverHelper $observerHelper)
     {
         $this->observerHelper = $observerHelper;
@@ -30,10 +24,6 @@ class Invoker
     /**
      * Plugin on dispatch.
      *
-     * @param MagentoInvoker $subject
-     * @param Closure $closure
-     * @param array $configuration
-     * @param MagentoObserver $observer
      * @return mixed
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

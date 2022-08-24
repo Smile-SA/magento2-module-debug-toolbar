@@ -14,20 +14,9 @@ use Smile\DebugToolbar\Helper\Config as ConfigHelper;
  */
 class Cache
 {
-    /**
-     * @var ConfigHelper
-     */
-    protected $configHelper;
+    protected ConfigHelper $configHelper;
+    protected CacheHelper $cacheHelper;
 
-    /**
-     * @var CacheHelper
-     */
-    protected $cacheHelper;
-
-    /**
-     * @param ConfigHelper $configHelper
-     * @param CacheHelper $cacheHelper
-     */
     public function __construct(ConfigHelper $configHelper, CacheHelper $cacheHelper)
     {
         $this->configHelper = $configHelper;
@@ -37,13 +26,10 @@ class Cache
     /**
      * Add stats on load.
      *
-     * @param CacheInterface $subject
-     * @param Closure $closure
-     * @param string $identifier
      * @return string|bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundLoad(CacheInterface $subject, Closure $closure, $identifier)
+    public function aroundLoad(CacheInterface $subject, Closure $closure, string $identifier)
     {
         if (!$this->configHelper->isEnabled()) {
             return $closure($identifier);
@@ -64,23 +50,16 @@ class Cache
     /**
      * Add stats on save.
      *
-     * @param CacheInterface $subject
-     * @param Closure $closure
-     * @param string $data
-     * @param string $identifier
-     * @param array $tags
-     * @param int|null $lifeTime
-     * @return bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundSave(
         CacheInterface $subject,
         Closure $closure,
-        $data,
-        $identifier,
-        $tags = [],
-        $lifeTime = null
-    ) {
+        string $data,
+        string $identifier,
+        array $tags = [],
+        ?int $lifeTime = null
+    ): bool {
         if (!$this->configHelper->isEnabled()) {
             return $closure($data, $identifier, $tags, $lifeTime);
         }
@@ -100,13 +79,9 @@ class Cache
     /**
      * Add stats on remove.
      *
-     * @param CacheInterface $subject
-     * @param Closure $closure
-     * @param string $identifier
-     * @return bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundRemove(CacheInterface $subject, Closure $closure, $identifier)
+    public function aroundRemove(CacheInterface $subject, Closure $closure, string $identifier): bool
     {
         if (!$this->configHelper->isEnabled()) {
             return $closure($identifier);

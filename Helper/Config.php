@@ -13,8 +13,6 @@ class Config extends AbstractHelper
 {
     /**
      * Check whether the module is enabled.
-     *
-     * @return bool
      */
     public function isEnabled(): bool
     {
@@ -23,8 +21,6 @@ class Config extends AbstractHelper
 
     /**
      * Check whether the toolbar can be shown in the admin area.
-     *
-     * @return bool
      */
     public function isEnabledAdmin(): bool
     {
@@ -33,8 +29,6 @@ class Config extends AbstractHelper
 
     /**
      * Get the config value for keep_last_execution.
-     *
-     * @return int
      */
     public function getNbExecutionToKeep(): int
     {

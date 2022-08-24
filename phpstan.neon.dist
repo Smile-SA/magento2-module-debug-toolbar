@@ -1,0 +1,15 @@
+parameters:
+    level: 6
+    phpVersion: 70400
+    checkMissingIterableValueType: false
+    paths:
+        - .
+    excludePaths:
+        - 'vendor/*'
+    ignoreErrors:
+        -
+            message: '#Constant BP not found#'
+            path: registration.php
+
+includes:
+    - %currentWorkingDirectory%/vendor/smile/magento2-smilelab-phpstan/extension.neon

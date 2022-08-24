@@ -14,18 +14,8 @@ use Smile\DebugToolbar\Helper\Preference as PreferenceHelper;
  */
 class Preference extends AbstractZone
 {
-    /**
-     * @var PreferenceHelper
-     */
-    protected $preferenceHelper;
+    protected PreferenceHelper $preferenceHelper;
 
-    /**
-     * @param Context $context
-     * @param DataHelper $dataHelper
-     * @param FormatterFactory $formatterFactory
-     * @param PreferenceHelper $preferenceHelper
-     * @param array $data
-     */
     public function __construct(
         Context $context,
         DataHelper $dataHelper,
@@ -55,8 +45,6 @@ class Preference extends AbstractZone
 
     /**
      * Get the plugin stats.
-     *
-     * @return array
      */
     public function getPluginStats(): array
     {
@@ -65,8 +53,6 @@ class Preference extends AbstractZone
 
     /**
      * Get the preference stats.
-     *
-     * @return array
      */
     public function getPreferenceStats(): array
     {
@@ -77,7 +63,6 @@ class Preference extends AbstractZone
      * Get html info.
      *
      * @param string[] $methods
-     * @return string
      */
     public function buildPluginHtmlInfo(array $methods): string
     {

@@ -28,44 +28,13 @@ use Smile\DebugToolbar\Helper\Profiler as ProfilerHelper;
  */
 class AddToolbar implements ObserverInterface
 {
-    /**
-     * @var ToolbarFactory
-     */
-    protected $blockToolbarFactory;
+    protected ToolbarFactory $blockToolbarFactory;
+    protected ToolbarsFactory $blockToolbarsFactory;
+    protected DataHelper $dataHelper;
+    protected ConfigHelper $configHelper;
+    protected ProfilerHelper $profilerHelper;
+    protected AppState $appState;
 
-    /**
-     * @var ToolbarsFactory
-     */
-    protected $blockToolbarsFactory;
-
-    /**
-     * @var DataHelper
-     */
-    protected $dataHelper;
-
-    /**
-     * @var ConfigHelper
-     */
-    protected $configHelper;
-
-    /**
-     * @var ProfilerHelper
-     */
-    protected $profilerHelper;
-
-    /**
-     * @var AppState
-     */
-    protected $appState;
-
-    /**
-     * @param ToolbarFactory $blockToolbarFactory
-     * @param ToolbarsFactory $blockToolbarsFactory
-     * @param DataHelper $dataHelper
-     * @param ConfigHelper $configHelper
-     * @param ProfilerHelper $profilerHelper
-     * @param AppState $appState
-     */
     public function __construct(
         ToolbarFactory $blockToolbarFactory,
         ToolbarsFactory $blockToolbarsFactory,
@@ -120,8 +89,6 @@ class AddToolbar implements ObserverInterface
     /**
      * Build the toolbar and add it to the response.
      *
-     * @param MagentoRequest $request
-     * @param MagentoResponse $response
      * @throws LocalizedException
      * @throws FileSystemException
      */
@@ -157,10 +124,6 @@ class AddToolbar implements ObserverInterface
 
     /**
      * Generate the toolbar block for the current execution.
-     *
-     * @param MagentoRequest $request
-     * @param MagentoResponse $response
-     * @return Toolbar
      */
     private function getCurrentExecutionToolbarBlock(
         MagentoRequest $request,
@@ -175,8 +138,6 @@ class AddToolbar implements ObserverInterface
 
     /**
      * Generate the toolbars block.
-     *
-     * @return Toolbars
      */
     private function getToolbarsBlock(): Toolbars
     {

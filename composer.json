@@ -13,20 +13,16 @@
     "license": "EPL-2.0",
     "config": {
         "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true,
-            "magento/composer-dependency-version-audit-plugin": true
+            "magento/composer-dependency-version-audit-plugin": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
         },
         "sort-packages": true
     },
+    "minimum-stability": "dev",
     "require": {
-        "php": "^7.3 || ^8.1",
+        "php": "^7.4 || ^8.1",
         "magento/framework": ">=103.0.0",
         "magento/module-config": ">=101.2.0"
-    },
-    "require-dev": {
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
-        "magento/magento-coding-standard": "^25.0",
-        "phpmd/phpmd": "^2.10"
     },
     "autoload": {
         "files": [
@@ -41,5 +37,8 @@
             "type": "composer",
             "url": "https://repo.magento.com/"
         }
-    ]
+    ],
+    "require-dev": {
+        "smile/magento2-smilelab-quality-suite": "^3"
+    }
 }

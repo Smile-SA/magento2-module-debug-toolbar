@@ -6,9 +6,10 @@ namespace Smile\DebugToolbar\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
+use Magento\Framework\Filesystem\DirectoryList;
 use Magento\Framework\View\Element\AbstractBlock;
+use Magento\Framework\View\Layout as MagentoLayout;
 use Magento\Framework\View\Layout\Element;
-use Magento\Framework\View\LayoutInterface as MagentoLayoutInterface;
 use ReflectionClass;
 use ReflectionException;
 use Smile\DebugToolbar\Layout\Builder;
@@ -18,32 +19,24 @@ use Smile\DebugToolbar\Layout\Builder;
  */
 class Layout extends AbstractHelper
 {
-    /**
-     * @var MagentoLayoutInterface
-     */
-    protected $layout;
+    protected MagentoLayout $layout;
+    protected DirectoryList $directoryList;
 
-    /**
-     * @param Context $context
-     * @param MagentoLayoutInterface $layout
-     * @param Builder $builder
-     */
     public function __construct(
         Context $context,
-        MagentoLayoutInterface $layout,
-        Builder $builder
+        MagentoLayout $layout,
+        Builder $builder,
+        DirectoryList $directoryList
     ) {
         parent::__construct($context);
-
         $this->layout = $layout;
         $this->layout->setBuilder($builder);
+        $this->directoryList = $directoryList;
     }
 
     /**
      * Build the layout.
      *
-     * @param string $parentNode
-     * @return array
      * @throws ReflectionException
      */
     protected function buildLayout(string $parentNode): array
@@ -99,9 +92,6 @@ class Layout extends AbstractHelper
 
     /**
      * Check if a template can be cached.
-     *
-     * @param string $blockName
-     * @return bool
      */
     protected function isBlockCacheable(string $blockName): bool
     {
@@ -114,9 +104,6 @@ class Layout extends AbstractHelper
 
     /**
      * Clean a classname.
-     *
-     * @param string $classname
-     * @return string
      */
     protected function cleanClassname(string $classname): string
     {
@@ -125,20 +112,15 @@ class Layout extends AbstractHelper
 
     /**
      * Clean a filename.
-     *
-     * @param string $filename
-     * @return string
      */
     protected function cleanFilename(string $filename): string
     {
-
-        return str_replace(BP . '/', '', $filename);
+        return str_replace($this->directoryList->getRoot() . '/', '', $filename);
     }
 
     /**
      * Get the event stats.
      *
-     * @return array
      * @throws ReflectionException
      */
     public function getLayoutBuild(): array
@@ -148,8 +130,6 @@ class Layout extends AbstractHelper
 
     /**
      * Get updated handles.
-     *
-     * @return array
      */
     public function getHandles(): array
     {

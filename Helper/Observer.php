@@ -11,15 +11,10 @@ use Magento\Framework\App\Helper\AbstractHelper;
  */
 class Observer extends AbstractHelper
 {
-    /**
-     * @var array
-     */
-    protected $eventStats = [];
+    protected array $eventStats = [];
 
     /**
      * Init event stat.
-     *
-     * @param string $eventName
      */
     public function initEventStat(string $eventName): void
     {
@@ -40,11 +35,6 @@ class Observer extends AbstractHelper
 
     /**
      * Init a stat on observer usage.
-     *
-     * @param string $eventName
-     * @param string $observerName
-     * @param string $observerInstance
-     * @param bool $observerDisabled
      */
     public function initObserverStat(
         string $eventName,
@@ -71,9 +61,6 @@ class Observer extends AbstractHelper
 
     /**
      * Add a stat on event usage.
-     *
-     * @param string $eventName
-     * @param float $deltaTime
      */
     public function addEventStat(string $eventName, float $deltaTime): void
     {
@@ -88,10 +75,6 @@ class Observer extends AbstractHelper
 
     /**
      * Add a stat on observer usage.
-     *
-     * @param string $eventName
-     * @param string $observerName
-     * @param float $deltaTime
      */
     public function addObserverStat(string $eventName, string $observerName, float $deltaTime): void
     {
@@ -106,8 +89,6 @@ class Observer extends AbstractHelper
 
     /**
      * Get the event stats.
-     *
-     * @return array
      */
     public function getEventStats(): array
     {

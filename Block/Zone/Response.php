@@ -11,10 +11,7 @@ use Magento\Framework\HTTP\PhpEnvironment\Response as MagentoResponse;
  */
 class Response extends AbstractZone
 {
-    /**
-     * @var MagentoResponse
-     */
-    protected $response;
+    protected MagentoResponse $response;
 
     /**
      * @inheritdoc
@@ -34,11 +31,8 @@ class Response extends AbstractZone
 
     /**
      * Set the response.
-     *
-     * @param MagentoResponse $response
-     * @return $this
      */
-    public function setResponse(MagentoResponse $response): Response
+    public function setResponse(MagentoResponse $response): self
     {
         $this->response = $response;
 
@@ -47,8 +41,6 @@ class Response extends AbstractZone
 
     /**
      * Get the response.
-     *
-     * @return MagentoResponse
      */
     public function getResponse(): MagentoResponse
     {
@@ -57,8 +49,6 @@ class Response extends AbstractZone
 
     /**
      * Get the Full Page Cache mode.
-     *
-     * @return string
      */
     public function getFullPageCacheMode(): string
     {

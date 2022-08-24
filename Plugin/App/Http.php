@@ -13,20 +13,9 @@ use Smile\DebugToolbar\Helper\Data as DataHelper;
  */
 class Http
 {
-    /**
-     * @var DataHelper
-     */
-    protected $dataHelper;
+    protected DataHelper $dataHelper;
+    protected ConfigHelper $configHelper;
 
-    /**
-     * @var ConfigHelper
-     */
-    protected $configHelper;
-
-    /**
-     * @param DataHelper $dataHelper
-     * @param ConfigHelper $configHelper
-     */
     public function __construct(DataHelper $dataHelper, ConfigHelper $configHelper)
     {
         $this->dataHelper = $dataHelper;
@@ -36,8 +25,6 @@ class Http
     /**
      * Add the start time.
      *
-     * @param MagentoHttp $subject
-     * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function beforeLaunch(MagentoHttp $subject): array

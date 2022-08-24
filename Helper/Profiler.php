@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Smile\DebugToolbar\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
+use Magento\Framework\App\Helper\Context;
+use Magento\Framework\Filesystem\DirectoryList;
 use Magento\Framework\Profiler\Driver\Standard\Stat;
 use RuntimeException;
 
@@ -13,20 +15,19 @@ use RuntimeException;
  */
 class Profiler extends AbstractHelper
 {
-    /**
-     * @var Stat
-     */
-    protected static $stat;
+    protected DirectoryList $directoryList;
+    protected static ?Stat $stat = null;
+    protected ?array $timers = null;
 
-    /**
-     * @var array
-     */
-    protected $timers;
+    public function __construct(Context $context, DirectoryList $directoryList)
+    {
+        parent::__construct($context);
+        $this->directoryList = $directoryList;
+    }
 
     /**
      * Set the profiler stat.
      *
-     * @param Stat $stat
      * phpcs:disable Magento2.Functions.StaticFunction.StaticFunction
      */
     public static function setStat(Stat $stat): void
@@ -37,7 +38,6 @@ class Profiler extends AbstractHelper
     /**
      * Get the profiler stat object.
      *
-     * @return Stat
      * @throws RuntimeException
      */
     public function getStat(): Stat
@@ -66,7 +66,6 @@ class Profiler extends AbstractHelper
     /**
      * Get the stat timers.
      *
-     * @return array
      * @throws RuntimeException
      */
     public function getTimers(): array
@@ -96,7 +95,7 @@ class Profiler extends AbstractHelper
             $level = count($explodedTimerId) - 1;
 
             $label = array_pop($explodedTimerId);
-            $label = str_replace(BP . '/', '', $label);
+            $label = str_replace($this->directoryList->getRoot() . '/', '', $label);
             $parent = implode('->', $explodedTimerId);
 
             $timer = [
@@ -132,8 +131,6 @@ class Profiler extends AbstractHelper
 
     /**
      * Remove the toolbar observer from the profiler timers.
-     *
-     * @return bool
      */
     protected function removeToolbarObserverFromTimers(): bool
     {

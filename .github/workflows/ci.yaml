@@ -49,8 +49,14 @@ jobs:
             - name: 'Run composer audit'
               run: 'composer audit --format=plain'
 
+            - name: 'Run Parallel Lint'
+              run: 'vendor/bin/parallel-lint --exclude vendor .'
+
             - name: 'Run PHP CodeSniffer'
               run: 'vendor/bin/phpcs --extensions=php,phtml'
 
             - name: 'Run PHPMD'
               run: 'vendor/bin/phpmd . xml phpmd.xml.dist'
+
+            - name: 'Run PHPStan'
+              run: 'vendor/bin/phpstan analyse'

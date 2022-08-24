@@ -42,8 +42,8 @@ $timers = $block->getTimers();
             style="<?= ($timer['parent'] ? 'display: none' : '') ?>"
         >
             <td
-                style="padding-left: <?= (10 * $timer['level']) ?>px"
-                class="<?= (($timer['children'] > 0) ? 'st-with-children' : '') ?>"
+                style="padding-left: <?= 10 * $timer['level'] ?>px"
+                class="<?= ($timer['children'] > 0 ? 'st-with-children' : '') ?>"
             >
                 <?php if ($timer['children'] > 0): ?>
                     <span

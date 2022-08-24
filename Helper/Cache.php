@@ -14,30 +14,11 @@ use Magento\Framework\DataObject;
  */
 class Cache extends AbstractHelper
 {
-    /**
-     * @var TypeListInterface
-     */
-    protected $cacheTypeList;
+    protected TypeListInterface $cacheTypeList;
+    protected ?array $cacheTypes = null;
+    protected array $cacheUsage = [];
+    protected array $cacheStats = [];
 
-    /**
-     * @var array
-     */
-    protected $cacheTypes;
-
-    /**
-     * @var array
-     */
-    protected $cacheUsage = [];
-
-    /**
-     * @var array
-     */
-    protected $cacheStats = [];
-
-    /**
-     * @param Context $context
-     * @param TypeListInterface $cacheTypeList
-     */
     public function __construct(Context $context, TypeListInterface $cacheTypeList)
     {
         parent::__construct($context);
@@ -68,11 +49,6 @@ class Cache extends AbstractHelper
 
     /**
      * Add a stat on cache usage.
-     *
-     * @param string $action
-     * @param string $identifier
-     * @param float $deltaTime
-     * @param int $size
      */
     public function addStat(string $action, string $identifier, float $deltaTime = 0., int $size = 0): void
     {
@@ -116,8 +92,6 @@ class Cache extends AbstractHelper
 
     /**
      * Get the cache usage.
-     *
-     * @return array
      */
     public function getCacheUsage(): array
     {
@@ -126,8 +100,6 @@ class Cache extends AbstractHelper
 
     /**
      * Get the cache usage per action.
-     *
-     * @return array
      */
     public function getStatsPerAction(): array
     {
@@ -136,8 +108,6 @@ class Cache extends AbstractHelper
 
     /**
      * Get the cache types.
-     *
-     * @return array
      */
     public function getCacheTypes(): array
     {
@@ -146,7 +116,7 @@ class Cache extends AbstractHelper
 
             $invalidated = $this->cacheTypeList->getInvalidated();
 
-            /** @var DataObject $items */
+            /** @var DataObject[] $items */
             $items = $this->cacheTypeList->getTypes();
 
             foreach ($items as $item) {

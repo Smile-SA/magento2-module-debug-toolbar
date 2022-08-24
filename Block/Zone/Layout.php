@@ -14,18 +14,8 @@ use Smile\DebugToolbar\Helper\Layout as LayoutHelper;
  */
 class Layout extends AbstractZone
 {
-    /**
-     * @var LayoutHelper
-     */
-    protected $layoutHelper;
+    protected LayoutHelper $layoutHelper;
 
-    /**
-     * @param Context $context
-     * @param DataHelper $dataHelper
-     * @param FormatterFactory $formatterFactory
-     * @param LayoutHelper $layoutHelper
-     * @param array $data
-     */
     public function __construct(
         Context $context,
         DataHelper $dataHelper,
@@ -55,8 +45,6 @@ class Layout extends AbstractZone
 
     /**
      * Get the layout build.
-     *
-     * @return array
      */
     public function getLayoutBuild(): array
     {
@@ -65,8 +53,6 @@ class Layout extends AbstractZone
 
     /**
      * Get the updated handles.
-     *
-     * @return array
      */
     public function getHandles(): array
     {
@@ -75,8 +61,6 @@ class Layout extends AbstractZone
 
     /**
      * Display the layout table.
-     *
-     * @return string
      */
     public function displayLayoutTable(): string
     {
@@ -85,10 +69,6 @@ class Layout extends AbstractZone
 
     /**
      * Display a recursive table.
-     *
-     * @param array $list
-     * @param int $level
-     * @return string
      */
     protected function displayLayoutRecursive(array $list, int $level): string
     {
@@ -103,10 +83,6 @@ class Layout extends AbstractZone
 
     /**
      * Display a row of a recursive table.
-     *
-     * @param array $row
-     * @param int $level
-     * @return string
      */
     protected function displayLayoutRecursiveRow(array $row, int $level): string
     {
@@ -127,7 +103,7 @@ class Layout extends AbstractZone
         $html .= ' style="' . ($row['parent'] ? 'display: none' : '') . '"';
         $html .= '>';
         $html .= '<td style="padding-left: ' . (10 * $level) . 'px" ';
-        $html .= 'class="' . (($row['nb_child'] > 0) ? 'st-with-children' : '') . '">' . $span . $row['name'] . '</td>';
+        $html .= 'class="' . ($row['nb_child'] > 0 ? 'st-with-children' : '') . '">' . $span . $row['name'] . '</td>';
         $html .= '<td>';
         $html .= '<pre class="complex-value" style="width: 370px;">';
         $html .= 'Type:         ' . $row['type'] . "\n";

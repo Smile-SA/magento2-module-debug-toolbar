@@ -12,11 +12,10 @@
     <!-- Show sniff codes -->
     <arg value="s"/>
 
-    <rule ref="Magento2">
-        <exclude name="Magento2.Functions.DiscouragedFunction.Discouraged"/>
-    </rule>
+    <config name="php_version" value="70400"/>
+
+    <rule ref="SmileLab"/>
 
     <file>.</file>
-
     <exclude-pattern>vendor/*</exclude-pattern>
 </ruleset>

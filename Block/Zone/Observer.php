@@ -14,18 +14,8 @@ use Smile\DebugToolbar\Helper\Observer as ObserverHelper;
  */
 class Observer extends AbstractZone
 {
-    /**
-     * @var ObserverHelper
-     */
-    protected $observerHelper;
+    protected ObserverHelper $observerHelper;
 
-    /**
-     * @param Context $context
-     * @param DataHelper $dataHelper
-     * @param FormatterFactory $formatterFactory
-     * @param ObserverHelper $observerHelper
-     * @param array $data
-     */
     public function __construct(
         Context $context,
         DataHelper $dataHelper,
@@ -55,8 +45,6 @@ class Observer extends AbstractZone
 
     /**
      * Get the observer stats.
-     *
-     * @return array
      */
     public function getObserverStats(): array
     {
@@ -65,9 +53,6 @@ class Observer extends AbstractZone
 
     /**
      * Prepare observers for display in the table.
-     *
-     * @param array $observers
-     * @return string
      */
     public function buildHtmlInfo(array $observers = []): string
     {

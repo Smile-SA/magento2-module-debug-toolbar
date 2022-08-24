@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Smile\DebugToolbar\Block\Zone;
 
+use Magento\Framework\Filesystem\DirectoryList;
 use Magento\Framework\View\Element\Template\Context;
 use Smile\DebugToolbar\Formatter\FormatterFactory;
 use Smile\DebugToolbar\Helper\Data as DataHelper;
@@ -14,27 +15,20 @@ use Smile\DebugToolbar\Model\ResourceModel\Info as ResourceModel;
  */
 class Mysql extends AbstractZone
 {
-    /**
-     * @var ResourceModel
-     */
-    protected $resourceModel;
+    protected ResourceModel $resourceModel;
+    protected DirectoryList $directoryList;
 
-    /**
-     * @param Context $context
-     * @param DataHelper $dataHelper
-     * @param FormatterFactory $formatterFactory
-     * @param ResourceModel $resourceModel
-     * @param array $data
-     */
     public function __construct(
         Context $context,
         DataHelper $dataHelper,
         FormatterFactory $formatterFactory,
         ResourceModel $resourceModel,
+        DirectoryList $directoryList,
         array $data = []
     ) {
         parent::__construct($context, $dataHelper, $formatterFactory, $data);
         $this->resourceModel = $resourceModel;
+        $this->directoryList = $directoryList;
     }
 
     /**
@@ -55,8 +49,6 @@ class Mysql extends AbstractZone
 
     /**
      * Get all the queries.
-     *
-     * @return array
      */
     public function getQueries(): array
     {
@@ -65,8 +57,6 @@ class Mysql extends AbstractZone
 
     /**
      * Get count per types.
-     *
-     * @return array
      */
     public function getCountPerTypes(): array
     {
@@ -75,8 +65,6 @@ class Mysql extends AbstractZone
 
     /**
      * Get time per types.
-     *
-     * @return array
      */
     public function getTimePerTypes(): array
     {
@@ -85,8 +73,6 @@ class Mysql extends AbstractZone
 
     /**
      * Get the Mysql version.
-     *
-     * @return string
      */
     public function getMysqlVersion(): string
     {
@@ -95,10 +81,6 @@ class Mysql extends AbstractZone
 
     /**
      * Prepare params and trace for display in the table.
-     *
-     * @param array $params
-     * @param array $trace
-     * @return string
      */
     public function buildHtmlInfo(array $params = [], array $trace = []): string
     {
@@ -138,7 +120,7 @@ class Mysql extends AbstractZone
                 $line = $match[2];
                 $code = $match[3];
             }
-            $file = str_replace(BP . '/', '', $file);
+            $file = str_replace($this->directoryList->getRoot() . '/', '', $file);
             $html .= "<tr>";
             $html .= "<td>" . $this->_escaper->escapeHtml($file) . "</td>";
             $html .= "<td>" . $this->_escaper->escapeHtml($line) . "</td>";

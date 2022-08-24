@@ -42,7 +42,8 @@ class Stat extends BaseStat
                 /* Add to result all timers nested in the previous timer */
                 for ($j = $i + 1; $j < count($timerIds); $j++) {
                     // REWRITE: check null value before calling strpos
-                    if ($timerIds[$j] !== null
+                    if (
+                        $timerIds[$j] !== null
                         && strpos($timerIds[$j], $prevTimerId . Profiler::NESTING_SEPARATOR) === 0
                     ) {
                         $result[] = $timerIds[$j];

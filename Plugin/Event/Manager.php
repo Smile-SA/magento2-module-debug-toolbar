@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Smile\DebugToolbar\Plugin\Event;
 
 use Closure;
@@ -11,14 +13,8 @@ use Smile\DebugToolbar\Helper\Observer as ObserverHelper;
  */
 class Manager
 {
-    /**
-     * @var ObserverHelper
-     */
-    protected $observerHelper;
+    protected ObserverHelper $observerHelper;
 
-    /**
-     * @param ObserverHelper $observerHelper
-     */
     public function __construct(ObserverHelper $observerHelper)
     {
         $this->observerHelper = $observerHelper;
@@ -27,17 +23,13 @@ class Manager
     /**
      * Plugin on dispatch.
      *
-     * @param MagentoManager $subject
-     * @param Closure $closure
-     * @param string $eventName
-     * @param array $data
      * @return mixed
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundDispatch(
         MagentoManager $subject,
         Closure $closure,
-        $eventName,
+        string $eventName,
         array $data = []
     ) {
         // Note: we can't check if the module is enabled, it could create an infinite loop when fetching cache data

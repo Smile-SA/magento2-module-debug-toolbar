@@ -19,27 +19,14 @@ use Smile\DebugToolbar\Helper\Data as DataHelper;
  */
 class Toolbar extends MagentoTemplateBlock
 {
-    /**
-     * @var DataHelper
-     */
-    protected $dataHelper;
+    protected DataHelper $dataHelper;
+    protected SummaryFactory $blockSummaryFactory;
 
     /**
      * @var Zone\AbstractZone[]
      */
-    protected $zones = [];
+    protected array $zones = [];
 
-    /**
-     * @var SummaryFactory
-     */
-    protected $blockSummaryFactory;
-
-    /**
-     * @param Context $context
-     * @param DataHelper $dataHelper
-     * @param SummaryFactory $blockSummaryFactory
-     * @param array $data
-     */
     public function __construct(
         Context $context,
         DataHelper $dataHelper,
@@ -56,9 +43,6 @@ class Toolbar extends MagentoTemplateBlock
 
     /**
      * Load the zones.
-     *
-     * @param MagentoRequest $request
-     * @param MagentoResponse $response
      */
     public function loadZones(MagentoRequest $request, MagentoResponse $response): void
     {
@@ -96,8 +80,6 @@ class Toolbar extends MagentoTemplateBlock
 
     /**
      * Do we have a warning?
-     *
-     * @return bool
      */
     public function isWarning(): bool
     {
@@ -115,7 +97,6 @@ class Toolbar extends MagentoTemplateBlock
     /**
      * Get the toolbar id.
      *
-     * @return string
      * @throws RuntimeException
      */
     public function getToolbarId(): string

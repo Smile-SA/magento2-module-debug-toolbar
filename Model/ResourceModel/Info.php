@@ -18,18 +18,11 @@ use Zend_Db_Statement_Exception;
 class Info
 {
     /**
-     * @var ResourceConnection
+     * @var string[]|null
      */
-    protected $resourceConnection;
+    protected ?array $version = null;
+    protected ResourceConnection $resourceConnection;
 
-    /**
-     * @var string[]
-     */
-    protected $version;
-
-    /**
-     * @param ResourceConnection $resourceConnection
-     */
     public function __construct(ResourceConnection $resourceConnection)
     {
         $this->resourceConnection = $resourceConnection;
@@ -37,8 +30,6 @@ class Info
 
     /**
      * Get the connection.
-     *
-     * @return AdapterInterface
      */
     public function getConnection(): AdapterInterface
     {
@@ -69,8 +60,6 @@ class Info
     /**
      * Get Mysql version.
      *
-     * @param string $key
-     * @return string
      * @throws Zend_Db_Statement_Exception
      */
     public function getMysqlVersion(string $key = 'version'): string
@@ -87,7 +76,6 @@ class Info
     /**
      * Get the executed queries.
      *
-     * @return array
      * @throws Exception
      */
     public function getExecutedQueries(): array
@@ -98,7 +86,6 @@ class Info
     /**
      * Get the count per types.
      *
-     * @return array
      * @throws Exception
      */
     public function getCountPerTypes(): array
@@ -109,7 +96,6 @@ class Info
     /**
      * Get the time per types.
      *
-     * @return array
      * @throws Exception
      */
     public function getTimePerTypes(): array
@@ -120,7 +106,6 @@ class Info
     /**
      * Get the profiler.
      *
-     * @return Profiler
      * @throws RuntimeException
      */
     protected function getProfiler(): Profiler

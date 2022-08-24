@@ -19,21 +19,9 @@ use ReflectionException;
  */
 class Preference extends AbstractHelper
 {
-    /**
-     * @var PluginList
-     */
-    protected $pluginList;
+    protected PluginList $pluginList;
+    protected ObjectManagerConfig $objectManagerConfig;
 
-    /**
-     * @var ObjectManagerConfig
-     */
-    protected $objectManagerConfig;
-
-    /**
-     * @param Context $context
-     * @param PluginList $pluginList
-     * @param ObjectManagerConfig $objectManagerConfig
-     */
     public function __construct(
         Context $context,
         PluginList $pluginList,
@@ -48,7 +36,6 @@ class Preference extends AbstractHelper
     /**
      * Get the plugin stats.
      *
-     * @return array
      * @throws ReflectionException
      */
     public function getPluginStats(): array
@@ -56,9 +43,9 @@ class Preference extends AbstractHelper
         // Get some properties without rewrite but the properties are private
         $reflectionClass = new ReflectionClass($this->pluginList);
 
-        /** @var DefinitionInterface $definitions */
         $property = $reflectionClass->getProperty('_definitions');
         $property->setAccessible(true);
+        /** @var DefinitionInterface $definitions */
         $definitions = $property->getValue($this->pluginList);
 
         $property = $reflectionClass->getProperty('_pluginInstances');
@@ -93,9 +80,6 @@ class Preference extends AbstractHelper
 
     /**
      * Get the plugin type.
-     *
-     * @param int $methodType
-     * @return string
      */
     protected function getPluginType(int $methodType): string
     {
@@ -116,7 +100,6 @@ class Preference extends AbstractHelper
     /**
      * Get the preference stats.
      *
-     * @return array
      * @throws ReflectionException
      */
     public function getPreferenceStats(): array

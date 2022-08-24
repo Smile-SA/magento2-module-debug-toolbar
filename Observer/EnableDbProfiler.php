@@ -19,26 +19,10 @@ use Smile\DebugToolbar\Helper\Config as ConfigHelper;
  */
 class EnableDbProfiler implements ObserverInterface
 {
-    /**
-     * @var DeploymentConfigWriter
-     */
-    protected $deploymentConfigWriter;
+    protected DeploymentConfigWriter $deploymentConfigWriter;
+    protected DeploymentConfigReader $deploymentConfigReader;
+    protected ConfigHelper $configHelper;
 
-    /**
-     * @var DeploymentConfigWriter
-     */
-    protected $deploymentConfigReader;
-
-    /**
-     * @var ConfigHelper
-     */
-    protected $configHelper;
-
-    /**
-     * @param DeploymentConfigWriter $deploymentConfigWriter
-     * @param DeploymentConfigReader $deploymentConfigReader
-     * @param ConfigHelper $configHelper
-     */
     public function __construct(
         DeploymentConfigWriter $deploymentConfigWriter,
         DeploymentConfigReader $deploymentConfigReader,

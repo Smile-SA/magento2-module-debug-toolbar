@@ -17,30 +17,10 @@ use Smile\DebugToolbar\Helper\Data as DataHelper;
  */
 class Generic extends AbstractZone
 {
-    /**
-     * @var ProductMetadataInterface
-     */
-    protected $productMetadata;
+    protected ProductMetadataInterface $productMetadata;
+    protected AppState $appState;
+    protected DeploymentConfig $deployConfig;
 
-    /**
-     * @var AppState
-     */
-    protected $appState;
-
-    /**
-     * @var DeploymentConfig
-     */
-    protected $deployConfig;
-
-    /**
-     * @param Context $context
-     * @param DataHelper $dataHelper
-     * @param FormatterFactory $formatterFactory
-     * @param ProductMetadataInterface $productMetadata
-     * @param AppState $appState
-     * @param DeploymentConfig $deployConfig
-     * @param array $data
-     */
     public function __construct(
         Context $context,
         DataHelper $dataHelper,
@@ -74,8 +54,6 @@ class Generic extends AbstractZone
 
     /**
      * Get the product name.
-     *
-     * @return string
      */
     public function getProductName(): string
     {
@@ -84,8 +62,6 @@ class Generic extends AbstractZone
 
     /**
      * Get the product edition.
-     *
-     * @return string
      */
     public function getProductEdition(): string
     {
@@ -94,8 +70,6 @@ class Generic extends AbstractZone
 
     /**
      * Get the product version.
-     *
-     * @return string
      */
     public function getProductVersion(): string
     {
@@ -104,8 +78,6 @@ class Generic extends AbstractZone
 
     /**
      * Get the magento area.
-     *
-     * @return string
      */
     public function getMagentoArea(): string
     {
@@ -118,8 +90,6 @@ class Generic extends AbstractZone
 
     /**
      * Get the magento mode.
-     *
-     * @return string
      */
     public function getMagentoMode(): string
     {
@@ -128,8 +98,6 @@ class Generic extends AbstractZone
 
     /**
      * Get the session mode.
-     *
-     * @return string
      */
     public function getSessionMode(): string
     {
@@ -158,8 +126,6 @@ class Generic extends AbstractZone
 
     /**
      * Get the php version.
-     *
-     * @return string
      */
     public function getPhpVersion(): string
     {
@@ -168,8 +134,6 @@ class Generic extends AbstractZone
 
     /**
      * Get the php memory limit.
-     *
-     * @return int
      */
     public function getPhpMemoryLimit(): int
     {
@@ -194,8 +158,6 @@ class Generic extends AbstractZone
 
     /**
      * Get the php memory used.
-     *
-     * @return int
      */
     public function getPhpMemoryUsed(): int
     {
@@ -204,8 +166,6 @@ class Generic extends AbstractZone
 
     /**
      * Get the php max execution time.
-     *
-     * @return int
      */
     public function getPhpMaxExecutionTime(): int
     {
@@ -214,8 +174,6 @@ class Generic extends AbstractZone
 
     /**
      * Get the php max execution time.
-     *
-     * @return float
      */
     public function getPhpExecutionTime(): float
     {

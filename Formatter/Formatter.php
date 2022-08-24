@@ -23,47 +23,16 @@ class Formatter
      * @var mixed
      */
     protected $value;
+    protected string $formattedValue;
+    protected string $type;
+    protected ?string $subType = null;
+    protected bool $warning = false;
+    protected Escaper $escaper;
+    protected array $rules;
+    protected array $cssClasses = [];
 
     /**
-     * @var string
-     */
-    protected $formattedValue;
-
-    /**
-     * @var string
-     */
-    protected $type;
-
-    /**
-     * @var string
-     */
-    protected $subType;
-
-    /**
-     * @var array
-     */
-    protected $rules;
-
-    /**
-     * @var bool
-     */
-    protected $warning = false;
-
-    /**
-     * @var array
-     */
-    protected $cssClasses = [];
-
-    /**
-     * @var Escaper
-     */
-    protected $escaper;
-
-    /**
-     * @param Escaper $escaper
      * @param mixed $value
-     * @param string|null $type
-     * @param array $rules
      */
     public function __construct(Escaper $escaper, $value, ?string $type = null, array $rules = [])
     {
@@ -78,7 +47,6 @@ class Formatter
      * Prepare the value and type.
      *
      * @param mixed $value
-     * @param string|null $type
      */
     protected function prepareValueAndType($value, ?string $type): void
     {
@@ -106,8 +74,6 @@ class Formatter
 
     /**
      * Prepare the type.
-     *
-     * @param string|null $type
      */
     protected function prepareType(?string $type): void
     {
@@ -132,8 +98,6 @@ class Formatter
 
     /**
      * Get the type from the value.
-     *
-     * @return string
      */
     protected function getTypeFromValue(): string
     {
@@ -161,8 +125,6 @@ class Formatter
     /**
      * Compute the rules.
      *
-     * @param array $rules
-     * @return bool
      * @throws RuntimeException
      */
     protected function computeRules(array $rules): bool
@@ -187,9 +149,7 @@ class Formatter
     /**
      * Compute a rule.
      *
-     * @param string $ruleTest
      * @param mixed $ruleValue
-     * @return bool
      * @throws RuntimeException
      */
     protected function computeRule(string $ruleTest, $ruleValue): bool
@@ -251,9 +211,6 @@ class Formatter
 
     /**
      * Display human size.
-     *
-     * @param int $value
-     * @return string
      */
     protected function displayHumanSize(int $value): string
     {
@@ -262,7 +219,7 @@ class Formatter
         }
 
         if ($this->subType === 'mo') {
-            $value /= (1024. * 1024.);
+            $value /= 1024. * 1024.;
         }
 
         if ($this->subType === 'go') {
@@ -293,9 +250,6 @@ class Formatter
 
     /**
      * Display human time (in seconds).
-     *
-     * @param float $value
-     * @return string
      */
     protected function displayHumanTime(float $value): string
     {
@@ -370,8 +324,6 @@ class Formatter
 
     /**
      * Do we have a warning?
-     *
-     * @return bool
      */
     public function hasWarning(): bool
     {

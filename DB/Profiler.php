@@ -5,37 +5,22 @@ declare(strict_types=1);
 namespace Smile\DebugToolbar\DB;
 
 use Zend_Db_Profiler as OriginalProfiler;
-use Zend_Db_Profiler_Exception;
 
 /**
  * DB profiler.
  */
 class Profiler extends OriginalProfiler
 {
-    /**
-     * @var string
-     */
-    protected $host = '';
-
-    /**
-     * @var string
-     */
-    protected $type = '';
-
-    /**
-     * @var string|null
-     */
-    protected $lastQueryId;
-
-    /**
-     * @var array
-     */
-    protected $queries;
+    protected ?array $queries = null;
+    protected string $host = '';
+    protected string $type = '';
+    /** @var string|int|null $lastQueryId */
+    protected $lastQueryId = null;
 
     /**
      * @var string[]
      */
-    protected $types = [
+    protected array $types = [
         self::CONNECT => 'connect',
         self::QUERY => 'query',
         self::INSERT => 'insert',
@@ -47,11 +32,8 @@ class Profiler extends OriginalProfiler
 
     /**
      * Setter for host IP.
-     *
-     * @param string $host
-     * @return $this
      */
-    public function setHost(string $host): Profiler
+    public function setHost(string $host): self
     {
         $this->host = $host;
 
@@ -60,11 +42,8 @@ class Profiler extends OriginalProfiler
 
     /**
      * Setter for database connection type.
-     *
-     * @param string $type
-     * @return $this
      */
-    public function setType(string $type): Profiler
+    public function setType(string $type): self
     {
         $this->type = $type;
 
@@ -72,11 +51,7 @@ class Profiler extends OriginalProfiler
     }
 
     /**
-     * Starts a query. Creates a new query profile object.
-     *
-     * @param string $queryText
-     * @param int|null $queryType
-     * @return int|null
+     * @inheritDoc
      */
     public function queryStart($queryText, $queryType = null): ?int
     {
@@ -100,9 +75,6 @@ class Profiler extends OriginalProfiler
 
     /**
      * Get the query type.
-     *
-     * @param string $queryText
-     * @return int
      */
     protected function getTypeFromQuery(string $queryText): int
     {
@@ -137,9 +109,6 @@ class Profiler extends OriginalProfiler
 
     /**
      * Get a type from its id.
-     *
-     * @param int $typeId
-     * @return string
      */
     protected function getTypeText(int $typeId): string
     {
@@ -153,11 +122,7 @@ class Profiler extends OriginalProfiler
     }
 
     /**
-     * Ends a query. Pass it the handle that was returned by queryStart().
-     *
-     * @param int $queryId
-     * @return string
-     * @throws Zend_Db_Profiler_Exception
+     * @inheritDoc
      */
     public function queryEnd($queryId): string
     {
@@ -168,8 +133,6 @@ class Profiler extends OriginalProfiler
 
     /**
      * Get the queries as array.
-     *
-     * @return array
      */
     public function getQueryProfilesAsArray(): array
     {
@@ -192,9 +155,6 @@ class Profiler extends OriginalProfiler
 
     /**
      * Convert a query profile to a array.
-     *
-     * @param Profiler\Query $queryProfile
-     * @return array
      */
     protected function convertQueryProfileToArray(Profiler\Query $queryProfile): array
     {
@@ -221,8 +181,6 @@ class Profiler extends OriginalProfiler
 
     /**
      * Get a count per types.
-     *
-     * @return array
      */
     public function getCountPerTypes(): array
     {
@@ -244,8 +202,6 @@ class Profiler extends OriginalProfiler
 
     /**
      * Get a count per types.
-     *
-     * @return array
      */
     public function getTimePerTypes(): array
     {

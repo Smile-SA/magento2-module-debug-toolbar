@@ -14,16 +14,8 @@ use Smile\DebugToolbar\Helper\Data as DataHelper;
  */
 class Toolbars extends MagentoTemplateBlock
 {
-    /**
-     * @var DataHelper
-     */
-    protected $dataHelper;
+    protected DataHelper $dataHelper;
 
-    /**
-     * @param Context $context
-     * @param DataHelper $dataHelper
-     * @param array $data
-     */
     public function __construct(Context $context, DataHelper $dataHelper, array $data = [])
     {
         parent::__construct($context, $data);

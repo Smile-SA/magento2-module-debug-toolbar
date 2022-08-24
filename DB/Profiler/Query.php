@@ -15,7 +15,7 @@ class Query extends OriginalProfilerQuery
     /**
      * @var string[]
      */
-    protected $trace;
+    protected array $trace;
 
     /**
      * @inheritdoc

@@ -145,9 +145,9 @@ class AddToolbar implements ObserverInterface
 
         // Add the last toolbars to the content
         if ($area === Area::AREA_FRONTEND || $area === Area::AREA_ADMINHTML && $this->configHelper->isEnabledAdmin()) {
-            $content = $response->getContent();
+            $content = (string) $response->getContent();
             $endTag = '</body';
-            if (strpos($content, $endTag) !== false) {
+            if (str_contains($content, $endTag)) {
                 $toolbarsContent = $this->getToolbarsBlock()->toHtml();
                 $content = str_replace($endTag, $toolbarsContent . $endTag, $content);
                 $response->setContent($content);

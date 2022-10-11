@@ -5,7 +5,7 @@ use Smile\DebugToolbar\Block\Zone\Response;
 /** @var Response $block */
 $response = $block->getResponse();
 
-$length = mb_strlen($response->getContent());
+$length = mb_strlen((string) $response->getContent());
 
 $headers = [];
 foreach ($response->getHeaders() as $header) {

@@ -75,7 +75,7 @@ class Response extends AbstractZone
         $list = [];
 
         $pattern = '/<esi:include[\s]+[^>]*src=[\'"]([^\'"]+)[\'"][^>]*>/';
-        if (preg_match_all($pattern, $this->response->getContent(), $matches)) {
+        if (preg_match_all($pattern, (string) $this->response->getContent(), $matches)) {
             $list = $matches[1];
         }
 

@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.2.4] - 2022-10-11
+[5.2.4]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/5.2.3...5.2.4
+
+- Cast response content to string
+
 ## [5.2.3] - 2022-08-08
 [5.2.3]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/5.2.2...5.2.3
 

@@ -7,7 +7,7 @@ on:
             - 'master'
 
 jobs:
-    tests:
+    static-analysis:
         runs-on: 'ubuntu-latest'
 
         strategy:

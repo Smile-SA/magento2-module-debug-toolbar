@@ -24,6 +24,9 @@
         "magento/framework": ">=103.0.0",
         "magento/module-config": ">=101.2.0"
     },
+    "require-dev": {
+        "smile/magento2-smilelab-quality-suite": "^3"
+    },
     "autoload": {
         "files": [
             "registration.php"
@@ -37,8 +40,5 @@
             "type": "composer",
             "url": "https://repo.magento.com/"
         }
-    ],
-    "require-dev": {
-        "smile/magento2-smilelab-quality-suite": "^3"
-    }
+    ]
 }

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.0.0] - 2022-10-13
+[6.0.0]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/5.2.4...6.0.0
+
+- Set minimum PHP version to 7.4
+- Add new code quality standard (SmileLab)
+
 ## [5.2.4] - 2022-10-11
 [5.2.4]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/5.2.3...5.2.4
 

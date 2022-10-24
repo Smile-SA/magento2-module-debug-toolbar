@@ -6,4 +6,5 @@
 /CONTRIBUTING.md export-ignore
 /phpcs.xml.dist export-ignore
 /phpmd.xml.dist export-ignore
+/phpstan.neon.dist export-ignore
 /README.md export-ignore

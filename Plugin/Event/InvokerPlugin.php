@@ -12,7 +12,7 @@ use Smile\DebugToolbar\Helper\Observer as ObserverHelper;
 /**
  * Fetch observer data.
  */
-class Invoker
+class InvokerPlugin
 {
     protected ObserverHelper $observerHelper;
 

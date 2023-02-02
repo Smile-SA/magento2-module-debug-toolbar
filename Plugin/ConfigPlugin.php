@@ -2,48 +2,43 @@
 
 declare(strict_types=1);
 
-namespace Smile\DebugToolbar\Observer;
+namespace Smile\DebugToolbar\Plugin;
 
+use Magento\Config\Model\Config;
 use Magento\Framework\App\DeploymentConfig\Reader as DeploymentConfigReader;
 use Magento\Framework\App\DeploymentConfig\Writer as DeploymentConfigWriter;
 use Magento\Framework\Config\File\ConfigFilePool;
-use Magento\Framework\Event\Observer;
-use Magento\Framework\Event\ObserverInterface;
-use Magento\Framework\Exception\FileSystemException;
-use Magento\Framework\Exception\RuntimeException;
 use Smile\DebugToolbar\DB\Profiler as DbProfiler;
-use Smile\DebugToolbar\Helper\Config as ConfigHelper;
 
-/**
- * Enable the DB profiler.
- */
-class EnableDbProfiler implements ObserverInterface
+class ConfigPlugin
 {
-    protected DeploymentConfigWriter $deploymentConfigWriter;
     protected DeploymentConfigReader $deploymentConfigReader;
-    protected ConfigHelper $configHelper;
+    protected DeploymentConfigWriter $deploymentConfigWriter;
 
     public function __construct(
-        DeploymentConfigWriter $deploymentConfigWriter,
         DeploymentConfigReader $deploymentConfigReader,
-        ConfigHelper $configHelper
+        DeploymentConfigWriter $deploymentConfigWriter
     ) {
-        $this->deploymentConfigWriter = $deploymentConfigWriter;
         $this->deploymentConfigReader = $deploymentConfigReader;
-        $this->configHelper = $configHelper;
+        $this->deploymentConfigWriter = $deploymentConfigWriter;
     }
 
     /**
-     * @inheritdoc
-     * @throws FileSystemException
-     * @throws RuntimeException
-     * @SuppressWarnings(PHPMD.ElseExpression)
+     * Update the profiler section in app/etc/env.php after the config was saved.
      */
-    public function execute(Observer $observer)
+    public function afterSave(Config $subject): void
+    {
+        $enabled = (bool) $subject->getConfigDataValue('smile_debugtoolbar/configuration/enabled');
+        $this->toggleProfilerSection($enabled);
+    }
+
+    /**
+     * Enable or disable the profiler section in app/etc/env.php.
+     */
+    protected function toggleProfilerSection(bool $enabled): void
     {
         $env = $this->deploymentConfigReader->load(ConfigFilePool::APP_ENV);
         $defaultConnection = $env['db']['connection']['default'];
-        $enabled = $this->configHelper->isEnabled();
 
         if ($enabled) {
             $defaultConnection['profiler'] = [

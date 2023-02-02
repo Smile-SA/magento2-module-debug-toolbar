@@ -11,7 +11,7 @@ use Smile\DebugToolbar\Helper\Observer as ObserverHelper;
 /**
  * Fetch event data.
  */
-class Manager
+class ManagerPlugin
 {
     protected ObserverHelper $observerHelper;
 

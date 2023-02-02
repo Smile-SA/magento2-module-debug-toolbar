@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## WIP
+
+- Use an ajax query to load the toolbar
+- Reduce memory consumption
+
 ## [6.0.0] - 2022-10-13
 [6.0.0]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/5.2.4...6.0.0
 

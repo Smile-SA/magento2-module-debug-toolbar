@@ -33,7 +33,6 @@ foreach ($stats as $event) {
     $section['Called'] += $event['nb_call'];
     $section['Time'] += $event['time_total'];
 
-    $event['id'] = $block->formatValue(count($list) + 1, [], 'number');
     $event['event_name'] = $block->formatValue($event['event_name'], [], 'text');
     $event['nb_call'] = $block->formatValue($event['nb_call'], ['gt' => 200], 'number');
     $event['time_total'] = $block->formatValue($event['time_total'], ['gt' => 0.5], 'time_ms');
@@ -49,7 +48,6 @@ unset($stats);
     'Used Events',
     $used,
     [
-        'id' => ['label' => 'Id', 'width' => '60px'],
         'event_name' => ['label' => 'Name', 'width' => ''],
         'nb_call' => ['label' => 'Nb Call', 'width' => '100px'],
         'time_total' => ['label' => 'Total Time', 'width' => '120px'],
@@ -63,7 +61,6 @@ unset($stats);
     'Unused Events',
     $unused,
     [
-        'id' => ['label' => 'Id', 'width' => '60px'],
         'event_name' => ['label' => 'Name', 'width' => ''],
         'nb_call' => ['label' => 'Nb Call', 'width' => '100px'],
         'time_total' => ['label' => 'Total Time', 'width' => '120px'],

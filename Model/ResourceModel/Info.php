@@ -23,6 +23,19 @@ class Info
     protected ?array $version = null;
     protected ResourceConnection $resourceConnection;
 
+    /**
+     * @var string[]
+     */
+    protected array $queryTypes = [
+        'connect',
+        'query',
+        'insert',
+        'update',
+        'delete',
+        'select',
+        'transaction',
+    ];
+
     public function __construct(ResourceConnection $resourceConnection)
     {
         $this->resourceConnection = $resourceConnection;
@@ -80,7 +93,7 @@ class Info
      */
     public function getExecutedQueries(): array
     {
-        return $this->getProfiler()->getQueryProfilesAsArray();
+        return $this->getProfiler()->getQueryProfiles();
     }
 
     /**
@@ -90,7 +103,20 @@ class Info
      */
     public function getCountPerTypes(): array
     {
-        return $this->getProfiler()->getCountPerTypes();
+        $list = [
+            'total' => 0,
+        ];
+
+        foreach ($this->getQueryTypes() as $value) {
+            $list[$value] = 0;
+        }
+
+        foreach ($this->getProfiler()->getQueryProfiles() as $query) {
+            $list['total']++;
+            $list[$query->getTypeAsString()]++;
+        }
+
+        return $list;
     }
 
     /**
@@ -100,7 +126,20 @@ class Info
      */
     public function getTimePerTypes(): array
     {
-        return $this->getProfiler()->getTimePerTypes();
+        $list = [
+            'total' => 0,
+        ];
+
+        foreach ($this->getQueryTypes() as $value) {
+            $list[$value] = 0;
+        }
+
+        foreach ($this->getProfiler()->getQueryProfiles() as $query) {
+            $list['total'] += $query->getElapsedSecs();
+            $list[$query->getTypeAsString()] += $query->getElapsedSecs();
+        }
+
+        return $list;
     }
 
     /**
@@ -123,5 +162,15 @@ class Info
         }
 
         return $profiler;
+    }
+
+    /**
+     * Get the list of query types.
+     *
+     * @return string[]
+     */
+    protected function getQueryTypes(): array
+    {
+        return $this->queryTypes;
     }
 }

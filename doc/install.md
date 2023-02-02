@@ -40,7 +40,7 @@ Unfortunately, the module cannot be automatically uninstalled, because Magento d
 
 To uninstall the module, follow these steps:
 
-1. In app/etc/env.php, remove the key `db.default.profiler` from the array if it is defined.
+1. In app/etc/env.php, remove the key `db.connection.default.profiler` from the array if it is defined.
 2. Run the following commands:
     ```
     bin/magento module:disable Smile_DebugToolbar

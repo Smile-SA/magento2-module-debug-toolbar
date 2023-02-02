@@ -12,7 +12,7 @@ use Smile\DebugToolbar\Helper\Config as ConfigHelper;
 /**
  * Fetch cache info.
  */
-class Cache
+class CachePlugin
 {
     protected ConfigHelper $configHelper;
     protected CacheHelper $cacheHelper;

@@ -12,7 +12,7 @@ use Smile\DebugToolbar\Helper\Data as DataHelper;
 /**
  * Register the action name.
  */
-class AbstractAction
+class AbstractActionPlugin
 {
     protected DataHelper $dataHelper;
     protected ConfigHelper $configHelper;

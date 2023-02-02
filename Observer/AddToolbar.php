@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Smile\DebugToolbar\Observer;
 
 use Exception;
-use Magento\Framework\App\Area;
 use Magento\Framework\App\Request\Http as MagentoRequest;
 use Magento\Framework\App\State as AppState;
 use Magento\Framework\Event\Observer;
@@ -15,7 +14,6 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\HTTP\PhpEnvironment\Response as MagentoResponse;
 use Smile\DebugToolbar\Block\Toolbar;
 use Smile\DebugToolbar\Block\ToolbarFactory;
-use Smile\DebugToolbar\Block\Toolbars;
 use Smile\DebugToolbar\Block\ToolbarsFactory;
 use Smile\DebugToolbar\Helper\Config as ConfigHelper;
 use Smile\DebugToolbar\Helper\Data as DataHelper;
@@ -71,6 +69,9 @@ class AddToolbar implements ObserverInterface
 
         /** @var MagentoRequest $request */
         $request = $observer->getEvent()->getData('request');
+        if ($request->getRouteName() === 'smile_debug_toolbar') {
+            return;
+        }
 
         /** @var MagentoResponse $response */
         $response = $observer->getEvent()->getData('response');
@@ -107,19 +108,6 @@ class AddToolbar implements ObserverInterface
 
         // Keep only the last X executions
         $this->dataHelper->cleanOldToolbars($this->configHelper->getNbExecutionToKeep());
-
-        $area = $this->appState->getAreaCode();
-
-        // Add the last toolbars to the content
-        if ($area === Area::AREA_FRONTEND || $area === Area::AREA_ADMINHTML && $this->configHelper->isEnabledAdmin()) {
-            $content = (string) $response->getContent();
-            $endTag = '</body';
-            if (str_contains($content, $endTag)) {
-                $toolbarsContent = $this->getToolbarsBlock()->toHtml();
-                $content = str_replace($endTag, $toolbarsContent . $endTag, $content);
-                $response->setContent($content);
-            }
-        }
     }
 
     /**
@@ -132,17 +120,6 @@ class AddToolbar implements ObserverInterface
         /** @var Toolbar $block */
         $block = $this->blockToolbarFactory->create();
         $block->loadZones($request, $response);
-
-        return $block;
-    }
-
-    /**
-     * Generate the toolbars block.
-     */
-    private function getToolbarsBlock(): Toolbars
-    {
-        /** @var Toolbars $block */
-        $block = $this->blockToolbarsFactory->create();
 
         return $block;
     }

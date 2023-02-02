@@ -11,7 +11,7 @@ use Smile\DebugToolbar\Helper\Data as DataHelper;
 /**
  * Start the app_http timer.
  */
-class Http
+class HttpPlugin
 {
     protected DataHelper $dataHelper;
     protected ConfigHelper $configHelper;

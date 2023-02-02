@@ -1,0 +1,32 @@
+<?php
+
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use Smile\DebugToolbar\ViewModel\Loader;
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+/** @var Loader $viewModel */
+$viewModel = $block->getData('viewModel');
+?>
+
+<?php if ($viewModel->isToolbarEnabled()): ?>
+<script>
+    require(
+        ['jquery'],
+        function ($) {
+            $('document').ready(function () {
+                $.ajax({
+                    url: '<?= $escaper->escapeUrl($block->getUrl('smile_debug_toolbar')) ?>',
+                    success: function (html) {
+                        $('body').append(html);
+                    },
+                    error: function (xhr) {
+                        console.log('Failed to load the debug toolbar: ' + xhr.responseText);
+                    }
+                });
+            });
+        }
+    );
+</script>
+<?php endif ?>

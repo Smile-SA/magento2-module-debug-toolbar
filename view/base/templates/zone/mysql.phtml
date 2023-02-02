@@ -6,20 +6,21 @@ use Smile\DebugToolbar\Block\Zone\Mysql;
 /** @var Mysql $block */
 /** @var Escaper $escaper */
 try {
-    $list = $block->getQueries();
+    $queries = $block->getQueries();
+    $list = [];
 } catch (Exception $e) {
     echo '<h2>PROFILER ERROR</h2>';
     echo $escaper->escapeHtml($e->getMessage());
     return;
 }
 
-foreach ($list as $key => $row) {
-    $row['id'] = $block->formatValue($row['id'], [], 'number');
-    $row['type'] = $block->formatValue($row['type'], [], 'center');
-    $row['time'] = $block->formatValue($row['time'], ['gt' => 0.05], 'time_ms');
-    $row['query'] = $block->formatValue($row['query'], [], 'code_sql');
-    $row['html_info'] = $block->buildHtmlInfo($row['params'], $row['trace']);
-    $list[$key] = $row;
+foreach ($queries as $key => $query) {
+    $list[$key] = [
+        'type' => $block->formatValue($query->getTypeAsString(), [], 'center'),
+        'time' => $block->formatValue($query->getElapsedSecs(), ['gt' => 0.05], 'time_ms'),
+        'query' => $block->formatValue($query->getQuery(), [], 'code_sql'),
+        'html_info' => $block->buildHtmlInfo($query->getQueryParams(), $query->getTrace()),
+    ];
 }
 ?>
 
@@ -27,7 +28,6 @@ foreach ($list as $key => $row) {
     'MySQL Queries',
     $list,
     [
-        'id' => ['label' => 'Id', 'width' => '60px'],
         'type' => ['label' => 'Type', 'width' => '100px'],
         'time' => ['label' => 'Time', 'width' => '100px'],
         'query' => ['label' => 'Query', 'width' => ''],
@@ -40,7 +40,6 @@ $sections = [
     'Number' => $block->getCountPerTypes(),
     'Time' => $block->getTimePerTypes(),
 ];
-
 
 $sections['Time'] = [
     'total' => $block->formatValue($sections['Time']['total'], ['gt' => 1.], 'time'),

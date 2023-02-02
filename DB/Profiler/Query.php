@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Smile\DebugToolbar\DB\Profiler;
 
 use Exception;
+use JsonSerializable;
+use Smile\DebugToolbar\DB\Profiler;
 use Zend_Db_Profiler_Query as OriginalProfilerQuery;
 
 /**
  * DB profiler query.
  */
-class Query extends OriginalProfilerQuery
+class Query extends OriginalProfilerQuery implements JsonSerializable
 {
     /**
      * @var string[]
@@ -58,5 +60,43 @@ class Query extends OriginalProfilerQuery
     public function getTrace(): array
     {
         return $this->trace;
+    }
+
+    /**
+     * Get the query type as string.
+     */
+    public function getTypeAsString(): string
+    {
+        switch ($this->getQueryType()) {
+            case Profiler::CONNECT:
+                return 'connect';
+            case Profiler::INSERT:
+                return 'insert';
+            case Profiler::UPDATE:
+                return 'update';
+            case Profiler::DELETE:
+                return 'delete';
+            case Profiler::SELECT:
+                return 'select';
+            case Profiler::TRANSACTION:
+                return 'transaction';
+            default:
+                return 'query';
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function jsonSerialize(): array
+    {
+        return [
+            'query' => $this->getQuery(),
+            'type_id' => $this->getQueryType(),
+            'type' => $this->getTypeAsString(),
+            'time' => $this->getElapsedSecs(),
+            'params' => $this->getQueryParams(),
+            'trace' => $this->getTrace(),
+        ];
     }
 }

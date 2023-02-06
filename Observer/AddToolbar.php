@@ -20,7 +20,7 @@ use Smile\DebugToolbar\Helper\Data as DataHelper;
 use Smile\DebugToolbar\Helper\Profiler as ProfilerHelper;
 
 /**
- * Display the toolbar.
+ * Save the toolbar data to a file.
  *
  * @SuppressWarnings(PMD.CouplingBetweenObjects)
  */

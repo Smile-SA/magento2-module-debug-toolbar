@@ -21,11 +21,11 @@ use Smile\DebugToolbar\Block\Zone\ResponseFactory;
 use Smile\DebugToolbar\Block\Zone\Summary;
 
 /**
- * Add the zones.
+ * Add zone blocks to the toolbar.
  */
 class AddZones implements ObserverInterface
 {
-    protected array $blockFactories = [];
+    protected array $blockFactories;
 
     public function __construct(
         CacheFactory $cacheBlockFactory,
@@ -38,15 +38,17 @@ class AddZones implements ObserverInterface
         RequestFactory $requestBlockFactory,
         ResponseFactory $responseBlockFactory
     ) {
-        $this->blockFactories[] = $genericBlockFactory;
-        $this->blockFactories[] = $requestBlockFactory;
-        $this->blockFactories[] = $responseBlockFactory;
-        $this->blockFactories[] = $layoutBlockFactory;
-        $this->blockFactories[] = $mysqlBlockFactory;
-        $this->blockFactories[] = $cacheBlockFactory;
-        $this->blockFactories[] = $profilerBlockFactory;
-        $this->blockFactories[] = $observerBlockFactory;
-        $this->blockFactories[] = $preferenceBlockFactory;
+        $this->blockFactories = [
+            $genericBlockFactory,
+            $requestBlockFactory,
+            $responseBlockFactory,
+            $layoutBlockFactory,
+            $mysqlBlockFactory,
+            $cacheBlockFactory,
+            $profilerBlockFactory,
+            $observerBlockFactory,
+            $preferenceBlockFactory,
+        ];
     }
 
     /**

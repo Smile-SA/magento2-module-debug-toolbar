@@ -7,7 +7,7 @@ namespace Smile\DebugToolbar\Block;
 use Magento\Framework\App\Request\Http as MagentoRequest;
 use Magento\Framework\DataObject;
 use Magento\Framework\HTTP\PhpEnvironment\Response as MagentoResponse;
-use Magento\Framework\View\Element\Template as MagentoTemplateBlock;
+use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use RuntimeException;
 use Smile\DebugToolbar\Block\Zone\Summary;
@@ -17,7 +17,7 @@ use Smile\DebugToolbar\Helper\Data as DataHelper;
 /**
  * Main Debug Toolbar Block
  */
-class Toolbar extends MagentoTemplateBlock
+class Toolbar extends Template
 {
     protected DataHelper $dataHelper;
     protected SummaryFactory $blockSummaryFactory;

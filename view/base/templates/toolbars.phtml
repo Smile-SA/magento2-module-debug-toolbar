@@ -1,21 +1,28 @@
 <?php
 
-use Smile\DebugToolbar\Block\Toolbars;
+use Magento\Framework\View\Element\Template;
+use Smile\DebugToolbar\ViewModel\Toolbar;
 
-/** @var Toolbars $block */
-$toolbars = $block->getToolbarList();
-foreach ($toolbars as $toolbarContent): ?>
-    <?= /* @noEscape */ $toolbarContent . "\n" ?>
-<?php endforeach ?>
-<div class="smile-toolbar" id="st-modal-display">
-    <div class="st-main" id="st-modal-main" onclick="event.stopPropagation();">
-        <div class="st-title">
-            <div class="st-close" id="st-modal-close"></div>
-            <h1 id="st-modal-title">My Modal Title</h1>
+/** @var Template $block */
+/** @var Toolbar $viewModel */
+$viewModel = $block->getData('viewModel');
+$toolbars = $viewModel->getToolbarList();
+?>
+
+<?php if ($viewModel->isToolbarEnabled()): ?>
+    <?php foreach ($toolbars as $toolbarContent): ?>
+        <?= /* @noEscape */ $toolbarContent . "\n" ?>
+    <?php endforeach ?>
+    <div class="smile-toolbar" id="st-modal-display">
+        <div class="st-main" id="st-modal-main" onclick="event.stopPropagation();">
+            <div class="st-title">
+                <div class="st-close" id="st-modal-close"></div>
+                <h1 id="st-modal-title">My Modal Title</h1>
+            </div>
+            <div id="st-modal-content">My Modal Content</div>
         </div>
-        <div id="st-modal-content">My Modal Content</div>
     </div>
-</div>
-<script>
-    smileToolbarInit();
-</script>
+    <script>
+        smileToolbarInit();
+    </script>
+<?php endif ?>

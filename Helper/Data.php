@@ -9,7 +9,6 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\App\State as AppState;
-use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\PageCache\Model\Config as PageCacheConfig;
 use RuntimeException;
@@ -159,9 +158,6 @@ class Data extends AbstractHelper
 
     /**
      * Get the toolbar storage folder.
-     *
-     * @throws FileSystemException
-     * @throws RuntimeException
      */
     public function getToolbarFolder(): string
     {
@@ -176,9 +172,6 @@ class Data extends AbstractHelper
 
     /**
      * Save the current toolbar.
-     *
-     * @throws FileSystemException
-     * @throws RuntimeException
      */
     public function saveToolbar(Toolbar $toolbarBlock): void
     {
@@ -189,9 +182,6 @@ class Data extends AbstractHelper
 
     /**
      * Clean the old toolbars.
-     *
-     * @throws FileSystemException
-     * @throws RuntimeException
      */
     public function cleanOldToolbars(int $nbToKeep): void
     {
@@ -213,8 +203,6 @@ class Data extends AbstractHelper
      * Get the list of all the stored toolbars.
      *
      * @return string[]
-     * @throws FileSystemException
-     * @throws RuntimeException
      */
     public function getListToolbars(): array
     {
@@ -237,8 +225,6 @@ class Data extends AbstractHelper
      * Get the content of all the stored toolbars.
      *
      * @return string[]
-     * @throws FileSystemException
-     * @throws RuntimeException
      */
     public function getContentToolbars(): array
     {

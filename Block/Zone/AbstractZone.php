@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Smile\DebugToolbar\Block\Zone;
 
-use Magento\Framework\View\Element\Template as MagentoTemplateBlock;
+use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Smile\DebugToolbar\Formatter\FormatterFactory;
 use Smile\DebugToolbar\Helper\Data as DataHelper;
@@ -14,7 +14,7 @@ use Smile\DebugToolbar\Helper\Data as DataHelper;
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-abstract class AbstractZone extends MagentoTemplateBlock
+abstract class AbstractZone extends Template
 {
     protected DataHelper $dataHelper;
     protected FormatterFactory $formatterFactory;

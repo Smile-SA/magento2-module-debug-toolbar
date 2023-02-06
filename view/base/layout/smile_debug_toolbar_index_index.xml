@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
     <container name="root" label="Root">
-        <block class="Smile\DebugToolbar\Block\Toolbars" name="smile_debug_toolbar_toolbars" template="Smile_DebugToolbar::toolbars.phtml" cacheable="false"/>
+        <block class="Smile\DebugToolbar\Block\Toolbars" name="smile_debug_toolbar_toolbars" template="Smile_DebugToolbar::toolbars.phtml" cacheable="false">
+            <arguments>
+                <argument name="viewModel" xsi:type="object">Smile\DebugToolbar\ViewModel\Toolbar</argument>
+            </arguments>
+        </block>
     </container>
 </layout>

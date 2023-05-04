@@ -327,7 +327,8 @@
 }
 
 #st-modal-display .smile-table {
-
+    table-layout: fixed;
+    width: 100%;
 }
 
 #st-modal-display .smile-table thead th span {

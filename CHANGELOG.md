@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## WIP
+
+- Fix width of the mysql query list
+
 ## [6.1.1] - 2023-02-06
 [6.1.1]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/6.1.0...6.1.1
 

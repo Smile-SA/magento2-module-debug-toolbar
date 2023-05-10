@@ -15,14 +15,12 @@ use RuntimeException;
  */
 class Profiler extends AbstractHelper
 {
-    protected DirectoryList $directoryList;
     protected static ?Stat $stat = null;
     protected ?array $timers = null;
 
-    public function __construct(Context $context, DirectoryList $directoryList)
+    public function __construct(Context $context, protected DirectoryList $directoryList)
     {
         parent::__construct($context);
-        $this->directoryList = $directoryList;
     }
 
     /**

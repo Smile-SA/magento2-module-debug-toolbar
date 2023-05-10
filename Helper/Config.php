@@ -15,13 +15,11 @@ use Magento\Framework\App\Request\Http;
  */
 class Config extends AbstractHelper
 {
-    protected DeploymentConfig $deploymentConfig;
     protected ?bool $isAdmin = null;
 
-    public function __construct(Context $context, DeploymentConfig $deploymentConfig)
+    public function __construct(Context $context, protected DeploymentConfig $deploymentConfig)
     {
         parent::__construct($context);
-        $this->deploymentConfig = $deploymentConfig;
     }
 
     /**

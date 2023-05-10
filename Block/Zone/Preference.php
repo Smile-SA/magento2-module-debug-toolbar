@@ -14,17 +14,14 @@ use Smile\DebugToolbar\Helper\Preference as PreferenceHelper;
  */
 class Preference extends AbstractZone
 {
-    protected PreferenceHelper $preferenceHelper;
-
     public function __construct(
         Context $context,
         DataHelper $dataHelper,
         FormatterFactory $formatterFactory,
-        PreferenceHelper $preferenceHelper,
+        protected PreferenceHelper $preferenceHelper,
         array $data = []
     ) {
         parent::__construct($context, $dataHelper, $formatterFactory, $data);
-        $this->preferenceHelper = $preferenceHelper;
     }
 
     /**

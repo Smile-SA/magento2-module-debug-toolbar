@@ -12,15 +12,10 @@ use Smile\DebugToolbar\DB\Profiler as DbProfiler;
 
 class ConfigPlugin
 {
-    protected DeploymentConfigReader $deploymentConfigReader;
-    protected DeploymentConfigWriter $deploymentConfigWriter;
-
     public function __construct(
-        DeploymentConfigReader $deploymentConfigReader,
-        DeploymentConfigWriter $deploymentConfigWriter
+        protected DeploymentConfigReader $deploymentConfigReader,
+        protected DeploymentConfigWriter $deploymentConfigWriter
     ) {
-        $this->deploymentConfigReader = $deploymentConfigReader;
-        $this->deploymentConfigWriter = $deploymentConfigWriter;
     }
 
     /**

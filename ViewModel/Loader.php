@@ -9,11 +9,8 @@ use Smile\DebugToolbar\Helper\Config as ConfigHelper;
 
 class Loader implements ArgumentInterface
 {
-    protected ConfigHelper $configHelper;
-
-    public function __construct(ConfigHelper $configHelper)
+    public function __construct(protected ConfigHelper $configHelper)
     {
-        $this->configHelper = $configHelper;
     }
 
     /**

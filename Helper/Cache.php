@@ -14,16 +14,13 @@ use Magento\Framework\DataObject;
  */
 class Cache extends AbstractHelper
 {
-    protected TypeListInterface $cacheTypeList;
     protected ?array $cacheTypes = null;
     protected array $cacheUsage = [];
     protected array $cacheStats = [];
 
-    public function __construct(Context $context, TypeListInterface $cacheTypeList)
+    public function __construct(Context $context, protected TypeListInterface $cacheTypeList)
     {
         parent::__construct($context);
-
-        $this->cacheTypeList = $cacheTypeList;
         $this->cacheUsage = [];
         $this->cacheStats = [
             'Number' => [

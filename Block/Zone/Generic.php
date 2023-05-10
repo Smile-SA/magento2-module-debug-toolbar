@@ -17,23 +17,16 @@ use Smile\DebugToolbar\Helper\Data as DataHelper;
  */
 class Generic extends AbstractZone
 {
-    protected ProductMetadataInterface $productMetadata;
-    protected AppState $appState;
-    protected DeploymentConfig $deployConfig;
-
     public function __construct(
         Context $context,
         DataHelper $dataHelper,
         FormatterFactory $formatterFactory,
-        ProductMetadataInterface $productMetadata,
-        AppState $appState,
-        DeploymentConfig $deployConfig,
+        protected ProductMetadataInterface $productMetadata,
+        protected AppState $appState,
+        protected DeploymentConfig $deployConfig,
         array $data = []
     ) {
         parent::__construct($context, $dataHelper, $formatterFactory, $data);
-        $this->productMetadata = $productMetadata;
-        $this->appState = $appState;
-        $this->deployConfig = $deployConfig;
     }
 
     /**
@@ -111,10 +104,8 @@ class Generic extends AbstractZone
 
     /**
      * Get the session info.
-     *
-     * @return array|string
      */
-    public function getSessionInfo()
+    public function getSessionInfo(): array|string
     {
         $config = $this->deployConfig->get('session');
         if (!$config || !is_array($config)) {

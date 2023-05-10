@@ -19,18 +19,12 @@ use ReflectionException;
  */
 class Preference extends AbstractHelper
 {
-    protected PluginList $pluginList;
-    protected ObjectManagerConfig $objectManagerConfig;
-
     public function __construct(
         Context $context,
-        PluginList $pluginList,
-        ObjectManagerConfig $objectManagerConfig
+        protected PluginList $pluginList,
+        protected ObjectManagerConfig $objectManagerConfig
     ) {
         parent::__construct($context);
-
-        $this->pluginList = $pluginList;
-        $this->objectManagerConfig = $objectManagerConfig;
     }
 
     /**
@@ -83,18 +77,12 @@ class Preference extends AbstractHelper
      */
     protected function getPluginType(int $methodType): string
     {
-        switch ($methodType) {
-            case DefinitionInterface::LISTENER_AROUND:
-                return 'Around';
-
-            case DefinitionInterface::LISTENER_BEFORE:
-                return 'Before';
-
-            case DefinitionInterface::LISTENER_AFTER:
-                return 'After';
-        }
-
-        return 'Unknown [' . $methodType . ']';
+        return match ($methodType) {
+            DefinitionInterface::LISTENER_AROUND => 'around',
+            DefinitionInterface::LISTENER_BEFORE => 'before',
+            DefinitionInterface::LISTENER_AFTER => 'after',
+            default => 'unknown',
+        };
     }
 
     /**

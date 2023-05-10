@@ -19,9 +19,6 @@ use Smile\DebugToolbar\Helper\Data as DataHelper;
  */
 class Toolbar extends Template
 {
-    protected DataHelper $dataHelper;
-    protected SummaryFactory $blockSummaryFactory;
-
     /**
      * @var Zone\AbstractZone[]
      */
@@ -29,13 +26,11 @@ class Toolbar extends Template
 
     public function __construct(
         Context $context,
-        DataHelper $dataHelper,
-        SummaryFactory $blockSummaryFactory,
+        protected DataHelper $dataHelper,
+        protected SummaryFactory $blockSummaryFactory,
         array $data = []
     ) {
         parent::__construct($context, $data);
-        $this->dataHelper = $dataHelper;
-        $this->blockSummaryFactory = $blockSummaryFactory;
 
         $this->setData('cache_lifetime', 0);
         $this->setTemplate('Smile_DebugToolbar::toolbar.phtml');

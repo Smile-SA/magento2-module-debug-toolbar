@@ -14,6 +14,9 @@ Your new block must:
 
 ```php
 <?php
+
+declare(strict_types=1);
+
 namespace MyNameSpace\MyModule\Block\Zone;
 
 use Smile\DebugToolbar\Block\Zone\AbstractZone;
@@ -23,7 +26,7 @@ class MyZone extends AbstractZone
     /**
      * @inheritdoc
      */
-    public function getCode()
+    public function getCode(): string
     {
         return 'myzone';
     }
@@ -31,7 +34,7 @@ class MyZone extends AbstractZone
     /**
      * @inheritdoc
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return 'My Zone';
     }
@@ -54,8 +57,8 @@ $sections = [
 $block->addToSummary('Server', 'PHP Memory Used', $sections['Some Values']['Memory Used']);
 
 echo $block->displaySections($sections);
-
 ```
+
 You can:
 
 - Format values, using the `formatValue` method. You can specify rules to generate automatic warnings.
@@ -73,6 +76,9 @@ You can use them as follow:
 
 ```php
 <?php
+
+declare(strict_types=1);
+
 namespace MyNameSpace\MyModule\Observer;
 
 use Magento\Framework\Event\Observer;
@@ -81,17 +87,8 @@ use MyNameSpace\MyModule\Block\Zone\MyZoneFactory;
 
 class AddZone implements ObserverInterface
 {
-    /**
-     * @var MyZoneFactory
-     */
-    protected $zoneFactory;
-
-    /**
-     * @param MyZoneFactory $zoneFactory
-     */
-    public function __construct(MyZoneFactory $zoneFactory)
+    public function __construct(private MyZoneFactory $zoneFactory)
     {
-        $this->zoneFactory = $zoneFactory;
     }
 
     /**

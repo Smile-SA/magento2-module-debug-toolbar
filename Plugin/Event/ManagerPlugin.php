@@ -13,17 +13,13 @@ use Smile\DebugToolbar\Helper\Observer as ObserverHelper;
  */
 class ManagerPlugin
 {
-    protected ObserverHelper $observerHelper;
-
-    public function __construct(ObserverHelper $observerHelper)
+    public function __construct(protected ObserverHelper $observerHelper)
     {
-        $this->observerHelper = $observerHelper;
     }
 
     /**
      * Plugin on dispatch.
      *
-     * @return mixed
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundDispatch(
@@ -31,7 +27,7 @@ class ManagerPlugin
         Closure $closure,
         string $eventName,
         array $data = []
-    ) {
+    ): mixed {
         // Note: we can't check if the module is enabled, it could create an infinite loop when fetching cache data
         $this->observerHelper->initEventStat((string) $eventName);
 

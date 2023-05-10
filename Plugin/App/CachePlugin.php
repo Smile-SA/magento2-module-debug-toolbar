@@ -14,22 +14,16 @@ use Smile\DebugToolbar\Helper\Config as ConfigHelper;
  */
 class CachePlugin
 {
-    protected ConfigHelper $configHelper;
-    protected CacheHelper $cacheHelper;
-
-    public function __construct(ConfigHelper $configHelper, CacheHelper $cacheHelper)
+    public function __construct(protected ConfigHelper $configHelper, protected CacheHelper $cacheHelper)
     {
-        $this->configHelper = $configHelper;
-        $this->cacheHelper = $cacheHelper;
     }
 
     /**
      * Add stats on load.
      *
-     * @return string|bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundLoad(CacheInterface $subject, Closure $closure, string $identifier)
+    public function aroundLoad(CacheInterface $subject, Closure $closure, string $identifier): mixed
     {
         if (!$this->configHelper->isEnabled()) {
             return $closure($identifier);
@@ -39,7 +33,7 @@ class CachePlugin
         $result = $closure($identifier);
         $this->cacheHelper->addStat(
             'load',
-            (string) $identifier,
+            $identifier,
             microtime(true) - $startTime,
             strlen((string) $result)
         );
@@ -68,9 +62,9 @@ class CachePlugin
         $result = $closure($data, $identifier, $tags, $lifeTime);
         $this->cacheHelper->addStat(
             'save',
-            (string) $identifier,
+            $identifier,
             microtime(true) - $startTime,
-            strlen((string) $data)
+            strlen($data)
         );
 
         return $result;
@@ -91,7 +85,7 @@ class CachePlugin
         $result = $closure($identifier);
         $this->cacheHelper->addStat(
             'remove',
-            (string) $identifier,
+            $identifier,
             microtime(true) - $startTime
         );
 

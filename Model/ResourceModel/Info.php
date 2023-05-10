@@ -21,8 +21,6 @@ class Info
      * @var string[]|null
      */
     protected ?array $version = null;
-    protected ResourceConnection $resourceConnection;
-
     /**
      * @var string[]
      */
@@ -36,9 +34,8 @@ class Info
         'transaction',
     ];
 
-    public function __construct(ResourceConnection $resourceConnection)
+    public function __construct(protected ResourceConnection $resourceConnection)
     {
-        $this->resourceConnection = $resourceConnection;
     }
 
     /**

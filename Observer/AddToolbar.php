@@ -26,27 +26,14 @@ use Smile\DebugToolbar\Helper\Profiler as ProfilerHelper;
  */
 class AddToolbar implements ObserverInterface
 {
-    protected ToolbarFactory $blockToolbarFactory;
-    protected ToolbarsFactory $blockToolbarsFactory;
-    protected DataHelper $dataHelper;
-    protected ConfigHelper $configHelper;
-    protected ProfilerHelper $profilerHelper;
-    protected AppState $appState;
-
     public function __construct(
-        ToolbarFactory $blockToolbarFactory,
-        ToolbarsFactory $blockToolbarsFactory,
-        DataHelper $dataHelper,
-        ConfigHelper $configHelper,
-        ProfilerHelper $profilerHelper,
-        AppState $appState
+        protected ToolbarFactory $blockToolbarFactory,
+        protected ToolbarsFactory $blockToolbarsFactory,
+        protected DataHelper $dataHelper,
+        protected ConfigHelper $configHelper,
+        protected ProfilerHelper $profilerHelper,
+        protected AppState $appState
     ) {
-        $this->blockToolbarFactory = $blockToolbarFactory;
-        $this->blockToolbarsFactory = $blockToolbarsFactory;
-        $this->dataHelper = $dataHelper;
-        $this->configHelper = $configHelper;
-        $this->profilerHelper = $profilerHelper;
-        $this->appState = $appState;
     }
 
     /**

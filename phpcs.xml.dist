@@ -12,7 +12,7 @@
     <!-- Show sniff codes -->
     <arg value="s"/>
 
-    <config name="php_version" value="70400"/>
+    <config name="php_version" value="80100"/>
 
     <rule ref="SmileLab"/>
 

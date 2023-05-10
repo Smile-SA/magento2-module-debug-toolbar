@@ -10,13 +10,8 @@ use Smile\DebugToolbar\Helper\Data as DataHelper;
 
 class Toolbar implements ArgumentInterface
 {
-    protected DataHelper $dataHelper;
-    protected ConfigHelper $configHelper;
-
-    public function __construct(DataHelper $dataHelper, ConfigHelper $configHelper)
+    public function __construct(protected DataHelper $dataHelper, protected ConfigHelper $configHelper)
     {
-        $this->dataHelper = $dataHelper;
-        $this->configHelper = $configHelper;
     }
 
     /**

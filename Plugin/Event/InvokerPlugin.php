@@ -14,17 +14,13 @@ use Smile\DebugToolbar\Helper\Observer as ObserverHelper;
  */
 class InvokerPlugin
 {
-    protected ObserverHelper $observerHelper;
-
-    public function __construct(ObserverHelper $observerHelper)
+    public function __construct(protected ObserverHelper $observerHelper)
     {
-        $this->observerHelper = $observerHelper;
     }
 
     /**
      * Plugin on dispatch.
      *
-     * @return mixed
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundDispatch(
@@ -32,7 +28,7 @@ class InvokerPlugin
         Closure $closure,
         array $configuration,
         MagentoObserver $observer
-    ) {
+    ): mixed {
         // Note: we can't check if the module is enabled, it could create an infinite loop when fetching cache data
         if (array_key_exists('disabled', $configuration) && $configuration['disabled'] === true) {
             return $closure($configuration, $observer);

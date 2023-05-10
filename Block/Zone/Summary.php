@@ -38,7 +38,7 @@ class Summary extends AbstractZone
     /**
      * @inheritdoc
      */
-    public function addToSummary(string $sectionName, string $key, $value): void
+    public function addToSummary(string $sectionName, string $key, mixed $value): void
     {
         if (is_array($value) && array_key_exists('has_warning', $value) && $value['has_warning']) {
             $this->hasWarning();

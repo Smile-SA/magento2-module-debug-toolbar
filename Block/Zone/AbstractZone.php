@@ -16,22 +16,17 @@ use Smile\DebugToolbar\Helper\Data as DataHelper;
  */
 abstract class AbstractZone extends Template
 {
-    protected DataHelper $dataHelper;
-    protected FormatterFactory $formatterFactory;
     protected Summary $summaryBlock;
     protected bool $warning = false;
     protected array $tablesToDisplay = [];
 
     public function __construct(
         Context $context,
-        DataHelper $dataHelper,
-        FormatterFactory $formatterFactory,
+        protected DataHelper $dataHelper,
+        protected FormatterFactory $formatterFactory,
         array $data = []
     ) {
         parent::__construct($context, $data);
-        $this->dataHelper = $dataHelper;
-        $this->formatterFactory = $formatterFactory;
-
         $this->setData('cache_lifetime', 0);
         $this->setTemplate('Smile_DebugToolbar::zone/' . $this->getCode() . '.phtml');
     }
@@ -66,10 +61,8 @@ abstract class AbstractZone extends Template
 
     /**
      * Add a value to the summary.
-     *
-     * @param mixed $value
      */
-    public function addToSummary(string $sectionName, string $key, $value): void
+    public function addToSummary(string $sectionName, string $key, mixed $value): void
     {
         $this->summaryBlock->addToSummary($sectionName, $key, $value);
     }
@@ -109,7 +102,7 @@ abstract class AbstractZone extends Template
             }
 
             foreach ($sectionValues as $name => $value) {
-                $html .= $this->displaySectionValue($name, $value);
+                $html .= $this->displaySectionValue((string) $name, $value);
             }
             $html .= '</tbody>';
 
@@ -148,10 +141,9 @@ abstract class AbstractZone extends Template
     /**
      * Get the good css class and the cleaned value.
      *
-     * @param mixed $value
      * @return string[]
      */
-    protected function getClassAndValue($value): array
+    protected function getClassAndValue(mixed $value): array
     {
         if (
             !is_array($value)
@@ -166,11 +158,8 @@ abstract class AbstractZone extends Template
 
     /**
      * Display a row section.
-     *
-     * @param string|int $name
-     * @param mixed $value
      */
-    protected function displaySectionValue($name, $value): string
+    protected function displaySectionValue(string $name, mixed $value): string
     {
         [$class, $value] = $this->getClassAndValue($value);
 
@@ -237,10 +226,8 @@ abstract class AbstractZone extends Template
 
     /**
      * Format a value, using rules, and type.
-     *
-     * @param string|float $value
      */
-    public function formatValue($value, array $rules = [], ?string $type = null): array
+    public function formatValue(mixed $value, array $rules = [], ?string $type = null): array
     {
         $formatter = $this->formatterFactory->create(
             [

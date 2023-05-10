@@ -20,9 +20,9 @@
     },
     "minimum-stability": "dev",
     "require": {
-        "php": "^7.4 || ^8.1",
-        "magento/framework": ">=103.0.0",
-        "magento/module-config": ">=101.2.0"
+        "php": "^8.1",
+        "magento/framework": ">=103.0.4",
+        "magento/module-config": ">=101.2.4"
     },
     "require-dev": {
         "smile/magento2-smilelab-quality-suite": "^3.0"

@@ -14,17 +14,14 @@ use Smile\DebugToolbar\Helper\Observer as ObserverHelper;
  */
 class Observer extends AbstractZone
 {
-    protected ObserverHelper $observerHelper;
-
     public function __construct(
         Context $context,
         DataHelper $dataHelper,
         FormatterFactory $formatterFactory,
-        ObserverHelper   $observerHelper,
+        protected ObserverHelper   $observerHelper,
         array $data = []
     ) {
         parent::__construct($context, $dataHelper, $formatterFactory, $data);
-        $this->observerHelper = $observerHelper;
     }
 
     /**

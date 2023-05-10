@@ -15,20 +15,15 @@ use Smile\DebugToolbar\Model\ResourceModel\Info as ResourceModel;
  */
 class Mysql extends AbstractZone
 {
-    protected ResourceModel $resourceModel;
-    protected DirectoryList $directoryList;
-
     public function __construct(
         Context $context,
         DataHelper $dataHelper,
         FormatterFactory $formatterFactory,
-        ResourceModel $resourceModel,
-        DirectoryList $directoryList,
+        protected ResourceModel $resourceModel,
+        protected DirectoryList $directoryList,
         array $data = []
     ) {
         parent::__construct($context, $dataHelper, $formatterFactory, $data);
-        $this->resourceModel = $resourceModel;
-        $this->directoryList = $directoryList;
     }
 
     /**

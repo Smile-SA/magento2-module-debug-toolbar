@@ -14,17 +14,14 @@ use Smile\DebugToolbar\Helper\Layout as LayoutHelper;
  */
 class Layout extends AbstractZone
 {
-    protected LayoutHelper $layoutHelper;
-
     public function __construct(
         Context $context,
         DataHelper $dataHelper,
         FormatterFactory $formatterFactory,
-        LayoutHelper $layoutHelper,
+        protected LayoutHelper $layoutHelper,
         array $data = []
     ) {
         parent::__construct($context, $dataHelper, $formatterFactory, $data);
-        $this->layoutHelper = $layoutHelper;
     }
 
     /**

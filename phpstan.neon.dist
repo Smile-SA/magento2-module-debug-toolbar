@@ -1,6 +1,6 @@
 parameters:
     level: 6
-    phpVersion: 70400
+    phpVersion: 80100
     checkMissingIterableValueType: false
     paths:
         - .

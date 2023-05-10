@@ -12,7 +12,7 @@ use Zend_Db_Profiler as OriginalProfiler;
 class Profiler extends OriginalProfiler
 {
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function queryStart($queryText, $queryType = null): ?int
     {
@@ -44,24 +44,12 @@ class Profiler extends OriginalProfiler
         }
         $base = strtolower($base);
 
-        switch ($base) {
-            case 'insert':
-                $queryType = self::INSERT;
-                break;
-            case 'update':
-                $queryType = self::UPDATE;
-                break;
-            case 'delete':
-                $queryType = self::DELETE;
-                break;
-            case 'select':
-                $queryType = self::SELECT;
-                break;
-            default:
-                $queryType = self::QUERY;
-                break;
-        }
-
-        return $queryType;
+        return match ($base) {
+            'insert' => self::INSERT,
+            'update' => self::UPDATE,
+            'delete' => self::DELETE,
+            'select' => self::SELECT,
+            default => self::QUERY,
+        };
     }
 }

@@ -19,19 +19,14 @@ use Smile\DebugToolbar\Layout\Builder;
  */
 class Layout extends AbstractHelper
 {
-    protected MagentoLayout $layout;
-    protected DirectoryList $directoryList;
-
     public function __construct(
         Context $context,
-        MagentoLayout $layout,
+        protected MagentoLayout $layout,
         Builder $builder,
-        DirectoryList $directoryList
+        protected DirectoryList $directoryList
     ) {
         parent::__construct($context);
-        $this->layout = $layout;
         $this->layout->setBuilder($builder);
-        $this->directoryList = $directoryList;
     }
 
     /**

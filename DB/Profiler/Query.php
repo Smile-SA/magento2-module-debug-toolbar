@@ -6,7 +6,7 @@ namespace Smile\DebugToolbar\DB\Profiler;
 
 use Exception;
 use JsonSerializable;
-use Smile\DebugToolbar\DB\Profiler;
+use Zend_Db_Profiler as Profiler;
 use Zend_Db_Profiler_Query as OriginalProfilerQuery;
 
 /**
@@ -67,22 +67,15 @@ class Query extends OriginalProfilerQuery implements JsonSerializable
      */
     public function getTypeAsString(): string
     {
-        switch ($this->getQueryType()) {
-            case Profiler::CONNECT:
-                return 'connect';
-            case Profiler::INSERT:
-                return 'insert';
-            case Profiler::UPDATE:
-                return 'update';
-            case Profiler::DELETE:
-                return 'delete';
-            case Profiler::SELECT:
-                return 'select';
-            case Profiler::TRANSACTION:
-                return 'transaction';
-            default:
-                return 'query';
-        }
+        return match ($this->getQueryType()) {
+            Profiler::CONNECT => 'connect',
+            Profiler::INSERT => 'insert',
+            Profiler::UPDATE => 'update',
+            Profiler::DELETE => 'delete',
+            Profiler::SELECT => 'select',
+            Profiler::TRANSACTION => 'transaction',
+            default => 'query',
+        };
     }
 
     /**

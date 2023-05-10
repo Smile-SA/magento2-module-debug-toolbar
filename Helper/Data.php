@@ -21,18 +21,14 @@ use Smile\DebugToolbar\Block\Toolbar;
  */
 class Data extends AbstractHelper
 {
-    protected DirectoryList $directoryList;
-    protected AppState $appState;
     protected array $timers = [];
     protected ?string $toolbarId = null;
     protected array $values = [];
     protected int $tableCount = 0;
 
-    public function __construct(Context $context, DirectoryList $directoryList, AppState $appState)
+    public function __construct(Context $context, protected DirectoryList $directoryList, protected AppState $appState)
     {
         parent::__construct($context);
-        $this->directoryList = $directoryList;
-        $this->appState = $appState;
     }
 
     /**
@@ -78,10 +74,8 @@ class Data extends AbstractHelper
 
     /**
      * Set a value.
-     *
-     * @param mixed $value
      */
-    public function setValue(string $key, $value): self
+    public function setValue(string $key, mixed $value): self
     {
         $this->values[$key] = $value;
 
@@ -90,11 +84,8 @@ class Data extends AbstractHelper
 
     /**
      * Get a value.
-     *
-     * @param mixed $default
-     * @return mixed
      */
-    public function getValue(string $key, $default = null)
+    public function getValue(string $key, mixed $default = null): mixed
     {
         if (!array_key_exists($key, $this->values)) {
             return $default;

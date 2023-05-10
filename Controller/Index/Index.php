@@ -9,11 +9,8 @@ use Magento\Framework\Controller\ResultFactory;
 
 class Index implements HttpGetActionInterface
 {
-    protected ResultFactory $resultFactory;
-
-    public function __construct(ResultFactory $resultFactory)
+    public function __construct(protected ResultFactory $resultFactory)
     {
-        $this->resultFactory = $resultFactory;
     }
 
     /**

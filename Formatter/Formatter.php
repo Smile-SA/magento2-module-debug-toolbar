@@ -19,24 +19,16 @@ class Formatter
      */
     private const MAX_STRING_LENGTH = 200;
 
-    /**
-     * @var mixed
-     */
-    protected $value;
+    protected mixed $value;
     protected string $formattedValue;
     protected string $type;
     protected ?string $subType = null;
     protected bool $warning = false;
-    protected Escaper $escaper;
     protected array $rules;
     protected array $cssClasses = [];
 
-    /**
-     * @param mixed $value
-     */
-    public function __construct(Escaper $escaper, $value, ?string $type = null, array $rules = [])
+    public function __construct(protected Escaper $escaper, mixed $value, ?string $type = null, array $rules = [])
     {
-        $this->escaper = $escaper;
         $this->prepareValueAndType($value, $type);
         $this->computeRules($rules);
         $this->computeFormattedValue();
@@ -45,10 +37,8 @@ class Formatter
 
     /**
      * Prepare the value and type.
-     *
-     * @param mixed $value
      */
-    protected function prepareValueAndType($value, ?string $type): void
+    protected function prepareValueAndType(mixed $value, ?string $type): void
     {
         if (is_object($value) || is_array($value)) {
             $type = 'printable';
@@ -149,10 +139,9 @@ class Formatter
     /**
      * Compute a rule.
      *
-     * @param mixed $ruleValue
      * @throws RuntimeException
      */
-    protected function computeRule(string $ruleTest, $ruleValue): bool
+    protected function computeRule(string $ruleTest, mixed $ruleValue): bool
     {
         switch ($ruleTest) {
             case 'lt':

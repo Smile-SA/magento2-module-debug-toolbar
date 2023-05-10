@@ -15,20 +15,15 @@ use Smile\DebugToolbar\Helper\Data as DataHelper;
  */
 class Cache extends AbstractZone
 {
-    protected DeploymentConfig $deployConfig;
-    protected CacheHelper $cacheHelper;
-
     public function __construct(
         Context $context,
         DataHelper $dataHelper,
         FormatterFactory $formatterFactory,
-        DeploymentConfig $deployConfig,
-        CacheHelper $cacheHelper,
+        protected DeploymentConfig $deployConfig,
+        protected CacheHelper $cacheHelper,
         array $data = []
     ) {
         parent::__construct($context, $dataHelper, $formatterFactory, $data);
-        $this->deployConfig = $deployConfig;
-        $this->cacheHelper = $cacheHelper;
     }
 
     /**
@@ -62,10 +57,8 @@ class Cache extends AbstractZone
 
     /**
      * Get the cache info.
-     *
-     * @return string|array
      */
-    public function getCacheInfo()
+    public function getCacheInfo(): array|string
     {
         $config = $this->deployConfig->get('cache');
         if (!$config || !is_array($config)) {

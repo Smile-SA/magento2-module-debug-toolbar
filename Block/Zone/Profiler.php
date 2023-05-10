@@ -15,17 +15,14 @@ use Smile\DebugToolbar\Helper\Profiler as ProfilerHelper;
  */
 class Profiler extends AbstractZone
 {
-    protected ProfilerHelper $profilerHelper;
-
     public function __construct(
         Context $context,
         DataHelper $dataHelper,
         FormatterFactory $formatterFactory,
-        ProfilerHelper $profilerHelper,
+        protected ProfilerHelper $profilerHelper,
         array $data = []
     ) {
         parent::__construct($context, $dataHelper, $formatterFactory, $data);
-        $this->profilerHelper = $profilerHelper;
     }
 
     /**

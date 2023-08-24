@@ -11,22 +11,19 @@ $viewModel = $block->getData('viewModel');
 ?>
 
 <?php if ($viewModel->isToolbarEnabled()): ?>
-<script>
-    require(
-        ['jquery'],
-        function ($) {
-            $('document').ready(function () {
-                $.ajax({
-                    url: '<?= $escaper->escapeUrl($block->getUrl('smile_debug_toolbar')) ?>',
-                    success: function (html) {
-                        $('body').append(html);
-                    },
-                    error: function (xhr) {
-                        console.log('Failed to load the debug toolbar: ' + xhr.responseText);
-                    }
-                });
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('<?= $escaper->escapeUrl($block->getUrl('smile_debug_toolbar')) ?>', {
+                method: 'GET',
+            }).then((response) => {
+                return response.text();
+            }).then((html) => {
+                const fragment = document.createRange().createContextualFragment(html);
+
+                document.body.append( fragment);
+            }).catch((error) => {
+                console.log(`Failed to load the debug toolbar: ${error}`);
             });
-        }
-    );
-</script>
+        });
+    </script>
 <?php endif ?>

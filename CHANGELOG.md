@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.1.3] - 2023-09-04
+[6.1.3]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/6.1.2...6.1.3
+
+- Better third party theme support ([#27](https://github.com/Smile-SA/magento2-module-debug-toolbar/pull/27))
+
 ## [6.1.2] - 2023-05-04
 [6.1.2]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/6.1.1...6.1.2
 

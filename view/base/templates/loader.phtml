@@ -19,7 +19,7 @@ $viewModel = $block->getData('viewModel');
             return response.text();
         }).then((html) => {
             const fragment = document.createRange().createContextualFragment(html);
-            document.body.append( fragment);
+            document.body.append(fragment);
         }).catch((error) => {
             console.log(`Failed to load the debug toolbar: ${error}`);
         });

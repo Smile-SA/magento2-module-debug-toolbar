@@ -2,9 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## WIP
+## [7.0.0] - 2023-09-05
+[7.0.0]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/6.1.3...7.0.0
 
-- Set minimum PHP version to 8.1
+- Set minimum PHP version to 8.1.
+  This module now uses some features that require PHP >= 8.1 (e.g. promoted constructors).
 
 ## [6.1.3] - 2023-09-04
 [6.1.3]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/6.1.2...6.1.3

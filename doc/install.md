@@ -9,7 +9,7 @@ If the module is installed but left disabled, it will still have a small impact 
 If you have already enabled the native **Magento profiler**, you must disable it.
 Remove the `MAGE_PROFILER` environment variable if it is defined.
 
-## Step 2 - Install the module through composer
+## Step 2 - Install the module with Composer
 
 Execute the following command in your main project folder to add the module on your development environment:
 

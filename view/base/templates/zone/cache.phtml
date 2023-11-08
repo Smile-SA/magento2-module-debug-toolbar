@@ -43,10 +43,10 @@ $sections['Number'] = [
 ];
 
 $sections['Size'] = [
-    'total' => $block->formatValue($sections['Size']['total'], [], 'size'),
-    'load' => $block->formatValue($sections['Size']['load'], [], 'size'),
-    'save' => $block->formatValue($sections['Size']['save'], [], 'size'),
-    'remove' => $block->formatValue($sections['Size']['remove'], [], 'size'),
+    'total' => $block->formatValue($sections['Size']['total'], ['gt' => 4096 * 1024], 'size'),
+    'load' => $block->formatValue($sections['Size']['load'], ['gt' => 4096 * 1024], 'size'),
+    'save' => $block->formatValue($sections['Size']['save'], ['gt' => 4096 * 1024], 'size'),
+    'remove' => $block->formatValue($sections['Size']['remove'], ['gt' => 4096 * 1024], 'size'),
 ];
 
 $sections['Time'] = [

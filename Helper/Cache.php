@@ -23,7 +23,7 @@ class Cache extends AbstractHelper
         parent::__construct($context);
         $this->cacheUsage = [];
         $this->cacheStats = [
-            'Number' => [
+            'Count' => [
                 'total' => 0,
                 'load' => 0,
                 'save' => 0,
@@ -52,23 +52,23 @@ class Cache extends AbstractHelper
         if (!array_key_exists($identifier, $this->cacheUsage)) {
             $this->cacheUsage[$identifier] = [
                 'identifier' => $identifier,
-                'nb_call' => 0,
-                'size_total' => 0,
-                'size_mean' => 0,
-                'time_total' => 0,
-                'time_mean' => 0,
+                'call_count' => 0,
+                'total_size' => 0,
+                'mean_size' => 0,
+                'total_time' => 0,
+                'mean_time' => 0,
                 'calls' => [],
             ];
         }
 
         $usage = $this->cacheUsage[$identifier];
 
-        $usage['nb_call']++;
-        $usage['size_total'] += $size;
-        $usage['time_total'] += $deltaTime;
+        $usage['call_count']++;
+        $usage['total_size'] += $size;
+        $usage['total_time'] += $deltaTime;
 
-        $usage['size_mean'] = $usage['size_total'] / $usage['nb_call'];
-        $usage['time_mean'] = $usage['time_total'] / $usage['nb_call'];
+        $usage['mean_size'] = $usage['total_size'] / $usage['call_count'];
+        $usage['mean_time'] = $usage['total_time'] / $usage['call_count'];
 
         $usage['calls'][] = [
             'action' => $action,
@@ -78,11 +78,11 @@ class Cache extends AbstractHelper
 
         $this->cacheUsage[$identifier] = $usage;
 
-        $this->cacheStats['Number']['total']++;
+        $this->cacheStats['Count']['total']++;
         $this->cacheStats['Time']['total'] += $deltaTime;
         $this->cacheStats['Size']['total'] += $size;
 
-        $this->cacheStats['Number'][$action]++;
+        $this->cacheStats['Count'][$action]++;
         $this->cacheStats['Time'][$action] += $deltaTime;
         $this->cacheStats['Size'][$action] += $size;
     }

@@ -57,7 +57,6 @@ class Info
         if ($this->version === null) {
             $this->version = [];
 
-            //@SmileAnalyserSkip magento2/mysql
             $values = $this->getConnection()->query('SHOW VARIABLES LIKE "%version%"')->fetchAll();
             foreach ($values as $value) {
                 $this->version[$value['Variable_name']] = $value['Value'];

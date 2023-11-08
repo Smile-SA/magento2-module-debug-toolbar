@@ -3,49 +3,48 @@
 use Smile\DebugToolbar\Block\Zone\Request;
 
 /** @var Request $block */
-$info = $block->getRequest();
+$request = $block->getRequest();
 
 $sections = [
     'HTTP' => [
-        'Version' => $info->getVersion(),
-        'Scheme' => $info->getScheme(),
-        'Method' => $info->getMethod(),
-        'IP' => $info->getClientIp(),
-        'URL' => $info->getUriString(),
+        'Version' => $request->getVersion(),
+        'Scheme' => $request->getScheme(),
+        'Method' => $request->getMethod(),
+        'IP' => $request->getClientIp(),
+        'URL' => $request->getUriString(),
     ],
     'Action' => [
-        'Path Info' => $info->getPathInfo(),
-        'Full Action' => $info->getFullActionName(),
-        'Module' => $info->getModuleName(),
-        'Group' => $info->getControllerName(),
-        'Action' => $info->getActionName(),
+        'Path' => $request->getPathInfo() ?: '/',
+        'Full Action' => $request->getFullActionName(),
+        'Module' => $request->getModuleName(),
+        'Group' => $request->getControllerName(),
+        'Action' => $request->getActionName(),
     ],
     'Route' => [
-        'Module' => $info->getControllerModule(),
-        'Route Name' => $info->getRouteName(),
-        'Front Name' => $info->getFrontName(),
+        'Module' => $request->getControllerModule(),
+        'Route Name' => $request->getRouteName(),
+        'Front Name' => $request->getFrontName(),
         'Controller' => $block->getControllerClassName(),
     ],
-    'User Params' => (array) $info->getUserParams(),
-    'Get' => (array) $info->getQuery(),
-    'Post' => (array) $info->getPost(),
-    'Files' => (array) $info->getFiles(),
-    'Env' => array_merge((array) $info->getEnv(), (array) $info->getServer()),
+    'User Params' => (array) $request->getUserParams(),
+    'Get' => (array) $request->getQuery(),
+    'Post' => (array) $request->getPost(),
+    'Files' => (array) $request->getFiles(),
+    'Env' => array_merge((array) $request->getEnv(), (array) $request->getServer()),
     'Headers' => [],
     // phpcs:ignore
     'Cookies' => $_COOKIE,
 ];
 
-foreach ($info->getHeaders() as $header) {
+foreach ($request->getHeaders() as $header) {
     $sections['Headers'][$header->getFieldName()] = $header->getFieldValue();
 }
 
 $sections['Headers']['Cookie'] = 'See in Cookies section';
 
-$block->addToSummary('Request', 'Url', $sections['HTTP']['URL']);
-$block->addToSummary('Request', 'Method', $sections['HTTP']['Method']);
-$block->addToSummary('Request', 'Path Info', $sections['Action']['Path Info']);
-$block->addToSummary('Request', 'Full Action', $sections['Action']['Full Action']);
+$block->addToSummary('Request', 'Path', $sections['Action']['Path'])
+    ->addToSummary('Request', 'Method', $sections['HTTP']['Method'])
+    ->addToSummary('Request', 'Full Action', $sections['Action']['Full Action']);
 ?>
 
 <?= /* @noEscape */ $block->displaySections($sections) ?>

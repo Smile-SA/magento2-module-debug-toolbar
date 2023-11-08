@@ -5,10 +5,10 @@ use Smile\DebugToolbar\Block\Zone\Preference;
 /** @var Preference $block */
 $list = $block->getPreferenceStats();
 $preferences = [];
-foreach ($list as $original => $final) {
+foreach ($list as $abstraction => $implementation) {
     $preferences[] = [
-        'original' => $block->formatValue($original, [], 'text'),
-        'final' => $block->formatValue($final, [], 'text'),
+        'abstraction' => $block->formatValue($abstraction, [], 'text'),
+        'implementation' => $block->formatValue($implementation, [], 'text'),
     ];
 }
 unset($list);
@@ -18,23 +18,22 @@ unset($list);
     'Preferences',
     $preferences,
     [
-        'original' => ['label' => 'For', 'width' => ''],
-        'final' => ['label' => 'Class', 'width' => ''],
+        'abstraction' => ['label' => 'Abstraction', 'width' => ''],
+        'implementation' => ['label' => 'Implementation', 'width' => ''],
     ]
 ) ?>
 
 <?php
-$classesWithPlugins = [];
+$decoratedClasses = [];
 $plugins = $block->getPluginStats();
 foreach ($plugins as $key => $row) {
-    $classesWithPlugins[$row['main_classname']] = true;
+    $decoratedClasses[$row['original_classname']] = true;
 
-    $row['main_classname'] = $block->formatValue($row['main_classname'], [], 'text');
-    $row['nb_plugins'] = $block->formatValue($row['nb_plugins'], ['gt' => 15], 'center');
-    $row['plugin_name'] = $block->formatValue($row['plugin_name'], [], 'text');
-    $row['plugin_classname'] = $block->formatValue($row['plugin_classname'], [], 'text');
-    $row['plugin_nb_methods'] = $block->formatValue($row['plugin_nb_methods'], ['gt' => 10], 'center');
-    $row['html_info'] = $block->buildPluginHtmlInfo($row['plugin_methods']);
+    $row['classname'] = $block->formatValue($row['classname'], [], 'text');
+    $row['name'] = $block->formatValue($row['name'], [], 'text');
+    $row['method_count'] = $block->formatValue($row['method_count'], ['gt' => 10], 'center');
+    $row['original_classname'] = $block->formatValue($row['original_classname'], [], 'text');
+    $row['html_info'] = $block->buildPluginHtmlInfo($row['methods']);
 
     $plugins[$key] = $row;
 }
@@ -44,11 +43,10 @@ foreach ($plugins as $key => $row) {
     'Plugins',
     $plugins,
     [
-        'main_classname' => ['label' => 'ClassName', 'width' => ''],
-        'nb_plugins' => ['label' => 'Nb Plugins', 'width' => '100px'],
-        'plugin_name' => ['label' => 'Plugin Name', 'width' => ''],
-        'plugin_classname' => ['label' => 'Plugin ClassName', 'width' => ''],
-        'plugin_nb_methods' => ['label' => 'Methods', 'width' => '100px'],
+        'classname' => ['label' => 'Plugin Class', 'width' => ''],
+        'name' => ['label' => 'Plugin Name', 'width' => ''],
+        'method_count' => ['label' => 'Methods', 'width' => '100px'],
+        'original_classname' => ['label' => 'Subject', 'width' => ''],
     ],
     'html_info'
 )?>
@@ -56,17 +54,21 @@ foreach ($plugins as $key => $row) {
 <?php
 $sections = [
     'Declared Plugins' => [
-        'Classes with plugins' => $block->formatValue(count($classesWithPlugins), [], 'number'),
-        'Nb Plugins' => $block->formatValue(count($plugins), [], 'number'),
+        'Plugins' => $block->formatValue(count($plugins), [], 'number'),
+        'Classes observed by plugin(s)' => $block->formatValue(count($decoratedClasses), [], 'number'),
     ],
     'Preferences' => [
-        'Nb Preferences' => $block->formatValue(count($preferences), [], 'number'),
+        'Preferences' => $block->formatValue(count($preferences), [], 'number'),
     ],
 ];
 
-$block->addToSummary('Preferences', 'Nb Preferences', $sections['Preferences']['Nb Preferences']);
-$block->addToSummary('Preferences', 'Classes with plugins', $sections['Declared Plugins']['Classes with plugins']);
-$block->addToSummary('Preferences', 'Nb Plugins', $sections['Declared Plugins']['Nb Plugins']);
+$block->addToSummary('Preferences', 'Preferences', $sections['Preferences']['Preferences'])
+    ->addToSummary('Preferences', 'Plugins', $sections['Declared Plugins']['Plugins'])
+    ->addToSummary(
+        'Preferences',
+        'Classes observed by plugin(s)',
+        $sections['Declared Plugins']['Classes observed by plugin(s)']
+    );
 ?>
 
 <?= /* @noEscape */ $block->displaySections($sections) ?>

@@ -49,7 +49,7 @@ class Preference extends AbstractHelper
         ksort($pluginInstances);
 
         $plugins = [];
-        foreach ($pluginInstances as $originalClassname => $pluginList) {
+        foreach ($pluginInstances as $type => $pluginList) {
             ksort($pluginList);
             foreach ($pluginList as $pluginName => $pluginInstance) {
                 $methods = $definitions->getMethodList($pluginInstance);
@@ -59,12 +59,11 @@ class Preference extends AbstractHelper
                 }
 
                 $plugins[] = [
-                    'main_classname' => $originalClassname,
-                    'nb_plugins' => count($pluginList),
-                    'plugin_name' => $pluginName,
-                    'plugin_classname' => get_class($pluginInstance),
-                    'plugin_nb_methods' => count($methods),
-                    'plugin_methods' => $methods,
+                    'classname' => get_class($pluginInstance),
+                    'name' => $pluginName,
+                    'method_count' => count($methods),
+                    'methods' => $methods,
+                    'original_classname' => $type,
                 ];
             }
         }

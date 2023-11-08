@@ -237,8 +237,12 @@ class Data extends AbstractHelper
      */
     public function getFullPageCacheMode(): string
     {
-        $key = 'system/full_page_cache/caching_application';
+        $value = (int) $this->scopeConfig->getValue('system/full_page_cache/caching_application');
 
-        return $this->scopeConfig->getValue($key) === PageCacheConfig::VARNISH ? 'varnish' : 'built-in';
+        return match ($value) {
+            PageCacheConfig::VARNISH => 'varnish',
+            42 => 'fastly',
+            default => 'built-in'
+        };
     }
 }

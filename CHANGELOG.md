@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## WIP
+
+- Renamed the "Generic" zone to "Server"
+- Renamed the "Mysql" zone to "Database"
+- Fixed typos
+- Fine-tuned warning threshold for various statistics
+- Moved block factories initialization to di.xml file
+
 ## [7.0.0] - 2023-09-05
 [7.0.0]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/6.1.3...7.0.0
 

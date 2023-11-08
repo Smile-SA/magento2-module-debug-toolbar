@@ -62,9 +62,11 @@ abstract class AbstractZone extends Template
     /**
      * Add a value to the summary.
      */
-    public function addToSummary(string $sectionName, string $key, mixed $value): void
+    public function addToSummary(string $sectionName, string $key, mixed $value): self
     {
         $this->summaryBlock->addToSummary($sectionName, $key, $value);
+
+        return $this;
     }
 
     /**

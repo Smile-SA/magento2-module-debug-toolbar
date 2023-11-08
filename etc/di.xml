@@ -29,4 +29,21 @@
     <type name="Magento\Config\Model\Config">
         <plugin name="smile-debugtoolbar-config-plugin" type="Smile\DebugToolbar\Plugin\ConfigPlugin" sortOrder="1" disabled="false"/>
     </type>
+
+    <!-- Block factories -->
+    <type name="Smile\DebugToolbar\Observer\AddZones">
+        <arguments>
+            <argument name="blockFactories" xsi:type="array">
+                <item name="server" xsi:type="object">Smile\DebugToolbar\Block\Zone\ServerFactory</item>
+                <item name="request" xsi:type="object">Smile\DebugToolbar\Block\Zone\RequestFactory</item>
+                <item name="response" xsi:type="object">Smile\DebugToolbar\Block\Zone\ResponseFactory</item>
+                <item name="layout" xsi:type="object">Smile\DebugToolbar\Block\Zone\LayoutFactory</item>
+                <item name="database" xsi:type="object">Smile\DebugToolbar\Block\Zone\DatabaseFactory</item>
+                <item name="cache" xsi:type="object">Smile\DebugToolbar\Block\Zone\CacheFactory</item>
+                <item name="profiler" xsi:type="object">Smile\DebugToolbar\Block\Zone\ProfilerFactory</item>
+                <item name="observer" xsi:type="object">Smile\DebugToolbar\Block\Zone\ObserverFactory</item>
+                <item name="preference" xsi:type="object">Smile\DebugToolbar\Block\Zone\PreferenceFactory</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

@@ -7,12 +7,12 @@ $stats = $block->getObserverStats();
 
 $sections = [
     'Used Events' => [
-        'Number' => 0,
+        'Count' => 0,
         'Called' => 0,
         'Time' => 0,
     ],
     'Unused Events' => [
-        'Number' => 0,
+        'Count' => 0,
         'Called' => 0,
         'Time' => 0,
     ],
@@ -29,12 +29,12 @@ foreach ($stats as $event) {
         $event['html_info'] = $block->buildHtmlInfo($event['observers']);
     }
 
-    $section['Number']++;
+    $section['Count']++;
     $section['Called'] += $event['nb_call'];
     $section['Time'] += $event['time_total'];
 
     $event['event_name'] = $block->formatValue($event['event_name'], [], 'text');
-    $event['nb_call'] = $block->formatValue($event['nb_call'], ['gt' => 200], 'number');
+    $event['nb_call'] = $block->formatValue($event['nb_call'], [], 'number');
     $event['time_total'] = $block->formatValue($event['time_total'], ['gt' => 0.5], 'time_ms');
     $event['time_mean'] = $block->formatValue($event['time_mean'], ['gt' => 0.5], 'time_ms');
     $event['nb_observers'] = $block->formatValue($event['nb_observers'], ['gt' => 20], 'number');
@@ -49,7 +49,7 @@ unset($stats);
     $used,
     [
         'event_name' => ['label' => 'Name', 'width' => ''],
-        'nb_call' => ['label' => 'Nb Call', 'width' => '100px'],
+        'nb_call' => ['label' => 'Calls', 'width' => '100px'],
         'time_total' => ['label' => 'Total Time', 'width' => '120px'],
         'time_mean' => ['label' => 'Mean Time', 'width' => '120px'],
         'nb_observers' => ['label' => 'Observers', 'width' => '130px'],
@@ -62,7 +62,7 @@ unset($stats);
     $unused,
     [
         'event_name' => ['label' => 'Name', 'width' => ''],
-        'nb_call' => ['label' => 'Nb Call', 'width' => '100px'],
+        'nb_call' => ['label' => 'Calls', 'width' => '100px'],
         'time_total' => ['label' => 'Total Time', 'width' => '120px'],
         'time_mean' => ['label' => 'Mean Time', 'width' => '120px'],
     ]
@@ -71,20 +71,20 @@ unset($stats);
 <?php
 $sections = [
     'Used Events' => [
-        'Number' => $block->formatValue($sections['Used Events']['Number'], ['gt' => 100], 'number'),
+        'Count' => $block->formatValue($sections['Used Events']['Count'], ['gt' => 100], 'number'),
         'Called' => $block->formatValue($sections['Used Events']['Called'], ['gt' => 1000], 'number'),
         'Time' => $block->formatValue($sections['Used Events']['Time'], ['gt' => 1.000], 'time'),
     ],
     'Unused Events' => [
-        'Number' => $block->formatValue($sections['Unused Events']['Number'], [], 'number'),
+        'Count' => $block->formatValue($sections['Unused Events']['Count'], [], 'number'),
         'Called' => $block->formatValue($sections['Unused Events']['Called'], [], 'number'),
         'Time' => $block->formatValue($sections['Unused Events']['Time'], ['gt' => 0.5], 'time'),
     ],
 ];
 
-$block->addToSummary('Observers', 'Used Events', $sections['Used Events']['Number']);
-$block->addToSummary('Observers', 'Called Events', $sections['Used Events']['Called']);
-$block->addToSummary('Observers', 'Time', $sections['Used Events']['Time']);
+$block->addToSummary('Observers', 'Used Events', $sections['Used Events']['Count'])
+    ->addToSummary('Observers', 'Called Events', $sections['Used Events']['Called'])
+    ->addToSummary('Observers', 'Time', $sections['Used Events']['Time']);
 ?>
 
 <?= /* @noEscape */ $block->displaySectionsGrouped($sections) ?>

@@ -1,8 +1,8 @@
 <?php
 
-use Smile\DebugToolbar\Block\Zone\Generic;
+use Smile\DebugToolbar\Block\Zone\Server;
 
-/** @var Generic $block */
+/** @var Server $block */
 $sections = [
     'Product' => [
         'Product' => $block->getProductName(),
@@ -11,12 +11,12 @@ $sections = [
         'Area' => $block->getMagentoArea(),
         'Mode' => $block->getMagentoMode(),
     ],
-    'Server' => [
+    'PHP' => [
         'PHP Version' => $block->getPhpVersion(),
         'PHP Memory Limit' => $block->formatValue($block->getPhpMemoryLimit(), ['lt' => 256 * 1024 * 1024], 'size'),
         'PHP Memory Used' => $block->formatValue($block->getPhpMemoryUsed(), ['gt' => 128 * 1024 * 1024], 'size'),
         'PHP Max Execution Time' => $block->formatValue($block->getPhpMaxExecutionTime(), ['lt' => 60], 'time'),
-        'PHP Execution Time' => $block->formatValue($block->getPhpExecutionTime(), ['gt' => 5], 'time'),
+        'PHP Execution Time' => $block->formatValue($block->getPhpExecutionTime(), ['gt' => 3], 'time'),
     ],
     'Session' => [
         'Mode' => $block->formatValue($block->getSessionMode(), ['neq' => 'redis'], 'text'),
@@ -24,8 +24,8 @@ $sections = [
     ],
 ];
 
-$block->addToSummary('Server', 'PHP Memory Used', $sections['Server']['PHP Memory Used']);
-$block->addToSummary('Server', 'PHP Execution Time', $sections['Server']['PHP Execution Time']);
+$block->addToSummary('Server', 'PHP Memory Used', $sections['PHP']['PHP Memory Used'])
+    ->addToSummary('Server', 'PHP Execution Time', $sections['PHP']['PHP Execution Time']);
 ?>
 
 <?= /* @noEscape */ $block->displaySections($sections) ?>

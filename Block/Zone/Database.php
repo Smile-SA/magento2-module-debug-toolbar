@@ -11,9 +11,9 @@ use Smile\DebugToolbar\Helper\Data as DataHelper;
 use Smile\DebugToolbar\Model\ResourceModel\Info as ResourceModel;
 
 /**
- * MySQL section.
+ * Database section.
  */
-class Mysql extends AbstractZone
+class Database extends AbstractZone
 {
     public function __construct(
         Context $context,
@@ -31,7 +31,7 @@ class Mysql extends AbstractZone
      */
     public function getCode(): string
     {
-        return 'mysql';
+        return 'database';
     }
 
     /**
@@ -39,7 +39,7 @@ class Mysql extends AbstractZone
      */
     public function getTitle(): string
     {
-        return 'Mysql';
+        return 'Database';
     }
 
     /**

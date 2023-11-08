@@ -7,17 +7,8 @@ namespace Smile\DebugToolbar\Observer;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Smile\DebugToolbar\Block\Zone\AbstractZone;
-use Smile\DebugToolbar\Block\Zone\CacheFactory;
-use Smile\DebugToolbar\Block\Zone\GenericFactory;
-use Smile\DebugToolbar\Block\Zone\LayoutFactory;
-use Smile\DebugToolbar\Block\Zone\MysqlFactory;
-use Smile\DebugToolbar\Block\Zone\ObserverFactory;
-use Smile\DebugToolbar\Block\Zone\PreferenceFactory;
-use Smile\DebugToolbar\Block\Zone\ProfilerFactory;
 use Smile\DebugToolbar\Block\Zone\Request;
-use Smile\DebugToolbar\Block\Zone\RequestFactory;
 use Smile\DebugToolbar\Block\Zone\Response;
-use Smile\DebugToolbar\Block\Zone\ResponseFactory;
 use Smile\DebugToolbar\Block\Zone\Summary;
 
 /**
@@ -25,30 +16,8 @@ use Smile\DebugToolbar\Block\Zone\Summary;
  */
 class AddZones implements ObserverInterface
 {
-    protected array $blockFactories;
-
-    public function __construct(
-        CacheFactory $cacheBlockFactory,
-        GenericFactory $genericBlockFactory,
-        LayoutFactory $layoutBlockFactory,
-        MysqlFactory $mysqlBlockFactory,
-        ObserverFactory $observerBlockFactory,
-        PreferenceFactory $preferenceBlockFactory,
-        ProfilerFactory $profilerBlockFactory,
-        RequestFactory $requestBlockFactory,
-        ResponseFactory $responseBlockFactory
-    ) {
-        $this->blockFactories = [
-            $genericBlockFactory,
-            $requestBlockFactory,
-            $responseBlockFactory,
-            $layoutBlockFactory,
-            $mysqlBlockFactory,
-            $cacheBlockFactory,
-            $profilerBlockFactory,
-            $observerBlockFactory,
-            $preferenceBlockFactory,
-        ];
+    public function __construct(protected array $blockFactories)
+    {
     }
 
     /**

@@ -1,9 +1,9 @@
 <?php
 
 use Magento\Framework\Escaper;
-use Smile\DebugToolbar\Block\Zone\Mysql;
+use Smile\DebugToolbar\Block\Zone\Database;
 
-/** @var Mysql $block */
+/** @var Database $block */
 /** @var Escaper $escaper */
 try {
     $queries = $block->getQueries();
@@ -37,7 +37,7 @@ foreach ($queries as $key => $query) {
 
 <?php
 $sections = [
-    'Number' => $block->getCountPerTypes(),
+    'Count' => $block->getCountPerTypes(),
     'Time' => $block->getTimePerTypes(),
 ];
 
@@ -53,18 +53,18 @@ $sections['Time'] = [
 ];
 
 $sections['Number'] = [
-    'total' => $block->formatValue($sections['Number']['total'], ['gt' => 200], 'number'),
-    'select' => $block->formatValue($sections['Number']['select'], ['gt' => 200], 'number'),
-    'insert' => $block->formatValue($sections['Number']['insert'], ['gt' => 15], 'number'),
-    'update' => $block->formatValue($sections['Number']['update'], ['gt' => 15], 'number'),
-    'delete' => $block->formatValue($sections['Number']['delete'], ['gt' => 15], 'number'),
-    'query' => $block->formatValue($sections['Number']['query'], ['gt' => 15], 'number'),
-    'transaction' => $block->formatValue($sections['Number']['transaction'], ['gt' => 15], 'number'),
-    'connect' => $block->formatValue($sections['Number']['connect'], ['gt' => 1], 'number'),
+    'total' => $block->formatValue($sections['Count']['total'], ['gt' => 250], 'number'),
+    'select' => $block->formatValue($sections['Count']['select'], ['gt' => 250], 'number'),
+    'insert' => $block->formatValue($sections['Count']['insert'], ['gt' => 15], 'number'),
+    'update' => $block->formatValue($sections['Count']['update'], ['gt' => 15], 'number'),
+    'delete' => $block->formatValue($sections['Count']['delete'], ['gt' => 15], 'number'),
+    'query' => $block->formatValue($sections['Count']['query'], ['gt' => 15], 'number'),
+    'transaction' => $block->formatValue($sections['Count']['transaction'], ['gt' => 15], 'number'),
+    'connect' => $block->formatValue($sections['Count']['connect'], ['gt' => 1], 'number'),
 ];
 
-$block->addToSummary('Mysql', 'Number', $sections['Number']['total']);
-$block->addToSummary('Mysql', 'Time', $sections['Time']['total']);
+$block->addToSummary('Mysql', 'Queries', $sections['Count']['total'])
+    ->addToSummary('Mysql', 'Time', $sections['Time']['total']);
 ?>
 
 <?= /* @noEscape */ $block->displaySectionsGrouped($sections) ?>

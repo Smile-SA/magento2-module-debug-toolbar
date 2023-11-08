@@ -13,9 +13,9 @@ use Smile\DebugToolbar\Formatter\FormatterFactory;
 use Smile\DebugToolbar\Helper\Data as DataHelper;
 
 /**
- * Generic section.
+ * Server section.
  */
-class Generic extends AbstractZone
+class Server extends AbstractZone
 {
     public function __construct(
         Context $context,
@@ -34,7 +34,7 @@ class Generic extends AbstractZone
      */
     public function getCode(): string
     {
-        return 'generic';
+        return 'server';
     }
 
     /**
@@ -42,7 +42,7 @@ class Generic extends AbstractZone
      */
     public function getTitle(): string
     {
-        return 'Generic';
+        return 'Server';
     }
 
     /**

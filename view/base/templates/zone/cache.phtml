@@ -1,5 +1,6 @@
 <?php
 
+use Magento\Framework\Cache\Backend\Redis;
 use Smile\DebugToolbar\Block\Zone\Cache;
 
 /** @var Cache $block */
@@ -7,11 +8,11 @@ $list = $block->getCacheUsage();
 
 foreach ($list as $key => $row) {
     $row['identifier'] = $block->formatValue($row['identifier'], [], 'text');
-    $row['nb_call'] = $block->formatValue($row['nb_call'], [], 'number');
-    $row['size_total'] = $block->formatValue($row['size_total'], [], 'size_ko');
-    $row['size_mean'] = $block->formatValue($row['size_mean'], ['gt' => 128 * 1024], 'size_ko');
-    $row['time_total'] = $block->formatValue($row['time_total'], [], 'time_ms');
-    $row['time_mean'] = $block->formatValue($row['time_mean'], ['gt' => 0.01], 'time_ms');
+    $row['call_count'] = $block->formatValue($row['call_count'], [], 'number');
+    $row['total_size'] = $block->formatValue($row['total_size'], [], 'size_ko');
+    $row['mean_size'] = $block->formatValue($row['mean_size'], ['gt' => 250 * 1024], 'size_ko');
+    $row['total_time'] = $block->formatValue($row['total_time'], [], 'time_ms');
+    $row['mean_time'] = $block->formatValue($row['mean_time'], ['gt' => 0.01], 'time_ms');
     $row['html_info'] = $block->buildHtmlInfo($row['calls']);
     $list[$key] = $row;
 }
@@ -22,11 +23,11 @@ foreach ($list as $key => $row) {
     $list,
     [
         'identifier' => ['label' => 'Identifier', 'width' => ''],
-        'nb_call' => ['label' => 'Nb Call', 'width' => '100px'],
-        'size_total' => ['label' => 'Size Total', 'width' => '120px'],
-        'size_mean' => ['label' => 'Size Mean', 'width' => '120px'],
-        'time_total' => ['label' => 'Time Total', 'width' => '120px'],
-        'time_mean' => ['label' => 'Time Mean',    'width' => '120px'],
+        'call_count' => ['label' => 'Calls', 'width' => '100px'],
+        'total_size' => ['label' => 'Total Size', 'width' => '120px'],
+        'mean_size' => ['label' => 'Mean Size', 'width' => '120px'],
+        'total_time' => ['label' => 'Total Time', 'width' => '120px'],
+        'mean_time' => ['label' => 'Mean Time',    'width' => '120px'],
     ],
     'html_info'
 ) ?>
@@ -35,17 +36,17 @@ foreach ($list as $key => $row) {
 $sections = $block->getStatsPerAction();
 
 $sections['Number'] = [
-    'total' => $block->formatValue($sections['Number']['total'], ['gt' => 150], 'number'),
-    'load' => $block->formatValue($sections['Number']['load'], ['gt' => 100], 'number'),
-    'save' => $block->formatValue($sections['Number']['save'], ['gt' => 100], 'number'),
-    'remove' => $block->formatValue($sections['Number']['remove'], ['gt' => 50], 'number'),
+    'total' => $block->formatValue($sections['Count']['total'], [], 'number'),
+    'load' => $block->formatValue($sections['Count']['load'], [], 'number'),
+    'save' => $block->formatValue($sections['Count']['save'], [], 'number'),
+    'remove' => $block->formatValue($sections['Count']['remove'], [], 'number'),
 ];
 
 $sections['Size'] = [
-    'total' => $block->formatValue($sections['Size']['total'], ['gt' => 1024 * 1024], 'size'),
-    'load' => $block->formatValue($sections['Size']['load'], ['gt' => 1024 * 1024], 'size'),
-    'save' => $block->formatValue($sections['Size']['save'], ['gt' => 1024 * 1024], 'size'),
-    'remove' => $block->formatValue($sections['Size']['remove'], ['gt' => 1024 * 1024], 'size'),
+    'total' => $block->formatValue($sections['Size']['total'], [], 'size'),
+    'load' => $block->formatValue($sections['Size']['load'], [], 'size'),
+    'save' => $block->formatValue($sections['Size']['save'], [], 'size'),
+    'remove' => $block->formatValue($sections['Size']['remove'], [], 'size'),
 ];
 
 $sections['Time'] = [
@@ -55,9 +56,9 @@ $sections['Time'] = [
     'remove' => $block->formatValue($sections['Time']['remove'], ['gt' => 0.5], 'time'),
 ];
 
-$block->addToSummary('Cache', 'Number', $sections['Number']['total']);
-$block->addToSummary('Cache', 'Time', $sections['Time']['total']);
-$block->addToSummary('Cache', 'Size', $sections['Size']['total']);
+$block->addToSummary('Cache', 'Count', $sections['Count']['total'])
+    ->addToSummary('Cache', 'Time', $sections['Time']['total'])
+    ->addToSummary('Cache', 'Size', $sections['Size']['total']);
 ?>
 
 <?= /* @noEscape */ $block->displaySectionsGrouped($sections) ?>
@@ -66,7 +67,7 @@ $block->addToSummary('Cache', 'Size', $sections['Size']['total']);
 $sections = [
     'Types' => $block->getCacheTypes(),
     'Config' => [
-        'Mode' => $block->formatValue($block->getCacheMode(), ['neq' => 'Cm_Cache_Backend_Redis'], 'text'),
+        'Backend' => $block->formatValue($block->getCacheBackend(), ['neq' => Redis::class], 'text'),
         'Config' => $block->getCacheInfo(),
     ],
 ];

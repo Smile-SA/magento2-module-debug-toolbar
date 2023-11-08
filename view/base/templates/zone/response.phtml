@@ -36,8 +36,6 @@ $sections = [
     ],
     'Full Page Cache' => [
         'Mode' => $block->formatValue($block->getFullPageCacheMode(), ['neq' => 'varnish'], 'text'),
-        'Nb Tags' => $block->formatValue(count($tags), ['gt' => 50], 'number'),
-        'Nb ESI' => $block->formatValue(count($esi), ['gt' => 4], 'number'),
         'Tags' => $tags,
         'ESI' => $esi,
     ],
@@ -45,9 +43,9 @@ $sections = [
 
 $block->addToSummary('Response', 'Date', $sections['Response']['Date']);
 $block->addToSummary('Response', 'Size', $sections['Response']['Size']);
-$block->addToSummary('Response', 'FPC Mode', $sections['Full Page Cache']['Mode']);
-$block->addToSummary('Response', 'FPC Tags', $sections['Full Page Cache']['Nb Tags']);
-$block->addToSummary('Response', 'ESI Tags', $sections['Full Page Cache']['Nb ESI']);
+$block->addToSummary('Full Page Cache', 'FPC Mode', $sections['Full Page Cache']['Mode']);
+$block->addToSummary('Full Page Cache', 'FPC Tags', count($tags));
+$block->addToSummary('Full Page Cache', 'ESI Tags', count($esi));
 ?>
 
 <?= /* @noEscape */ $block->displaySections($sections) ?>

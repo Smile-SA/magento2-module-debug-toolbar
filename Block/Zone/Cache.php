@@ -45,7 +45,7 @@ class Cache extends AbstractZone
     /**
      * Get the cache mode.
      */
-    public function getCacheMode(): string
+    public function getCacheBackend(): string
     {
         $config = $this->deployConfig->get('cache');
         if (!$config || !is_array($config) || empty($config['frontend']['default']['backend'])) {

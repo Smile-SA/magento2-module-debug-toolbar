@@ -1,16 +1,15 @@
-# How To
+# How to Add Zones
 
-## Add a new zone
+It is possible add new zones (i.e. sections) to the toolbar.
+To do this, you must implement a new block associated to a template file.
 
-You can add a new zone in the toolbar.
-
-To do it, you must implement a new block associated to a template file.
-
-Your new block must:
+This new block must:
 
 - extend the class `\Smile\DebugToolbar\Block\Zone\AbstractZone`
 - implement the method `getTitle`
 - implement the method `getCode`
+
+For example:
 
 ```php
 <?php
@@ -41,16 +40,17 @@ class MyZone extends AbstractZone
 }
 ```
 
-It must be associated to the template file `./view/base/templates/zone/myzone.phtml` of your module:
+It must be associated to the template file `view/base/templates/zone/myzone.phtml` of your module:
 
 ```php
 <?php
+
 /** @var \MyNameSpace\MyModule\Block\Zone\MyZone $block */
 
 $sections = [
     'Some Values' => [
         'Current Date' => $block->formatValue(date('Y-m-d H:i:s'), [], 'datetime'),
-        'Memory Used'  => $block->formatValue((int) memory_get_peak_usage(true), ['gt' => 128*1024*1024], 'size'),
+        'Memory Used' => $block->formatValue((int) memory_get_peak_usage(true), ['gt' => 128*1024*1024], 'size'),
     ],
 ];
 
@@ -61,18 +61,18 @@ echo $block->displaySections($sections);
 
 You can:
 
-- Format values, using the `formatValue` method. You can specify rules to generate automatic warnings.
-- Display sections, using the `displaySections` method.
-- Add values to the summary zone, using the `addToSummary` method.
+- Format values with the `formatValue` method.
+- Display sections with the `displaySections` method.
+- Add values to the summary zone with the `addToSummary` method.
 
-Then, you can add this new zone to the toolbar, by adding an observer on the event `smile_debug_toolbar_set_zones`.
+Then, you can add this new zone to the toolbar by adding an observer on the event `smile_debug_toolbar_set_zones`.
 
 The following objects will be available in the event:
 
 - `zones`: contains the list of the current zones.
 - `summary_block`: contains the summary zone.
 
-You can use them as follow:
+For example:
 
 ```php
 <?php
@@ -105,5 +105,3 @@ class AddZone implements ObserverInterface
     }
 }
 ```
-
-[Back](../README.md)

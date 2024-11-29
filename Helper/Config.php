@@ -9,6 +9,7 @@ use Magento\Framework\App\DeploymentConfig;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\App\Request\Http;
+use Magento\Framework\App\State;
 
 /**
  * Config helper.
@@ -27,6 +28,11 @@ class Config extends AbstractHelper
      */
     public function isEnabled(): bool
     {
+        // Always disable the developer toolbar in the production environment to prevent sharing sensitive information
+        if ($this->deploymentConfig->get(State::PARAM_MODE) === State::MODE_PRODUCTION) {
+            return false;
+        }
+
         $enabled = $this->scopeConfig->isSetFlag('smile_debugtoolbar/configuration/enabled');
         if (!$enabled) {
             return false;

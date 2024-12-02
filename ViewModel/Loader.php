@@ -18,6 +18,6 @@ class Loader implements ArgumentInterface
      */
     public function isToolbarEnabled(): bool
     {
-        return $this->configHelper->isEnabled();
+        return $this->configHelper->isEnabledInCurrentArea();
     }
 }

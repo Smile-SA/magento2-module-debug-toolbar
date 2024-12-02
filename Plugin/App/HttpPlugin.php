@@ -24,7 +24,7 @@ class HttpPlugin
      */
     public function beforeLaunch(MagentoHttp $subject): array
     {
-        if ($this->configHelper->isEnabled()) {
+        if ($this->configHelper->isEnabledInCurrentArea()) {
             $this->dataHelper->startTimer('app_http');
         }
 

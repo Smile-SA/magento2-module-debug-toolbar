@@ -25,7 +25,7 @@ class AbstractActionPlugin
      */
     public function beforeDispatch(MagentoAction $subject, RequestInterface $request): array
     {
-        if ($this->configHelper->isEnabled()) {
+        if ($this->configHelper->isEnabledInCurrentArea()) {
             $className = get_class($subject);
             $className = preg_replace('!\\\\Interceptor$!', '', $className);
             $this->dataHelper->setValue('controller_classname', $className);

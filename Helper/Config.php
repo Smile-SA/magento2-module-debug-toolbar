@@ -25,19 +25,33 @@ class Config extends AbstractHelper
     /**
      * Check whether the module is enabled.
      */
-    public function isEnabled(): bool
+    public function isEnabledInCurrentArea(): bool
     {
-        $enabled = $this->scopeConfig->isSetFlag('smile_debugtoolbar/configuration/enabled');
-        if (!$enabled) {
+        if (!$this->isEnabled()) {
             return false;
         }
 
-        $enabledAdmin = $this->scopeConfig->isSetFlag('smile_debugtoolbar/configuration/enabled_admin');
-        if (!$enabledAdmin && $this->isAdminArea()) {
+        if (!$this->isEnabledAdmin() && $this->isAdminArea()) {
             return false;
         }
 
         return true;
+    }
+
+    /**
+     * Check whether the module is enabled globally.
+     */
+    public function isEnabled(): bool
+    {
+        return $this->scopeConfig->isSetFlag('smile_debugtoolbar/configuration/enabled');
+    }
+
+    /**
+     * Check whether the module is enabled for the admin area.
+     */
+    public function isEnabledAdmin(): bool
+    {
+        return $this->scopeConfig->isSetFlag('smile_debugtoolbar/configuration/enabled_admin');
     }
 
     /**

@@ -25,7 +25,7 @@ class CachePlugin
      */
     public function aroundLoad(CacheInterface $subject, Closure $closure, string $identifier): mixed
     {
-        if (!$this->configHelper->isEnabled()) {
+        if (!$this->configHelper->isEnabledInCurrentArea()) {
             return $closure($identifier);
         }
 
@@ -54,7 +54,7 @@ class CachePlugin
         array $tags = [],
         ?int $lifeTime = null
     ): bool {
-        if (!$this->configHelper->isEnabled()) {
+        if (!$this->configHelper->isEnabledInCurrentArea()) {
             return $closure($data, $identifier, $tags, $lifeTime);
         }
 
@@ -77,7 +77,7 @@ class CachePlugin
      */
     public function aroundRemove(CacheInterface $subject, Closure $closure, string $identifier): bool
     {
-        if (!$this->configHelper->isEnabled()) {
+        if (!$this->configHelper->isEnabledInCurrentArea()) {
             return $closure($identifier);
         }
 

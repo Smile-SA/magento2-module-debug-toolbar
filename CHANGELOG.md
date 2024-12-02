@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.0.2] - 2024-12-02
+[7.0.2]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/7.0.1...7.0.2
+
+- Added a notification message in admin area when Magento runs in production mode
+
 ## [7.0.1] - 2023-11-08
 [7.0.1]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/7.0.0...7.0.1
 

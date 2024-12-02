@@ -7,6 +7,6 @@
 
     <!-- Add the zones to the toolbar -->
     <event name="smile_debug_toolbar_set_zones">
-        <observer name="smile_debugtoolbar_add_default zones" instance="Smile\DebugToolbar\Observer\AddZones"/>
+        <observer name="smile_debugtoolbar_add_default_zones" instance="Smile\DebugToolbar\Observer\AddZones"/>
     </event>
 </config>

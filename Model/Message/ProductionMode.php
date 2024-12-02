@@ -33,7 +33,7 @@ class ProductionMode implements MessageInterface
      */
     public function isDisplayed()
     {
-        return $this->deploymentConfig->get(State::PARAM_MODE) !== State::MODE_PRODUCTION;
+        return $this->deploymentConfig->get(State::PARAM_MODE) === State::MODE_PRODUCTION;
     }
 
     /**

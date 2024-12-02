@@ -299,8 +299,6 @@ class Formatter
 
     /**
      * Get the formatted value.
-     *
-     * @return array
      */
     public function getResult(): array
     {

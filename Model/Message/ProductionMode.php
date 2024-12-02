@@ -10,7 +10,7 @@ use Magento\Framework\Notification\MessageInterface;
 use Smile\DebugToolbar\Helper\Config;
 
 /**
- * Add zone blocks to the toolbar.
+ * Notification message in admin area when Magento runs in production mode.
  */
 class ProductionMode implements MessageInterface
 {

@@ -60,7 +60,7 @@ jobs:
               run: 'vendor/bin/phpcs --extensions=php,phtml'
 
             - name: 'Run PHPMD'
-              run: 'vendor/bin/phpmd . xml phpmd.xml.dist'
+              run: 'vendor/bin/phpmd analyze .'
 
             - name: 'Run PHPStan'
               run: 'vendor/bin/phpstan analyse'

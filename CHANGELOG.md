@@ -2,7 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
-## WIP
+## [7.0.3] - 2026-03-23
+[7.0.3]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/7.0.2...7.0.3
 
 - Fixed deprecation notice when using php 8.5
 

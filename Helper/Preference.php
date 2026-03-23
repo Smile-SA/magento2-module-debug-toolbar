@@ -38,12 +38,10 @@ class Preference extends AbstractHelper
         $reflectionClass = new ReflectionClass($this->pluginList);
 
         $property = $reflectionClass->getProperty('_definitions');
-        $property->setAccessible(true);
         /** @var DefinitionInterface $definitions */
         $definitions = $property->getValue($this->pluginList);
 
         $property = $reflectionClass->getProperty('_pluginInstances');
-        $property->setAccessible(true);
         $pluginInstances = $property->getValue($this->pluginList);
 
         ksort($pluginInstances);
@@ -116,8 +114,6 @@ class Preference extends AbstractHelper
         }
 
         if ($property !== null) {
-            $property->setAccessible(true);
-
             $preferences = $property->getValue($config);
             ksort($preferences);
         }

@@ -11,14 +11,6 @@
         }
     ],
     "license": "EPL-2.0",
-    "config": {
-        "allow-plugins": {
-            "magento/composer-dependency-version-audit-plugin": true,
-            "dealerdirect/phpcodesniffer-composer-installer": true
-        },
-        "sort-packages": true
-    },
-    "minimum-stability": "dev",
     "require": {
         "php": "^8.1",
         "magento/framework": ">=103.0.4",
@@ -27,6 +19,7 @@
     "require-dev": {
         "smile/magento2-smilelab-quality-suite": "^3.0"
     },
+    "minimum-stability": "dev",
     "autoload": {
         "files": [
             "registration.php"
@@ -34,6 +27,16 @@
         "psr-4": {
             "Smile\\DebugToolbar\\": ""
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "magento/composer-dependency-version-audit-plugin": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "audit": {
+            "abandoned": "report"
+        },
+        "sort-packages": true
     },
     "repositories": [
         {

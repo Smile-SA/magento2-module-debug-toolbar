@@ -17,7 +17,7 @@
         "magento/module-config": ">=101.2.4"
     },
     "require-dev": {
-        "smile/magento2-smilelab-quality-suite": "^3.0"
+        "smile/magento2-smilelab-quality-suite": "^4.0"
     },
     "minimum-stability": "dev",
     "autoload": {

@@ -18,7 +18,7 @@ if (PHP_SAPI !== 'cli') {
         ],
     ];
 
-    Profiler::applyConfig($options, BP);
+    Profiler::applyConfig($options, constant('BP'));
     SmileProfiler::setStat($options['drivers'][0]['stat']);
 }
 

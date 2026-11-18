@@ -26,9 +26,9 @@ abstract class AbstractZone extends Template
         protected FormatterFactory $formatterFactory,
         array $data = []
     ) {
+        $data['template'] = 'Smile_DebugToolbar::zone/' . $this->getCode() . '.phtml';
         parent::__construct($context, $data);
         $this->setData('cache_lifetime', 0);
-        $this->setTemplate('Smile_DebugToolbar::zone/' . $this->getCode() . '.phtml');
     }
 
     /**

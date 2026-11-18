@@ -17,6 +17,10 @@
         "magento/module-config": ">=101.2.4"
     },
     "require-dev": {
+        "bitexpert/phpstan-magento": "^0.44",
+        "magento/magento-coding-standard": "^41",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan": "^2.1",
         "smile/magento2-smilelab-quality-suite": "^4.0"
     },
     "minimum-stability": "dev",
@@ -31,7 +35,8 @@
     "config": {
         "allow-plugins": {
             "magento/composer-dependency-version-audit-plugin": true,
-            "dealerdirect/phpcodesniffer-composer-installer": true
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "phpstan/extension-installer": true
         },
         "audit": {
             "abandoned": "report"

@@ -75,6 +75,7 @@ jobs:
           magento-version: ${{ matrix.magento }}
           php-version: ${{ matrix.php }}
           annotations: ${{ strategy.job-index == 0 }}
+          config: .github/magento-check/phpcs.xml
 
       - name: Compile and static content
         id: compile

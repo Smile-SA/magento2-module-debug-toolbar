@@ -30,10 +30,10 @@ class Toolbar extends Template
         protected SummaryFactory $blockSummaryFactory,
         array $data = []
     ) {
+        $data['template'] = 'Smile_DebugToolbar::toolbar.phtml';
         parent::__construct($context, $data);
 
         $this->setData('cache_lifetime', 0);
-        $this->setTemplate('Smile_DebugToolbar::toolbar.phtml');
     }
 
     /**

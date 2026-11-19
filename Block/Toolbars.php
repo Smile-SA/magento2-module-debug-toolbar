@@ -14,9 +14,9 @@ class Toolbars extends Template
 {
     public function __construct(Context $context, array $data = [])
     {
+        $data['template'] = 'toolbars.phtml';
         parent::__construct($context, $data);
         $this->setData('cache_lifetime', 0);
-        $this->setTemplate('toolbars.phtml');
     }
 
     /**

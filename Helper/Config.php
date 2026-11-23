@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Smile\DebugToolbar\Helper;
 
+use Composer\InstalledVersions;
 use Magento\Backend\Setup\ConfigOptionsList;
 use Magento\Framework\App\DeploymentConfig;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\App\Request\Http;
+use Magento\Framework\App\State;
 
 /**
  * Config helper.
@@ -43,7 +45,24 @@ class Config extends AbstractHelper
      */
     public function isEnabled(): bool
     {
-        return $this->scopeConfig->isSetFlag('smile_debugtoolbar/configuration/enabled');
+        return $this->scopeConfig->isSetFlag('smile_debugtoolbar/configuration/enabled')
+            && !$this->isInstalledOutsideDev();
+    }
+
+    /**
+     * Check whether Magento runs in production mode.
+     */
+    public function isProductionMode(): bool
+    {
+        return $this->deploymentConfig->get(State::PARAM_MODE) === State::MODE_PRODUCTION;
+    }
+
+    /**
+     * Check whether the module was installed with "composer require" instead of "composer require --dev".
+     */
+    public function isInstalledOutsideDev(): bool
+    {
+        return InstalledVersions::isInstalled('smile/module-debug-toolbar', false);
     }
 
     /**

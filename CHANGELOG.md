@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+- The toolbar is disabled when the module is installed in the `require` section of composer.json instead of `require-dev`
+- The admin notification is also displayed in that case
+- Escaped section and row names in the toolbar zones
+- The admin toolbar page now requires the `Smile_DebugToolbar::config` ACL resource
+- Added `composer-runtime-api ^2.1` requirement
+
 ## [7.0.3] - 2026-03-23
 [7.0.3]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/7.0.2...7.0.3
 

@@ -4,20 +4,16 @@ declare(strict_types=1);
 
 namespace Smile\DebugToolbar\Model\Message;
 
-use Magento\Framework\App\DeploymentConfig;
-use Magento\Framework\App\State;
 use Magento\Framework\Notification\MessageInterface;
 use Smile\DebugToolbar\Helper\Config;
 
 /**
- * Notification message in admin area when Magento runs in production mode.
+ * Notification message in admin area when the module is installed where it must not be.
  */
 class ProductionMode implements MessageInterface
 {
-    public function __construct(
-        protected DeploymentConfig $deploymentConfig,
-        protected Config $configHelper
-    ) {
+    public function __construct(protected Config $configHelper)
+    {
     }
 
     /**
@@ -33,7 +29,7 @@ class ProductionMode implements MessageInterface
      */
     public function isDisplayed()
     {
-        return $this->deploymentConfig->get(State::PARAM_MODE) === State::MODE_PRODUCTION;
+        return $this->configHelper->isProductionMode() || $this->configHelper->isInstalledOutsideDev();
     }
 
     /**
@@ -43,8 +39,9 @@ class ProductionMode implements MessageInterface
     {
         return __(
             <<<'EOT'
-                The DebugToolbar module is not supposed to be installed on production environments.
-                It may expose sensitive information if it is enabled.
+                The DebugToolbar module must only be installed with "composer require --dev"
+                and never on production environments: it may expose sensitive information if it is enabled.
+                It is disabled when installed in the "require" section of composer.json.
             EOT
         );
     }

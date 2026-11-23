@@ -95,7 +95,7 @@ abstract class AbstractZone extends Template
         $html = '';
 
         foreach ($sections as $sectionName => $sectionValues) {
-            $html .= "<h2>$sectionName</h2>\n";
+            $html .= '<h2>' . $this->_escaper->escapeHtml((string) $sectionName) . "</h2>\n";
 
             $html .= "<table>\n";
             $html .= '<tbody>';
@@ -123,11 +123,13 @@ abstract class AbstractZone extends Template
         $rowNames = array_keys($sections[$sectionNames[0]]);
 
         $html = "<table>\n";
-        $html .= '<thead><tr><th></th><td>' . implode('</td><td>', $sectionNames) . '</td></tr></thead>';
+        $html .= '<thead><tr><th></th><td>'
+            . implode('</td><td>', array_map(fn ($name) => $this->_escaper->escapeHtml((string) $name), $sectionNames))
+            . '</td></tr></thead>';
         $html .= '<tbody>';
         foreach ($rowNames as $rowName) {
             $html .= '<tr>';
-            $html .= '<th>' . $rowName . '</th>';
+            $html .= '<th>' . $this->_escaper->escapeHtml((string) $rowName) . '</th>';
             foreach ($sectionNames as $sectionName) {
                 [$class, $value] = $this->getClassAndValue($sections[$sectionName][$rowName]);
                 $html .= '<td class="' . $class . '">' . $value . '</td>';
@@ -164,6 +166,9 @@ abstract class AbstractZone extends Template
     protected function displaySectionValue(string $name, mixed $value): string
     {
         [$class, $value] = $this->getClassAndValue($value);
+
+        $name = $this->_escaper->escapeHtml($name);
+        $class = $this->_escaper->escapeHtmlAttr($class);
 
         return "    <tr><th>$name</th><td class=\"$class\">$value</td></tr>\n";
     }

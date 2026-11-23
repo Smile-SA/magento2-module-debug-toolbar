@@ -22,7 +22,7 @@ use Smile\DebugToolbar\Helper\Profiler as ProfilerHelper;
 /**
  * Save the toolbar data to a file.
  *
- * @SuppressWarnings(PMD.CouplingBetweenObjects)
+ * @SuppressWarnings("PMD.CouplingBetweenObjects")
  */
 class AddToolbar implements ObserverInterface
 {
@@ -38,7 +38,7 @@ class AddToolbar implements ObserverInterface
 
     /**
      * @inheritdoc
-     * @SuppressWarnings(PHPMD.ExitExpression)
+     * @SuppressWarnings("PHPMD.ExitExpression")
      */
     public function execute(Observer $observer)
     {

@@ -12,7 +12,7 @@ use Smile\DebugToolbar\Helper\Data as DataHelper;
 /**
  * Abstract zone block.
  *
- * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @SuppressWarnings("PHPMD.TooManyPublicMethods")
  */
 abstract class AbstractZone extends Template
 {

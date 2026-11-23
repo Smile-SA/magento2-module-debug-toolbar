@@ -20,7 +20,7 @@ class HttpPlugin
     /**
      * Add the start time.
      *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      */
     public function beforeLaunch(MagentoHttp $subject): array
     {

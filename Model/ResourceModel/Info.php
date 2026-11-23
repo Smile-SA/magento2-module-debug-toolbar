@@ -148,7 +148,6 @@ class Info
         /** @var Mysql $connection */
         $connection = $this->resourceConnection->getConnection();
 
-        /** @var Profiler $profiler */
         $profiler = $connection->getProfiler();
 
         if (!($profiler instanceof Profiler)) {

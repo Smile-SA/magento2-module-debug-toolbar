@@ -20,7 +20,7 @@ class ManagerPlugin
     /**
      * Plugin on dispatch.
      *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      */
     public function aroundDispatch(
         MagentoManager $subject,

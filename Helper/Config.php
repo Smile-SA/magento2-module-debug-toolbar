@@ -45,8 +45,7 @@ class Config extends AbstractHelper
      */
     public function isEnabled(): bool
     {
-        return $this->scopeConfig->isSetFlag('smile_debugtoolbar/configuration/enabled')
-            && !$this->isInstalledOutsideDev();
+        return $this->scopeConfig->isSetFlag('smile_debugtoolbar/configuration/enabled');
     }
 
     /**

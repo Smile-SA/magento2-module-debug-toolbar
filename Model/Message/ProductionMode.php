@@ -41,7 +41,6 @@ class ProductionMode implements MessageInterface
             <<<'EOT'
                 The DebugToolbar module must only be installed with "composer require --dev"
                 and never on production environments: it may expose sensitive information if it is enabled.
-                It is disabled when installed in the "require" section of composer.json.
             EOT
         );
     }

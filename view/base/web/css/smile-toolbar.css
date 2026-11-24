@@ -65,6 +65,20 @@
     font-weight: bold;
 }
 
+.smile-toolbar-warning {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 99999;
+    padding: 10px 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: var(--toolbar-font-size);
+    font-weight: bold;
+    color: #FFF;
+    background-color: var(--color-smile-orange);
+    box-shadow: var(--toolbar-shadow);
+}
+
 .smile-toolbar .st-logo {
     position: fixed;
     top: 0;

@@ -21,8 +21,8 @@ The toolbar displays useful information about the last executions (including aja
 > of every request, and displays them to anyone who can reach the toolbar.
 > **Install it only with `composer require --dev`, and never on a production or publicly reachable environment.**
 >
-> As a safeguard, the toolbar stays disabled when the module is declared in the `require` section of composer.json
-> instead of `require-dev`. A message is displayed in the admin area in that case, and when Magento runs in production mode.
+> A warning is displayed in the toolbar and in the admin area when the module is declared in the `require` section
+> of composer.json instead of `require-dev`. The admin warning is also displayed when Magento runs in production mode.
 >
 > Production builds must run `composer install --no-dev`, so the module is never downloaded there.
 

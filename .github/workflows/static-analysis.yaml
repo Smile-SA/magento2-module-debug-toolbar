@@ -12,9 +12,13 @@ jobs:
 
         strategy:
             matrix:
-                php-version:
-                    - '8.1'
-                    - '8.4'
+                include:
+                  - php-version: '8.3'
+                    magento: '103.0.7.*'
+                  - php-version: '8.4'
+                    magento: '103.0.8.*'
+                  - php-version: '8.5'
+                    magento: '103.0.9.*'
 
         steps:
             - name: 'Checkout'
@@ -49,7 +53,7 @@ jobs:
                   restore-keys: '${{ runner.os }}-composer-'
 
             - name: 'Install dependencies'
-              run: 'composer install --prefer-dist'
+              run: 'composer update --prefer-dist --with "magento/framework:${{ matrix.magento }}"'
 
             - name: 'Run composer audit'
               run: 'composer audit --format=plain --abandoned=report'

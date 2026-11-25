@@ -1,6 +1,7 @@
 name: 'CI'
 
 # The module is checked against Mage-OS (https://repo.mage-os.org/), which needs no Magento credentials.
+# Magento 2.4.4 and 2.4.5 are covered by a separate maintenance line.
 
 on:
   pull_request: ~
@@ -37,8 +38,8 @@ jobs:
       - name: 'Install dependencies'
         run: |
           # Install the whole latest Mage-OS release, so that the Magento modules match the framework version.
-          composer config repositories.mage-os composer https://repo.mage-os.org/
-          composer config --unset repositories.0
+          jq 'del(.repositories)' composer.json > composer.json.tmp && mv composer.json.tmp composer.json
+          composer config repositories.mage-os '{"type": "composer", "url": "https://repo.mage-os.org/", "canonical": false}'
           for plugin in mage-os/magento-composer-installer mage-os/composer-dependency-version-audit-plugin mage-os/inventory-composer-installer magento/magento-composer-installer magento/composer-dependency-version-audit-plugin magento/inventory-composer-installer php-http/discovery; do composer config "allow-plugins.$plugin" false; done
           composer require --dev --no-update "mage-os/product-community-edition:*"
           composer update --prefer-dist
@@ -58,39 +59,43 @@ jobs:
       - name: 'Run PHPStan'
         run: 'vendor/bin/phpstan analyse'
 
-  compute-matrix:
-    runs-on: 'ubuntu-latest'
-    outputs:
-      matrix: '${{ steps.supported-version.outputs.matrix }}'
-    steps:
-      - uses: 'graycoreio/github-actions-magento2/supported-version@v8.12.0'
-        id: 'supported-version'
-        with:
-          project: 'mage-os'
-          kind: 'currently-supported'
-          include_services: 'false'
-
   # Same steps as the "compile-extension" job of graycoreio/github-actions-magento2 (used by the mage-os-lab modules).
   compile:
-    needs: 'compute-matrix'
-    runs-on: '${{ matrix.os }}'
+    name: 'Compile (${{ matrix.name }})'
+    runs-on: 'ubuntu-latest'
     strategy:
-      matrix: '${{ fromJSON(needs.compute-matrix.outputs.matrix) }}'
       fail-fast: false
+      matrix:
+        include:
+          - name: 'Mage-OS 1.0.1 (Magento 2.4.6)'
+            php: '8.2'
+            project: 'mage-os/project-community-edition:1.0.1'
+            repository: 'https://repo.mage-os.org/'
+          - name: 'Mage-OS 1.0.x (Magento 2.4.7)'
+            php: '8.3'
+            project: 'mage-os/project-community-edition:1.0.*'
+            repository: 'https://repo.mage-os.org/'
+          - name: 'Mage-OS latest'
+            php: '8.4'
+            project: 'mage-os/project-community-edition'
+            repository: 'https://repo.mage-os.org/'
+    env:
+      # The older releases depend on packages with known security advisories.
+      COMPOSER_NO_SECURITY_BLOCKING: 1
 
     steps:
       - name: 'Checkout'
         uses: 'actions/checkout@v4'
 
-      - name: 'Create the Mage-OS project'
+      - name: 'Create the project'
         uses: 'graycoreio/github-actions-magento2/setup-magento@v8.12.0'
         id: 'setup-magento'
         with:
           php-version: '${{ matrix.php }}'
-          tools: 'composer:v${{ matrix.composer }}'
+          tools: 'composer:v2'
           mode: 'extension'
-          magento_version: '${{ matrix.magento }}'
-          magento_repository: 'https://repo.mage-os.org/'
+          magento_version: '${{ matrix.project }}'
+          magento_repository: '${{ matrix.repository }}'
 
       - name: 'Get package name'
         id: 'package'
@@ -105,7 +110,7 @@ jobs:
 
       - uses: 'graycoreio/github-actions-magento2/cache-magento@v8.12.0'
         with:
-          composer_cache_key: '${{ matrix.magento }}'
+          composer_cache_key: '${{ matrix.name }}'
           working-directory: '${{ steps.setup-magento.outputs.path }}'
 
       - name: 'Install dependencies'

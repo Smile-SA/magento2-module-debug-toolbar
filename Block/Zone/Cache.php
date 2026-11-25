@@ -58,7 +58,7 @@ class Cache extends AbstractZone
     /**
      * Get the cache info.
      */
-    public function getCacheInfo(): array|string
+    public function getCacheInfo()
     {
         $config = $this->deployConfig->get('cache');
         if (!$config || !is_array($config)) {

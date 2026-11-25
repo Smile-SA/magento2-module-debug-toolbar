@@ -1,6 +1,8 @@
 parameters:
     level: 6
     phpVersion: 80100
+    # The static analysis runs with phpstan 1 on Magento 2.4.5, some ignored errors are only reported by phpstan 2
+    reportUnmatchedIgnoredErrors: false
     paths:
         - .
     excludePaths:
@@ -16,6 +18,13 @@ parameters:
         -
             message: '#Constant BP not found#'
             path: registration.php
+        -
+            # The native "mixed" type is not used: the code generator of Magento 2.4.4 and 2.4.5 cannot handle it
+            identifier: missingType.parameter
+            reportUnmatched: false
+        -
+            identifier: missingType.return
+            reportUnmatched: false
 
 includes:
     - %currentWorkingDirectory%/vendor/smile/magento2-smilelab-phpstan/extension.neon

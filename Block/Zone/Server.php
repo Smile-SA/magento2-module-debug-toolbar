@@ -105,7 +105,7 @@ class Server extends AbstractZone
     /**
      * Get the session info.
      */
-    public function getSessionInfo(): array|string
+    public function getSessionInfo()
     {
         $config = $this->deployConfig->get('session');
         if (!$config || !is_array($config)) {

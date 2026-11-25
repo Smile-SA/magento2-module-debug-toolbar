@@ -23,7 +23,7 @@ class CachePlugin
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundLoad(CacheInterface $subject, Closure $closure, string $identifier): mixed
+    public function aroundLoad(CacheInterface $subject, Closure $closure, string $identifier)
     {
         if (!$this->configHelper->isEnabledInCurrentArea()) {
             return $closure($identifier);

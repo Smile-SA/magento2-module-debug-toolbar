@@ -28,7 +28,7 @@ class InvokerPlugin
         Closure $closure,
         array $configuration,
         MagentoObserver $observer
-    ): mixed {
+    ) {
         // Note: we can't check if the module is enabled, it could create an infinite loop when fetching cache data
         if (array_key_exists('disabled', $configuration) && $configuration['disabled'] === true) {
             return $closure($configuration, $observer);

@@ -62,7 +62,7 @@ abstract class AbstractZone extends Template
     /**
      * Add a value to the summary.
      */
-    public function addToSummary(string $sectionName, string $key, mixed $value): self
+    public function addToSummary(string $sectionName, string $key, $value): self
     {
         $this->summaryBlock->addToSummary($sectionName, $key, $value);
 
@@ -145,7 +145,7 @@ abstract class AbstractZone extends Template
      *
      * @return string[]
      */
-    protected function getClassAndValue(mixed $value): array
+    protected function getClassAndValue($value): array
     {
         if (
             !is_array($value)
@@ -161,7 +161,7 @@ abstract class AbstractZone extends Template
     /**
      * Display a row section.
      */
-    protected function displaySectionValue(string $name, mixed $value): string
+    protected function displaySectionValue(string $name, $value): string
     {
         [$class, $value] = $this->getClassAndValue($value);
 
@@ -229,7 +229,7 @@ abstract class AbstractZone extends Template
     /**
      * Format a value, using rules, and type.
      */
-    public function formatValue(mixed $value, array $rules = [], ?string $type = null): array
+    public function formatValue($value, array $rules = [], ?string $type = null): array
     {
         $formatter = $this->formatterFactory->create(
             [

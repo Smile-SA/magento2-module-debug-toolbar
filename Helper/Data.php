@@ -75,7 +75,7 @@ class Data extends AbstractHelper
     /**
      * Set a value.
      */
-    public function setValue(string $key, mixed $value): self
+    public function setValue(string $key, $value): self
     {
         $this->values[$key] = $value;
 
@@ -85,7 +85,7 @@ class Data extends AbstractHelper
     /**
      * Get a value.
      */
-    public function getValue(string $key, mixed $default = null): mixed
+    public function getValue(string $key, $default = null)
     {
         if (!array_key_exists($key, $this->values)) {
             return $default;

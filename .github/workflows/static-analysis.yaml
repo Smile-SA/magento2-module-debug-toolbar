@@ -1,84 +1,120 @@
-name: 'Static Analysis'
+name: 'CI'
+
+# The module is checked against Mage-OS (https://repo.mage-os.org/), which needs no Magento credentials.
 
 on:
-    pull_request: ~
-    push:
-        branches:
-            - 'main'
+  pull_request: ~
+  push:
+    branches:
+      - 'main'
 
 jobs:
-    static-analysis:
-        runs-on: 'ubuntu-latest'
+  static-analysis:
+    runs-on: 'ubuntu-latest'
 
-        strategy:
-            matrix:
-                include:
-                  - php-version: '8.1'
-                    magento: '2.4.4.*'
-                  - php-version: '8.1'
-                    magento: '2.4.5.*'
-                  - php-version: '8.2'
-                    magento: '2.4.6.*'
-                  - php-version: '8.3'
-                    magento: '2.4.7.*'
-                  - php-version: '8.4'
-                    magento: '2.4.8.*'
-                  - php-version: '8.5'
-                    magento: '2.4.9.*'
+    steps:
+      - name: 'Checkout'
+        uses: 'actions/checkout@v4'
 
-        steps:
-            - name: 'Checkout'
-              uses: 'actions/checkout@v3'
+      - name: 'Install PHP'
+        uses: 'shivammathur/setup-php@v2'
+        with:
+          php-version: '8.4'
+          coverage: 'none'
+          tools: 'composer:v2'
 
-            - name: 'Install PHP'
-              uses: 'shivammathur/setup-php@v2'
-              with:
-                  php-version: '${{ matrix.php-version }}'
-                  coverage: 'none'
-                  tools: 'composer:v2'
-              env:
-                  COMPOSER_AUTH_JSON: |
-                      {
-                          "http-basic": {
-                              "repo.magento.com": {
-                                  "username": "${{ secrets.MAGENTO_USERNAME }}",
-                                  "password": "${{ secrets.MAGENTO_PASSWORD }}"
-                              }
-                          }
-                      }
+      - name: 'Get composer cache directory'
+        id: 'composer-cache'
+        run: 'echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT'
 
-            - name: 'Get composer cache directory'
-              id: 'composer-cache'
-              run: 'echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT'
+      - name: 'Cache dependencies'
+        uses: 'actions/cache@v4'
+        with:
+          path: '${{ steps.composer-cache.outputs.dir }}'
+          key: "${{ runner.os }}-composer-${{ hashFiles('composer.json') }}"
+          restore-keys: '${{ runner.os }}-composer-'
 
-            - name: 'Cache dependencies'
-              uses: 'actions/cache@v3'
-              with:
-                  path: '${{ steps.composer-cache.outputs.dir }}'
-                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-                  restore-keys: '${{ runner.os }}-composer-'
+      - name: 'Install dependencies'
+        run: |
+          # Install the whole latest Mage-OS release, so that the Magento modules match the framework version.
+          composer config repositories.mage-os composer https://repo.mage-os.org/
+          composer config --unset repositories.0
+          for plugin in mage-os/magento-composer-installer mage-os/composer-dependency-version-audit-plugin mage-os/inventory-composer-installer magento/magento-composer-installer magento/composer-dependency-version-audit-plugin magento/inventory-composer-installer php-http/discovery; do composer config "allow-plugins.$plugin" false; done
+          composer require --dev --no-update "mage-os/product-community-edition:*"
+          composer update --prefer-dist
 
-            - name: 'Install dependencies'
-              run: |
-                # Pin the whole Magento release, so that the Magento modules match the framework version.
-                composer config audit.block-insecure false
-                for plugin in magento/magento-composer-installer magento/composer-dependency-version-audit-plugin magento/inventory-composer-installer php-http/discovery; do composer config "allow-plugins.$plugin" false; done
-                composer require --dev --no-update "magento/product-community-edition:${{ matrix.magento }}"
-                composer update --prefer-dist
+      - name: 'Run composer audit'
+        run: 'composer audit --format=plain --abandoned=report'
 
-            - name: 'Run composer audit'
-              # Older Magento releases depend on packages with known advisories: audit the latest release only.
-              if: "matrix.magento == '2.4.9.*'"
-              run: 'composer audit --format=plain --abandoned=report'
+      - name: 'Run Parallel Lint'
+        run: 'vendor/bin/parallel-lint --exclude vendor .'
 
-            - name: 'Run Parallel Lint'
-              run: 'vendor/bin/parallel-lint --exclude vendor .'
+      - name: 'Run PHP CodeSniffer'
+        run: 'vendor/bin/phpcs --extensions=php,phtml'
 
-            - name: 'Run PHP CodeSniffer'
-              run: 'vendor/bin/phpcs --extensions=php,phtml'
+      - name: 'Run PHPMD'
+        run: 'vendor/bin/phpmd . xml phpmd.xml.dist'
 
-            - name: 'Run PHPMD'
-              run: 'vendor/bin/phpmd analyze .'
+      - name: 'Run PHPStan'
+        run: 'vendor/bin/phpstan analyse'
 
-            - name: 'Run PHPStan'
-              run: 'vendor/bin/phpstan analyse'
+  compute-matrix:
+    runs-on: 'ubuntu-latest'
+    outputs:
+      matrix: '${{ steps.supported-version.outputs.matrix }}'
+    steps:
+      - uses: 'graycoreio/github-actions-magento2/supported-version@v8.12.0'
+        id: 'supported-version'
+        with:
+          project: 'mage-os'
+          kind: 'currently-supported'
+          include_services: 'false'
+
+  # Same steps as the "compile-extension" job of graycoreio/github-actions-magento2 (used by the mage-os-lab modules).
+  compile:
+    needs: 'compute-matrix'
+    runs-on: '${{ matrix.os }}'
+    strategy:
+      matrix: '${{ fromJSON(needs.compute-matrix.outputs.matrix) }}'
+      fail-fast: false
+
+    steps:
+      - name: 'Checkout'
+        uses: 'actions/checkout@v4'
+
+      - name: 'Create the Mage-OS project'
+        uses: 'graycoreio/github-actions-magento2/setup-magento@v8.12.0'
+        id: 'setup-magento'
+        with:
+          php-version: '${{ matrix.php }}'
+          tools: 'composer:v${{ matrix.composer }}'
+          mode: 'extension'
+          magento_version: '${{ matrix.magento }}'
+          magento_repository: 'https://repo.mage-os.org/'
+
+      - name: 'Get package name'
+        id: 'package'
+        run: 'echo "name=$(jq -r .name composer.json)" >> $GITHUB_OUTPUT'
+
+      - name: 'Require the module'
+        working-directory: '${{ steps.setup-magento.outputs.path }}'
+        run: |
+          composer config repositories.local path ${{ github.workspace }}
+          composer require "${{ steps.package.outputs.name }}:@dev" --no-install
+          composer update --no-install
+
+      - uses: 'graycoreio/github-actions-magento2/cache-magento@v8.12.0'
+        with:
+          composer_cache_key: '${{ matrix.magento }}'
+          working-directory: '${{ steps.setup-magento.outputs.path }}'
+
+      - name: 'Install dependencies'
+        working-directory: '${{ steps.setup-magento.outputs.path }}'
+        run: 'composer install'
+        env:
+          COMPOSER_MIRROR_PATH_REPOS: 1
+
+      - name: 'Compile'
+        uses: 'graycoreio/github-actions-magento2/setup-di-compile@v8.12.0'
+        with:
+          path: '${{ steps.setup-magento.outputs.path }}'

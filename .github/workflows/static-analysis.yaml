@@ -13,12 +13,18 @@ jobs:
         strategy:
             matrix:
                 include:
+                  - php-version: '8.1'
+                    magento: '2.4.4.*'
+                  - php-version: '8.1'
+                    magento: '2.4.5.*'
+                  - php-version: '8.2'
+                    magento: '2.4.6.*'
                   - php-version: '8.3'
-                    magento: '103.0.7.*'
+                    magento: '2.4.7.*'
                   - php-version: '8.4'
-                    magento: '103.0.8.*'
+                    magento: '2.4.8.*'
                   - php-version: '8.5'
-                    magento: '103.0.9.*'
+                    magento: '2.4.9.*'
 
         steps:
             - name: 'Checkout'
@@ -53,9 +59,16 @@ jobs:
                   restore-keys: '${{ runner.os }}-composer-'
 
             - name: 'Install dependencies'
-              run: 'composer update --prefer-dist --with "magento/framework:${{ matrix.magento }}"'
+              run: |
+                # Pin the whole Magento release, so that the Magento modules match the framework version.
+                composer config audit.block-insecure false
+                for plugin in magento/magento-composer-installer magento/composer-dependency-version-audit-plugin magento/inventory-composer-installer php-http/discovery; do composer config "allow-plugins.$plugin" false; done
+                composer require --dev --no-update "magento/product-community-edition:${{ matrix.magento }}"
+                composer update --prefer-dist
 
             - name: 'Run composer audit'
+              # Older Magento releases depend on packages with known advisories: audit the latest release only.
+              if: "matrix.magento == '2.4.9.*'"
               run: 'composer audit --format=plain --abandoned=report'
 
             - name: 'Run Parallel Lint'

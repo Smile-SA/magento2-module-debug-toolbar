@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.0.4] - Unreleased
+[7.0.4]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/7.0.3...7.0.4
+
+- Supported platforms: Magento 2.4.4 and 2.4.5 only, PHP 8.1
+- `composer.json` now states it: `php ^8.1` and `magento/framework >=103.0.4 <103.0.6` (previously `php ^8.1` and `magento/framework >=103.0.4`)
+- Magento 2.4.6 and later and Mage-OS are supported by the 7.1.x line
+- Fix `setup:di:compile` on Magento 2.4.4 and 2.4.5: native `mixed` and union types are removed from method signatures and kept in docblocks
+- CI: static analysis on Magento 2.4.5, `setup:di:compile` on Magento 2.4.4 and 2.4.5
+
 ## [7.0.3] - 2026-03-23
 [7.0.3]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/7.0.2...7.0.3
 

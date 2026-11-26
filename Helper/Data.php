@@ -99,7 +99,7 @@ class Data extends AbstractHelper
      *
      * @throws RuntimeException
      * @throws LocalizedException
-     * @SuppressWarnings(PMD.StaticAccess)
+     * @SuppressWarnings("PMD.StaticAccess")
      */
     public function initToolbarId(string $actionName): string
     {

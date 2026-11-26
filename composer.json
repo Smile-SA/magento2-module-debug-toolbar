@@ -13,6 +13,7 @@
     "license": "EPL-2.0",
     "require": {
         "php": "^8.1",
+        "composer-runtime-api": "^2.1",
         "magento/framework": ">=103.0.4 <103.0.6",
         "magento/module-config": ">=101.2.4"
     },

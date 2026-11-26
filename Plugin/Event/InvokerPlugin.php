@@ -21,7 +21,7 @@ class InvokerPlugin
     /**
      * Plugin on dispatch.
      *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      */
     public function aroundDispatch(
         MagentoInvoker $subject,

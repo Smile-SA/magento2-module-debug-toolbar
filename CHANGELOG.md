@@ -10,6 +10,10 @@ All notable changes to this project will be documented in this file.
 - Magento 2.4.6 and later and Mage-OS are supported by the 7.1.x line
 - Fix `setup:di:compile` on Magento 2.4.4 and 2.4.5: native `mixed` and union types are removed from method signatures and kept in docblocks
 - CI: static analysis on Magento 2.4.5, `setup:di:compile` on Magento 2.4.4 and 2.4.5
+- A warning is displayed in the toolbar and in the admin notifications when the module is installed in the `require` section of composer.json instead of `require-dev`
+- Added `composer-runtime-api ^2.1` requirement
+- Escaped section and row names in the toolbar zones
+- The admin toolbar page now requires the `Smile_DebugToolbar::config` ACL resource
 
 ## [7.0.3] - 2026-03-23
 [7.0.3]: https://github.com/Smile-SA/magento2-module-debug-toolbar/compare/7.0.2...7.0.3

@@ -10,7 +10,7 @@ use RuntimeException;
 /**
  * Value formatter.
  *
- * @SuppressWarnings(PMD.ExcessiveClassComplexity)
+ * @SuppressWarnings("PMD.ExcessiveClassComplexity")
  */
 class Formatter
 {

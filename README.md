@@ -25,6 +25,16 @@ Releases up to 7.0.3 are not covered by this table: they declared `php ^8.1` and
 
 ## Installation
 
+> [!WARNING]
+> This module is a development tool. It records the cookies, POST bodies (passwords included) and server variables
+> of every request, and displays them to anyone who can reach the toolbar.
+> **Install it only with `composer require --dev`, and never on a production or publicly reachable environment.**
+>
+> A warning is displayed in the toolbar and in the admin area when the module is declared in the `require` section
+> of composer.json instead of `require-dev`. The admin warning is also displayed when Magento runs in production mode.
+>
+> Production builds must run `composer install --no-dev`, so the module is never downloaded there.
+
 To install the module:
 
 1. Execute the following command at the root of the Magento installation:

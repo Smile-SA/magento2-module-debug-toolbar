@@ -124,6 +124,7 @@ abstract class AbstractZone extends Template
 
         $html = "<table>\n";
         $html .= '<thead><tr><th></th><td>'
+            // @phpstan-ignore argument.type (escapeHtml() is declared as string|array on Magento 2.4.4 and 2.4.5)
             . implode('</td><td>', array_map(fn ($name) => $this->_escaper->escapeHtml((string) $name), $sectionNames))
             . '</td></tr></thead>';
         $html .= '<tbody>';

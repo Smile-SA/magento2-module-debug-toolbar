@@ -23,6 +23,14 @@ class Toolbar implements ArgumentInterface
     }
 
     /**
+     * Check whether the module was installed with "composer require" instead of "composer require --dev".
+     */
+    public function isInstalledOutsideDev(): bool
+    {
+        return $this->configHelper->isInstalledOutsideDev();
+    }
+
+    /**
      * Get the toolbars list.
      *
      * @return string[]

@@ -7,6 +7,11 @@ parameters:
         - 'vendor/*'
     ignoreErrors:
         -
+            # phpstan 2.3 no longer parses PHPMD suppressions such as @SuppressWarnings(PHPMD.Xxx)
+            message: '#PHPDoc tag @SuppressWarnings has invalid value#'
+            identifier: phpDoc.parseError
+            reportUnmatched: false
+        -
             identifier: missingType.iterableValue
         -
             message: '#Constant BP not found#'

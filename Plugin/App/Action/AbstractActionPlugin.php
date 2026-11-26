@@ -21,7 +21,7 @@ class AbstractActionPlugin
     /**
      * Plugin on dispatch action.
      *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      */
     public function beforeDispatch(MagentoAction $subject, RequestInterface $request): array
     {

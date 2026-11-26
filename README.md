@@ -14,7 +14,26 @@ The toolbar displays useful information about the last executions (including aja
 
 ![](doc/images/toolbar.png)
 
+## Compatibility
+
+| Module version | Magento | Mage-OS | PHP |
+| --- | --- | --- | --- |
+| 7.1.x | 2.4.6 and later (tested up to 2.4.9) | 1.0.0 and later (tested up to 4.0) | 8.1 to 8.5, as supported by the platform |
+| 7.0.x, from 7.0.4 | 2.4.4 and 2.4.5 | not available | 8.1 |
+
+Releases up to 7.0.3 are not covered by this table: they declared `php ^8.1` and `magento/framework >=103.0.4`, and their method signatures use native `mixed` or union types, which the code generator of Magento 2.4.4 and 2.4.5 rejects (`setup:di:compile` fails).
+
 ## Installation
+
+> [!WARNING]
+> This module is a development tool. It records the cookies, POST bodies (passwords included) and server variables
+> of every request, and displays them to anyone who can reach the toolbar.
+> **Install it only with `composer require --dev`, and never on a production or publicly reachable environment.**
+>
+> A warning is displayed in the toolbar and in the admin area when the module is declared in the `require` section
+> of composer.json instead of `require-dev`. The admin warning is also displayed when Magento runs in production mode.
+>
+> Production builds must run `composer install --no-dev`, so the module is never downloaded there.
 
 To install the module:
 

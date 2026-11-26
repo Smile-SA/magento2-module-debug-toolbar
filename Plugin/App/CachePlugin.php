@@ -21,9 +21,9 @@ class CachePlugin
     /**
      * Add stats on load.
      *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      */
-    public function aroundLoad(CacheInterface $subject, Closure $closure, string $identifier): mixed
+    public function aroundLoad(CacheInterface $subject, Closure $closure, string $identifier)
     {
         if (!$this->configHelper->isEnabledInCurrentArea()) {
             return $closure($identifier);
@@ -44,7 +44,7 @@ class CachePlugin
     /**
      * Add stats on save.
      *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      */
     public function aroundSave(
         CacheInterface $subject,
@@ -73,7 +73,7 @@ class CachePlugin
     /**
      * Add stats on remove.
      *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      */
     public function aroundRemove(CacheInterface $subject, Closure $closure, string $identifier): bool
     {

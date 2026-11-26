@@ -12,7 +12,7 @@ use Smile\DebugToolbar\Helper\Data as DataHelper;
 /**
  * Abstract zone block.
  *
- * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @SuppressWarnings("PHPMD.TooManyPublicMethods")
  */
 abstract class AbstractZone extends Template
 {
@@ -62,7 +62,7 @@ abstract class AbstractZone extends Template
     /**
      * Add a value to the summary.
      */
-    public function addToSummary(string $sectionName, string $key, mixed $value): self
+    public function addToSummary(string $sectionName, string $key, $value): self
     {
         $this->summaryBlock->addToSummary($sectionName, $key, $value);
 
@@ -95,7 +95,7 @@ abstract class AbstractZone extends Template
         $html = '';
 
         foreach ($sections as $sectionName => $sectionValues) {
-            $html .= "<h2>$sectionName</h2>\n";
+            $html .= '<h2>' . $this->_escaper->escapeHtml((string) $sectionName) . "</h2>\n";
 
             $html .= "<table>\n";
             $html .= '<tbody>';
@@ -123,11 +123,14 @@ abstract class AbstractZone extends Template
         $rowNames = array_keys($sections[$sectionNames[0]]);
 
         $html = "<table>\n";
-        $html .= '<thead><tr><th></th><td>' . implode('</td><td>', $sectionNames) . '</td></tr></thead>';
+        $html .= '<thead><tr><th></th><td>'
+            // @phpstan-ignore argument.type (escapeHtml() is declared as string|array on Magento 2.4.4 and 2.4.5)
+            . implode('</td><td>', array_map(fn ($name) => $this->_escaper->escapeHtml((string) $name), $sectionNames))
+            . '</td></tr></thead>';
         $html .= '<tbody>';
         foreach ($rowNames as $rowName) {
             $html .= '<tr>';
-            $html .= '<th>' . $rowName . '</th>';
+            $html .= '<th>' . $this->_escaper->escapeHtml((string) $rowName) . '</th>';
             foreach ($sectionNames as $sectionName) {
                 [$class, $value] = $this->getClassAndValue($sections[$sectionName][$rowName]);
                 $html .= '<td class="' . $class . '">' . $value . '</td>';
@@ -145,7 +148,7 @@ abstract class AbstractZone extends Template
      *
      * @return string[]
      */
-    protected function getClassAndValue(mixed $value): array
+    protected function getClassAndValue($value): array
     {
         if (
             !is_array($value)
@@ -161,9 +164,12 @@ abstract class AbstractZone extends Template
     /**
      * Display a row section.
      */
-    protected function displaySectionValue(string $name, mixed $value): string
+    protected function displaySectionValue(string $name, $value): string
     {
         [$class, $value] = $this->getClassAndValue($value);
+
+        $name = $this->_escaper->escapeHtml($name);
+        $class = $this->_escaper->escapeHtmlAttr($class);
 
         return "    <tr><th>$name</th><td class=\"$class\">$value</td></tr>\n";
     }
@@ -229,7 +235,7 @@ abstract class AbstractZone extends Template
     /**
      * Format a value, using rules, and type.
      */
-    public function formatValue(mixed $value, array $rules = [], ?string $type = null): array
+    public function formatValue($value, array $rules = [], ?string $type = null): array
     {
         $formatter = $this->formatterFactory->create(
             [

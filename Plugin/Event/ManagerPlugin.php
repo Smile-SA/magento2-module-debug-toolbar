@@ -20,14 +20,14 @@ class ManagerPlugin
     /**
      * Plugin on dispatch.
      *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      */
     public function aroundDispatch(
         MagentoManager $subject,
         Closure $closure,
         string $eventName,
         array $data = []
-    ): mixed {
+    ) {
         // Note: we can't check if the module is enabled, it could create an infinite loop when fetching cache data
         $this->observerHelper->initEventStat((string) $eventName);
 

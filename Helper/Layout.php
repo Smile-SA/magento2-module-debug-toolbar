@@ -61,7 +61,7 @@ class Layout extends AbstractHelper
                     'template' => '',
                 ];
 
-                /** @var AbstractBlock $block */
+                /** @var AbstractBlock|false $block */
                 $block = $this->layout->getBlock($childName);
 
                 if (is_object($block)) {

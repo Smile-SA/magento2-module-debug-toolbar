@@ -1,9 +1,11 @@
 <?php
 
+use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 use Smile\DebugToolbar\ViewModel\Toolbar;
 
 /** @var Template $block */
+/** @var Escaper $escaper */
 /** @var Toolbar $viewModel */
 $viewModel = $block->getData('viewModel');
 $toolbars = $viewModel->getToolbarList();
@@ -22,6 +24,13 @@ $toolbars = $viewModel->getToolbarList();
             <div id="st-modal-content">My Modal Content</div>
         </div>
     </div>
+    <?php if ($viewModel->isInstalledOutsideDev()): ?>
+        <div class="smile-toolbar-warning">
+            <?= $escaper->escapeHtml(
+                __('DebugToolbar is installed in the "require" section of composer.json: move it to "require-dev".')
+            ) ?>
+        </div>
+    <?php endif ?>
     <script>
         smileToolbarInit();
     </script>

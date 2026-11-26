@@ -10,6 +10,8 @@ use Magento\Framework\Controller\ResultFactory;
 
 class Index extends Action implements HttpGetActionInterface
 {
+    public const ADMIN_RESOURCE = 'Smile_DebugToolbar::config';
+
     /**
      * @inheritdoc
      */
